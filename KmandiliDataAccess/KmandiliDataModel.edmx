@@ -1,0 +1,1778 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="KmandiliDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Number" Type="int" />
+          <Property Name="Street" Type="varchar(max)" />
+          <Property Name="City" Type="varchar(max)" />
+          <Property Name="State" Type="varchar(max)" />
+          <Property Name="Country" Type="varchar(max)" />
+          <Property Name="ZipCode" Type="int" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DeleveryDelay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="MinDelay" Type="int" Nullable="false" />
+          <Property Name="MaxDelay" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DeleveryMethod">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeleveryType" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DeleveryMethodPaymentMethod">
+          <Key>
+            <PropertyRef Name="PaymentMethod_FK" />
+            <PropertyRef Name="DeleveryMethod_FK" />
+          </Key>
+          <Property Name="PaymentMethod_FK" Type="int" Nullable="false" />
+          <Property Name="DeleveryMethod_FK" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Status_FK" Type="int" Nullable="false" />
+          <Property Name="User_FK" Type="int" Nullable="false" />
+          <Property Name="PastryShop_FK" Type="int" Nullable="false" />
+          <Property Name="DeleveryMethod_FK" Type="int" Nullable="false" />
+          <Property Name="PaymentMethod_FK" Type="int" Nullable="false" />
+          <Property Name="SeenUser" Type="bit" Nullable="false" />
+          <Property Name="SeenPastryShop" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderProduct">
+          <Key>
+            <PropertyRef Name="Order_FK" />
+            <PropertyRef Name="Product_FK" />
+          </Key>
+          <Property Name="Order_FK" Type="int" Nullable="false" />
+          <Property Name="Product_FK" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Parking">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParkingType" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PastryDeleveryPayment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PastryShopDeleveryMethod_FK" Type="int" Nullable="false" />
+          <Property Name="Payment_FK" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PastryShop">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="ShortDesc" Type="varchar(max)" Nullable="false" />
+          <Property Name="LongDesc" Type="varchar(max)" Nullable="false" />
+          <Property Name="ProfilePic" Type="varchar(max)" Nullable="false" />
+          <Property Name="CoverPic" Type="varchar(max)" Nullable="false" />
+          <Property Name="NumberOfRatings" Type="int" Nullable="false" />
+          <Property Name="RatingSum" Type="int" Nullable="false" />
+          <Property Name="PriceRange_FK" Type="int" Nullable="false" />
+          <Property Name="Address_FK" Type="int" Nullable="false" />
+          <Property Name="Email" Type="varchar(max)" Nullable="false" />
+          <Property Name="Password" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PastryShopCategories">
+          <Key>
+            <PropertyRef Name="Category_FK" />
+            <PropertyRef Name="PastryShop_FK" />
+          </Key>
+          <Property Name="Category_FK" Type="int" Nullable="false" />
+          <Property Name="PastryShop_FK" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PastryShopDeleveryMethod">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PastryShop_FK" Type="int" Nullable="false" />
+          <Property Name="DeleveryMethod_FK" Type="int" Nullable="false" />
+          <Property Name="DeleveryDelay_FK" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PastryShopPhoneNumber">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="PastryShop_FK" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentMethod" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PhoneNumber">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Number" Type="char" MaxLength="8" Nullable="false" />
+          <Property Name="PhoneNumberType_FK" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PhoneNumberType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PointOfSale">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreationDate" Type="date" Nullable="false" />
+          <Property Name="PastryShop_FK" Type="int" Nullable="false" />
+          <Property Name="ParkingType_FK" Type="int" Nullable="false" />
+          <Property Name="Address_FK" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PointOfSalePhoneNumber">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="PointOfSale_FK" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PriceRange">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="MinPriceRange" Type="float" Nullable="false" />
+          <Property Name="MaxPriceRange" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" Nullable="false" />
+          <Property Name="Pic" Type="varchar(max)" Nullable="false" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="SaleUnit_FK" Type="int" Nullable="false" />
+          <Property Name="Category_FK" Type="int" Nullable="false" />
+          <Property Name="PastryShop_FK" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SaleUnit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Unit" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusName" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="LastName" Type="varchar(max)" Nullable="false" />
+          <Property Name="Email" Type="varchar(max)" Nullable="false" />
+          <Property Name="Password" Type="varchar(max)" Nullable="false" />
+          <Property Name="JoindDate" Type="date" Nullable="false" />
+          <Property Name="Address_FK" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserPhoneNumber">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="User_FK" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkDay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Day" Type="int" Nullable="false" />
+          <Property Name="OpenTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="CloseTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="PointOfSale_FK" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__PastryShopPh__ID__408F9238">
+          <End Role="PhoneNumber" Type="Self.PhoneNumber" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PastryShopPhoneNumber" Type="Self.PastryShopPhoneNumber" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneNumber">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryShopPhoneNumber">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PointOfSaleP__ID__3F9B6DFF">
+          <End Role="PhoneNumber" Type="Self.PhoneNumber" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PointOfSalePhoneNumber" Type="Self.PointOfSalePhoneNumber" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneNumber">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PointOfSalePhoneNumber">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPhoneNum__ID__3EA749C6">
+          <End Role="PhoneNumber" Type="Self.PhoneNumber" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserPhoneNumber" Type="Self.UserPhoneNumber" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneNumber">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserPhoneNumber">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeleveryMethodPaymentMethod_DeleveryMethod">
+          <End Role="DeleveryMethod" Type="Self.DeleveryMethod" Multiplicity="1" />
+          <End Role="DeleveryMethodPaymentMethod" Type="Self.DeleveryMethodPaymentMethod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeleveryMethod">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DeleveryMethodPaymentMethod">
+              <PropertyRef Name="DeleveryMethod_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeleveryMethodPaymentMethod_Payment">
+          <End Role="Payment" Type="Self.Payment" Multiplicity="1" />
+          <End Role="DeleveryMethodPaymentMethod" Type="Self.DeleveryMethodPaymentMethod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DeleveryMethodPaymentMethod">
+              <PropertyRef Name="PaymentMethod_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_DeleveryMethod">
+          <End Role="DeleveryMethod" Type="Self.DeleveryMethod" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeleveryMethod">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="DeleveryMethod_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_PastryShop">
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PastryShop">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="PastryShop_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Payment">
+          <End Role="Payment" Type="Self.Payment" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="PaymentMethod_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Status_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_User">
+          <End Role="User" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="User_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderProduct_Order">
+          <End Role="Order" Type="Self.Order" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OrderProduct" Type="Self.OrderProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderProduct">
+              <PropertyRef Name="Order_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderProduct_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="OrderProduct" Type="Self.OrderProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderProduct">
+              <PropertyRef Name="Product_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PastryDeleveryPayment_PastryShopDeleveryMethod">
+          <End Role="PastryShopDeleveryMethod" Type="Self.PastryShopDeleveryMethod" Multiplicity="1" />
+          <End Role="PastryDeleveryPayment" Type="Self.PastryDeleveryPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PastryShopDeleveryMethod">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryDeleveryPayment">
+              <PropertyRef Name="PastryShopDeleveryMethod_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PastryDeleveryPayment_Payment">
+          <End Role="Payment" Type="Self.Payment" Multiplicity="1" />
+          <End Role="PastryDeleveryPayment" Type="Self.PastryDeleveryPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryDeleveryPayment">
+              <PropertyRef Name="Payment_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PastryShop_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryShop">
+              <PropertyRef Name="Address_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PastryShop_PriceRange">
+          <End Role="PriceRange" Type="Self.PriceRange" Multiplicity="1" />
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriceRange">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryShop">
+              <PropertyRef Name="PriceRange_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PastryShopCategories_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="PastryShopCategories" Type="Self.PastryShopCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryShopCategories">
+              <PropertyRef Name="Category_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PastryShopCategories_PastryShop">
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PastryShopCategories" Type="Self.PastryShopCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PastryShop">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryShopCategories">
+              <PropertyRef Name="PastryShop_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PastryShopDeleveryMethod_DeleveryDelay">
+          <End Role="DeleveryDelay" Type="Self.DeleveryDelay" Multiplicity="1" />
+          <End Role="PastryShopDeleveryMethod" Type="Self.PastryShopDeleveryMethod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeleveryDelay">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryShopDeleveryMethod">
+              <PropertyRef Name="DeleveryDelay_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PastryShopDeleveryMethod_DeleveryMethod">
+          <End Role="DeleveryMethod" Type="Self.DeleveryMethod" Multiplicity="1" />
+          <End Role="PastryShopDeleveryMethod" Type="Self.PastryShopDeleveryMethod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeleveryMethod">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryShopDeleveryMethod">
+              <PropertyRef Name="DeleveryMethod_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PastryShopDeleveryMethod_PastryShop">
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="1" />
+          <End Role="PastryShopDeleveryMethod" Type="Self.PastryShopDeleveryMethod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PastryShop">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryShopDeleveryMethod">
+              <PropertyRef Name="PastryShop_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PastryShopPhoneNumber_PastryShop">
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PastryShopPhoneNumber" Type="Self.PastryShopPhoneNumber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PastryShop">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryShopPhoneNumber">
+              <PropertyRef Name="PastryShop_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneNumber_PhoneNumberType">
+          <End Role="PhoneNumberType" Type="Self.PhoneNumberType" Multiplicity="1" />
+          <End Role="PhoneNumber" Type="Self.PhoneNumber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneNumberType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PhoneNumber">
+              <PropertyRef Name="PhoneNumberType_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PointOfSale_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="PointOfSale" Type="Self.PointOfSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PointOfSale">
+              <PropertyRef Name="Address_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PointOfSale_Parking">
+          <End Role="Parking" Type="Self.Parking" Multiplicity="1" />
+          <End Role="PointOfSale" Type="Self.PointOfSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parking">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PointOfSale">
+              <PropertyRef Name="ParkingType_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PointOfSale_PastryShop">
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PointOfSale" Type="Self.PointOfSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PastryShop">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PointOfSale">
+              <PropertyRef Name="PastryShop_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PointOfSalePhoneNumber_PointOfSale">
+          <End Role="PointOfSale" Type="Self.PointOfSale" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PointOfSalePhoneNumber" Type="Self.PointOfSalePhoneNumber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PointOfSale">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PointOfSalePhoneNumber">
+              <PropertyRef Name="PointOfSale_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Category_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_PastryShop">
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PastryShop">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="PastryShop_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_SaleUnit">
+          <End Role="SaleUnit" Type="Self.SaleUnit" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SaleUnit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="SaleUnit_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserPhoneNumber_User">
+          <End Role="User" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserPhoneNumber" Type="Self.UserPhoneNumber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserPhoneNumber">
+              <PropertyRef Name="User_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkDay_PointOfSale">
+          <End Role="PointOfSale" Type="Self.PointOfSale" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WorkDay" Type="Self.WorkDay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PointOfSale">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkDay">
+              <PropertyRef Name="PointOfSale_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_address_fk">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="Address_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KmandiliDBModelStoreContainer">
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeleveryDelay" EntityType="Self.DeleveryDelay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeleveryMethod" EntityType="Self.DeleveryMethod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeleveryMethodPaymentMethod" EntityType="Self.DeleveryMethodPaymentMethod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderProduct" EntityType="Self.OrderProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Parking" EntityType="Self.Parking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PastryDeleveryPayment" EntityType="Self.PastryDeleveryPayment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PastryShop" EntityType="Self.PastryShop" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PastryShopCategories" EntityType="Self.PastryShopCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PastryShopDeleveryMethod" EntityType="Self.PastryShopDeleveryMethod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PastryShopPhoneNumber" EntityType="Self.PastryShopPhoneNumber" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhoneNumber" EntityType="Self.PhoneNumber" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhoneNumberType" EntityType="Self.PhoneNumberType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PointOfSale" EntityType="Self.PointOfSale" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PointOfSalePhoneNumber" EntityType="Self.PointOfSalePhoneNumber" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PriceRange" EntityType="Self.PriceRange" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SaleUnit" EntityType="Self.SaleUnit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPhoneNumber" EntityType="Self.UserPhoneNumber" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkDay" EntityType="Self.WorkDay" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__PastryShopPh__ID__408F9238" Association="Self.FK__PastryShopPh__ID__408F9238">
+            <End Role="PhoneNumber" EntitySet="PhoneNumber" />
+            <End Role="PastryShopPhoneNumber" EntitySet="PastryShopPhoneNumber" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PointOfSaleP__ID__3F9B6DFF" Association="Self.FK__PointOfSaleP__ID__3F9B6DFF">
+            <End Role="PhoneNumber" EntitySet="PhoneNumber" />
+            <End Role="PointOfSalePhoneNumber" EntitySet="PointOfSalePhoneNumber" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPhoneNum__ID__3EA749C6" Association="Self.FK__UserPhoneNum__ID__3EA749C6">
+            <End Role="PhoneNumber" EntitySet="PhoneNumber" />
+            <End Role="UserPhoneNumber" EntitySet="UserPhoneNumber" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeleveryMethodPaymentMethod_DeleveryMethod" Association="Self.FK_DeleveryMethodPaymentMethod_DeleveryMethod">
+            <End Role="DeleveryMethod" EntitySet="DeleveryMethod" />
+            <End Role="DeleveryMethodPaymentMethod" EntitySet="DeleveryMethodPaymentMethod" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeleveryMethodPaymentMethod_Payment" Association="Self.FK_DeleveryMethodPaymentMethod_Payment">
+            <End Role="Payment" EntitySet="Payment" />
+            <End Role="DeleveryMethodPaymentMethod" EntitySet="DeleveryMethodPaymentMethod" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_DeleveryMethod" Association="Self.FK_Order_DeleveryMethod">
+            <End Role="DeleveryMethod" EntitySet="DeleveryMethod" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_PastryShop" Association="Self.FK_Order_PastryShop">
+            <End Role="PastryShop" EntitySet="PastryShop" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Payment" Association="Self.FK_Order_Payment">
+            <End Role="Payment" EntitySet="Payment" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Status" Association="Self.FK_Order_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_User" Association="Self.FK_Order_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderProduct_Order" Association="Self.FK_OrderProduct_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="OrderProduct" EntitySet="OrderProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderProduct_Product" Association="Self.FK_OrderProduct_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="OrderProduct" EntitySet="OrderProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PastryDeleveryPayment_PastryShopDeleveryMethod" Association="Self.FK_PastryDeleveryPayment_PastryShopDeleveryMethod">
+            <End Role="PastryShopDeleveryMethod" EntitySet="PastryShopDeleveryMethod" />
+            <End Role="PastryDeleveryPayment" EntitySet="PastryDeleveryPayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PastryDeleveryPayment_Payment" Association="Self.FK_PastryDeleveryPayment_Payment">
+            <End Role="Payment" EntitySet="Payment" />
+            <End Role="PastryDeleveryPayment" EntitySet="PastryDeleveryPayment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PastryShop_Address" Association="Self.FK_PastryShop_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="PastryShop" EntitySet="PastryShop" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PastryShop_PriceRange" Association="Self.FK_PastryShop_PriceRange">
+            <End Role="PriceRange" EntitySet="PriceRange" />
+            <End Role="PastryShop" EntitySet="PastryShop" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PastryShopCategories_Category" Association="Self.FK_PastryShopCategories_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="PastryShopCategories" EntitySet="PastryShopCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PastryShopCategories_PastryShop" Association="Self.FK_PastryShopCategories_PastryShop">
+            <End Role="PastryShop" EntitySet="PastryShop" />
+            <End Role="PastryShopCategories" EntitySet="PastryShopCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PastryShopDeleveryMethod_DeleveryDelay" Association="Self.FK_PastryShopDeleveryMethod_DeleveryDelay">
+            <End Role="DeleveryDelay" EntitySet="DeleveryDelay" />
+            <End Role="PastryShopDeleveryMethod" EntitySet="PastryShopDeleveryMethod" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PastryShopDeleveryMethod_DeleveryMethod" Association="Self.FK_PastryShopDeleveryMethod_DeleveryMethod">
+            <End Role="DeleveryMethod" EntitySet="DeleveryMethod" />
+            <End Role="PastryShopDeleveryMethod" EntitySet="PastryShopDeleveryMethod" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PastryShopDeleveryMethod_PastryShop" Association="Self.FK_PastryShopDeleveryMethod_PastryShop">
+            <End Role="PastryShop" EntitySet="PastryShop" />
+            <End Role="PastryShopDeleveryMethod" EntitySet="PastryShopDeleveryMethod" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PastryShopPhoneNumber_PastryShop" Association="Self.FK_PastryShopPhoneNumber_PastryShop">
+            <End Role="PastryShop" EntitySet="PastryShop" />
+            <End Role="PastryShopPhoneNumber" EntitySet="PastryShopPhoneNumber" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneNumber_PhoneNumberType" Association="Self.FK_PhoneNumber_PhoneNumberType">
+            <End Role="PhoneNumberType" EntitySet="PhoneNumberType" />
+            <End Role="PhoneNumber" EntitySet="PhoneNumber" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PointOfSale_Address" Association="Self.FK_PointOfSale_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="PointOfSale" EntitySet="PointOfSale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PointOfSale_Parking" Association="Self.FK_PointOfSale_Parking">
+            <End Role="Parking" EntitySet="Parking" />
+            <End Role="PointOfSale" EntitySet="PointOfSale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PointOfSale_PastryShop" Association="Self.FK_PointOfSale_PastryShop">
+            <End Role="PastryShop" EntitySet="PastryShop" />
+            <End Role="PointOfSale" EntitySet="PointOfSale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PointOfSalePhoneNumber_PointOfSale" Association="Self.FK_PointOfSalePhoneNumber_PointOfSale">
+            <End Role="PointOfSale" EntitySet="PointOfSale" />
+            <End Role="PointOfSalePhoneNumber" EntitySet="PointOfSalePhoneNumber" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Category" Association="Self.FK_Product_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_PastryShop" Association="Self.FK_Product_PastryShop">
+            <End Role="PastryShop" EntitySet="PastryShop" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_SaleUnit" Association="Self.FK_Product_SaleUnit">
+            <End Role="SaleUnit" EntitySet="SaleUnit" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserPhoneNumber_User" Association="Self.FK_UserPhoneNumber_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserPhoneNumber" EntitySet="UserPhoneNumber" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkDay_PointOfSale" Association="Self.FK_WorkDay_PointOfSale">
+            <End Role="PointOfSale" EntitySet="PointOfSale" />
+            <End Role="WorkDay" EntitySet="WorkDay" />
+          </AssociationSet>
+          <AssociationSet Name="user_address_fk" Association="Self.user_address_fk">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KmandiliDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="Int32" />
+          <Property Name="Street" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ZipCode" Type="Int32" />
+          <NavigationProperty Name="PastryShops" Relationship="Self.FK_PastryShop_Address" FromRole="Address" ToRole="PastryShop" />
+          <NavigationProperty Name="PointOfSales" Relationship="Self.FK_PointOfSale_Address" FromRole="Address" ToRole="PointOfSale" />
+          <NavigationProperty Name="Users" Relationship="Self.user_address_fk" FromRole="Address" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_Product_Category" FromRole="Category" ToRole="Product" />
+          <NavigationProperty Name="PastryShops" Relationship="Self.PastryShopCategories" FromRole="Category" ToRole="PastryShop" />
+        </EntityType>
+        <EntityType Name="DeleveryDelay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="MinDelay" Type="Int32" Nullable="false" />
+          <Property Name="MaxDelay" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PastryShopDeleveryMethods" Relationship="Self.FK_PastryShopDeleveryMethod_DeleveryDelay" FromRole="DeleveryDelay" ToRole="PastryShopDeleveryMethod" />
+        </EntityType>
+        <EntityType Name="DeleveryMethod">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeleveryType" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_DeleveryMethod" FromRole="DeleveryMethod" ToRole="Order" />
+          <NavigationProperty Name="PastryShopDeleveryMethods" Relationship="Self.FK_PastryShopDeleveryMethod_DeleveryMethod" FromRole="DeleveryMethod" ToRole="PastryShopDeleveryMethod" />
+          <NavigationProperty Name="Payments" Relationship="Self.DeleveryMethodPaymentMethod" FromRole="DeleveryMethod" ToRole="Payment" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status_FK" Type="Int32" Nullable="false" />
+          <Property Name="User_FK" Type="Int32" Nullable="false" />
+          <Property Name="PastryShop_FK" Type="Int32" Nullable="false" />
+          <Property Name="DeleveryMethod_FK" Type="Int32" Nullable="false" />
+          <Property Name="PaymentMethod_FK" Type="Int32" Nullable="false" />
+          <Property Name="SeenUser" Type="Boolean" Nullable="false" />
+          <Property Name="SeenPastryShop" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DeleveryMethod" Relationship="Self.FK_Order_DeleveryMethod" FromRole="Order" ToRole="DeleveryMethod" />
+          <NavigationProperty Name="PastryShop" Relationship="Self.FK_Order_PastryShop" FromRole="Order" ToRole="PastryShop" />
+          <NavigationProperty Name="Payment" Relationship="Self.FK_Order_Payment" FromRole="Order" ToRole="Payment" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_Order_Status" FromRole="Order" ToRole="Status" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Order_User" FromRole="Order" ToRole="User" />
+          <NavigationProperty Name="OrderProducts" Relationship="Self.FK_OrderProduct_Order" FromRole="Order" ToRole="OrderProduct" />
+        </EntityType>
+        <EntityType Name="OrderProduct">
+          <Key>
+            <PropertyRef Name="Order_FK" />
+            <PropertyRef Name="Product_FK" />
+          </Key>
+          <Property Name="Order_FK" Type="Int32" Nullable="false" />
+          <Property Name="Product_FK" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="Self.FK_OrderProduct_Order" FromRole="OrderProduct" ToRole="Order" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_OrderProduct_Product" FromRole="OrderProduct" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Parking">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParkingType" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PointOfSales" Relationship="Self.FK_PointOfSale_Parking" FromRole="Parking" ToRole="PointOfSale" />
+        </EntityType>
+        <EntityType Name="PastryDeleveryPayment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PastryShopDeleveryMethod_FK" Type="Int32" Nullable="false" />
+          <Property Name="Payment_FK" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PastryShopDeleveryMethod" Relationship="Self.FK_PastryDeleveryPayment_PastryShopDeleveryMethod" FromRole="PastryDeleveryPayment" ToRole="PastryShopDeleveryMethod" />
+          <NavigationProperty Name="Payment" Relationship="Self.FK_PastryDeleveryPayment_Payment" FromRole="PastryDeleveryPayment" ToRole="Payment" />
+        </EntityType>
+        <EntityType Name="PastryShop">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ShortDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LongDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProfilePic" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CoverPic" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NumberOfRatings" Type="Int32" Nullable="false" />
+          <Property Name="RatingSum" Type="Int32" Nullable="false" />
+          <Property Name="PriceRange_FK" Type="Int32" Nullable="false" />
+          <Property Name="Address_FK" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="Self.FK_PastryShop_Address" FromRole="PastryShop" ToRole="Address" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_PastryShop" FromRole="PastryShop" ToRole="Order" />
+          <NavigationProperty Name="PriceRange" Relationship="Self.FK_PastryShop_PriceRange" FromRole="PastryShop" ToRole="PriceRange" />
+          <NavigationProperty Name="PastryShopDeleveryMethods" Relationship="Self.FK_PastryShopDeleveryMethod_PastryShop" FromRole="PastryShop" ToRole="PastryShopDeleveryMethod" />
+          <NavigationProperty Name="PointOfSales" Relationship="Self.FK_PointOfSale_PastryShop" FromRole="PastryShop" ToRole="PointOfSale" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_Product_PastryShop" FromRole="PastryShop" ToRole="Product" />
+          <NavigationProperty Name="Categories" Relationship="Self.PastryShopCategories" FromRole="PastryShop" ToRole="Category" />
+          <NavigationProperty Name="PhoneNumbers" Relationship="Self.PastryShopPhoneNumber" FromRole="PastryShop" ToRole="PhoneNumber" />
+        </EntityType>
+        <EntityType Name="PastryShopDeleveryMethod">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PastryShop_FK" Type="Int32" Nullable="false" />
+          <Property Name="DeleveryMethod_FK" Type="Int32" Nullable="false" />
+          <Property Name="DeleveryDelay_FK" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DeleveryDelay" Relationship="Self.FK_PastryShopDeleveryMethod_DeleveryDelay" FromRole="PastryShopDeleveryMethod" ToRole="DeleveryDelay" />
+          <NavigationProperty Name="DeleveryMethod" Relationship="Self.FK_PastryShopDeleveryMethod_DeleveryMethod" FromRole="PastryShopDeleveryMethod" ToRole="DeleveryMethod" />
+          <NavigationProperty Name="PastryDeleveryPayments" Relationship="Self.FK_PastryDeleveryPayment_PastryShopDeleveryMethod" FromRole="PastryShopDeleveryMethod" ToRole="PastryDeleveryPayment" />
+          <NavigationProperty Name="PastryShop" Relationship="Self.FK_PastryShopDeleveryMethod_PastryShop" FromRole="PastryShopDeleveryMethod" ToRole="PastryShop" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentMethod" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Payment" FromRole="Payment" ToRole="Order" />
+          <NavigationProperty Name="PastryDeleveryPayments" Relationship="Self.FK_PastryDeleveryPayment_Payment" FromRole="Payment" ToRole="PastryDeleveryPayment" />
+          <NavigationProperty Name="DeleveryMethods" Relationship="Self.DeleveryMethodPaymentMethod" FromRole="Payment" ToRole="DeleveryMethod" />
+        </EntityType>
+        <EntityType Name="PhoneNumber">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="PhoneNumberType_FK" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PhoneNumberType" Relationship="Self.FK_PhoneNumber_PhoneNumberType" FromRole="PhoneNumber" ToRole="PhoneNumberType" />
+          <NavigationProperty Name="PastryShop" Relationship="Self.PastryShopPhoneNumber" FromRole="PhoneNumber" ToRole="PastryShop" />
+          <NavigationProperty Name="PointOfSale" Relationship="Self.PointOfSalePhoneNumber" FromRole="PhoneNumber" ToRole="PointOfSale" />
+          <NavigationProperty Name="User" Relationship="Self.UserPhoneNumber" FromRole="PhoneNumber" ToRole="User" />
+        </EntityType>
+        <EntityType Name="PhoneNumberType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PhoneNumbers" Relationship="Self.FK_PhoneNumber_PhoneNumberType" FromRole="PhoneNumberType" ToRole="PhoneNumber" />
+        </EntityType>
+        <EntityType Name="PointOfSale">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PastryShop_FK" Type="Int32" Nullable="false" />
+          <Property Name="ParkingType_FK" Type="Int32" Nullable="false" />
+          <Property Name="Address_FK" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="Self.FK_PointOfSale_Address" FromRole="PointOfSale" ToRole="Address" />
+          <NavigationProperty Name="Parking" Relationship="Self.FK_PointOfSale_Parking" FromRole="PointOfSale" ToRole="Parking" />
+          <NavigationProperty Name="PastryShop" Relationship="Self.FK_PointOfSale_PastryShop" FromRole="PointOfSale" ToRole="PastryShop" />
+          <NavigationProperty Name="WorkDays" Relationship="Self.FK_WorkDay_PointOfSale" FromRole="PointOfSale" ToRole="WorkDay" />
+          <NavigationProperty Name="PhoneNumbers" Relationship="Self.PointOfSalePhoneNumber" FromRole="PointOfSale" ToRole="PhoneNumber" />
+        </EntityType>
+        <EntityType Name="PriceRange">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="MinPriceRange" Type="Double" Nullable="false" />
+          <Property Name="MaxPriceRange" Type="Double" Nullable="false" />
+          <NavigationProperty Name="PastryShops" Relationship="Self.FK_PastryShop_PriceRange" FromRole="PriceRange" ToRole="PastryShop" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Pic" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="SaleUnit_FK" Type="Int32" Nullable="false" />
+          <Property Name="Category_FK" Type="Int32" Nullable="false" />
+          <Property Name="PastryShop_FK" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_Product_Category" FromRole="Product" ToRole="Category" />
+          <NavigationProperty Name="OrderProducts" Relationship="Self.FK_OrderProduct_Product" FromRole="Product" ToRole="OrderProduct" />
+          <NavigationProperty Name="PastryShop" Relationship="Self.FK_Product_PastryShop" FromRole="Product" ToRole="PastryShop" />
+          <NavigationProperty Name="SaleUnit" Relationship="Self.FK_Product_SaleUnit" FromRole="Product" ToRole="SaleUnit" />
+        </EntityType>
+        <EntityType Name="SaleUnit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_Product_SaleUnit" FromRole="SaleUnit" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Status" FromRole="Status" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="JoindDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Address_FK" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="Self.user_address_fk" FromRole="User" ToRole="Address" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_User" FromRole="User" ToRole="Order" />
+          <NavigationProperty Name="PhoneNumbers" Relationship="Self.UserPhoneNumber" FromRole="User" ToRole="PhoneNumber" />
+        </EntityType>
+        <EntityType Name="WorkDay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Day" Type="Int32" Nullable="false" />
+          <Property Name="OpenTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="CloseTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="PointOfSale_FK" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PointOfSale" Relationship="Self.FK_WorkDay_PointOfSale" FromRole="WorkDay" ToRole="PointOfSale" />
+        </EntityType>
+        <Association Name="FK_PastryShop_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryShop">
+              <PropertyRef Name="Address_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PointOfSale_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="PointOfSale" Type="Self.PointOfSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PointOfSale">
+              <PropertyRef Name="Address_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_address_fk">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="Address_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Category_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PastryShopDeleveryMethod_DeleveryDelay">
+          <End Role="DeleveryDelay" Type="Self.DeleveryDelay" Multiplicity="1" />
+          <End Role="PastryShopDeleveryMethod" Type="Self.PastryShopDeleveryMethod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeleveryDelay">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryShopDeleveryMethod">
+              <PropertyRef Name="DeleveryDelay_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_DeleveryMethod">
+          <End Role="DeleveryMethod" Type="Self.DeleveryMethod" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeleveryMethod">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="DeleveryMethod_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PastryShopDeleveryMethod_DeleveryMethod">
+          <End Role="DeleveryMethod" Type="Self.DeleveryMethod" Multiplicity="1" />
+          <End Role="PastryShopDeleveryMethod" Type="Self.PastryShopDeleveryMethod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeleveryMethod">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryShopDeleveryMethod">
+              <PropertyRef Name="DeleveryMethod_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_PastryShop">
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PastryShop">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="PastryShop_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Payment">
+          <End Role="Payment" Type="Self.Payment" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="PaymentMethod_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Status_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_User">
+          <End Role="User" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="User_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderProduct_Order">
+          <End Role="Order" Type="Self.Order" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OrderProduct" Type="Self.OrderProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderProduct">
+              <PropertyRef Name="Order_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderProduct_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="OrderProduct" Type="Self.OrderProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OrderProduct">
+              <PropertyRef Name="Product_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PointOfSale_Parking">
+          <End Role="Parking" Type="Self.Parking" Multiplicity="1" />
+          <End Role="PointOfSale" Type="Self.PointOfSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parking">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PointOfSale">
+              <PropertyRef Name="ParkingType_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PastryDeleveryPayment_PastryShopDeleveryMethod">
+          <End Role="PastryShopDeleveryMethod" Type="Self.PastryShopDeleveryMethod" Multiplicity="1" />
+          <End Role="PastryDeleveryPayment" Type="Self.PastryDeleveryPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PastryShopDeleveryMethod">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryDeleveryPayment">
+              <PropertyRef Name="PastryShopDeleveryMethod_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PastryDeleveryPayment_Payment">
+          <End Role="Payment" Type="Self.Payment" Multiplicity="1" />
+          <End Role="PastryDeleveryPayment" Type="Self.PastryDeleveryPayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryDeleveryPayment">
+              <PropertyRef Name="Payment_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PastryShop_PriceRange">
+          <End Role="PriceRange" Type="Self.PriceRange" Multiplicity="1" />
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriceRange">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryShop">
+              <PropertyRef Name="PriceRange_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PastryShopDeleveryMethod_PastryShop">
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="1" />
+          <End Role="PastryShopDeleveryMethod" Type="Self.PastryShopDeleveryMethod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PastryShop">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PastryShopDeleveryMethod">
+              <PropertyRef Name="PastryShop_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PointOfSale_PastryShop">
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PointOfSale" Type="Self.PointOfSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PastryShop">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PointOfSale">
+              <PropertyRef Name="PastryShop_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_PastryShop">
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PastryShop">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="PastryShop_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneNumber_PhoneNumberType">
+          <End Role="PhoneNumberType" Type="Self.PhoneNumberType" Multiplicity="1" />
+          <End Role="PhoneNumber" Type="Self.PhoneNumber" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneNumberType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PhoneNumber">
+              <PropertyRef Name="PhoneNumberType_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkDay_PointOfSale">
+          <End Role="PointOfSale" Type="Self.PointOfSale" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WorkDay" Type="Self.WorkDay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PointOfSale">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkDay">
+              <PropertyRef Name="PointOfSale_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_SaleUnit">
+          <End Role="SaleUnit" Type="Self.SaleUnit" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SaleUnit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="SaleUnit_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="DeleveryMethodPaymentMethod">
+          <End Role="DeleveryMethod" Type="Self.DeleveryMethod" Multiplicity="*" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+        </Association>
+        <Association Name="PastryShopCategories">
+          <End Role="Category" Type="Self.Category" Multiplicity="*" />
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="*" />
+        </Association>
+        <Association Name="PastryShopPhoneNumber">
+          <End Role="PhoneNumber" Type="Self.PhoneNumber" Multiplicity="*" />
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="0..1" />
+        </Association>
+        <Association Name="PointOfSalePhoneNumber">
+          <End Role="PhoneNumber" Type="Self.PhoneNumber" Multiplicity="*" />
+          <End Role="PointOfSale" Type="Self.PointOfSale" Multiplicity="0..1" />
+        </Association>
+        <Association Name="UserPhoneNumber">
+          <End Role="PhoneNumber" Type="Self.PhoneNumber" Multiplicity="*" />
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+        </Association>
+        <EntityContainer Name="KmandiliDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Addresses" EntityType="Self.Address" />
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="DeleveryDelays" EntityType="Self.DeleveryDelay" />
+          <EntitySet Name="DeleveryMethods" EntityType="Self.DeleveryMethod" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="OrderProducts" EntityType="Self.OrderProduct" />
+          <EntitySet Name="Parkings" EntityType="Self.Parking" />
+          <EntitySet Name="PastryDeleveryPayments" EntityType="Self.PastryDeleveryPayment" />
+          <EntitySet Name="PastryShops" EntityType="Self.PastryShop" />
+          <EntitySet Name="PastryShopDeleveryMethods" EntityType="Self.PastryShopDeleveryMethod" />
+          <EntitySet Name="Payments" EntityType="Self.Payment" />
+          <EntitySet Name="PhoneNumbers" EntityType="Self.PhoneNumber" />
+          <EntitySet Name="PhoneNumberTypes" EntityType="Self.PhoneNumberType" />
+          <EntitySet Name="PointOfSales" EntityType="Self.PointOfSale" />
+          <EntitySet Name="PriceRanges" EntityType="Self.PriceRange" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="SaleUnits" EntityType="Self.SaleUnit" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="WorkDays" EntityType="Self.WorkDay" />
+          <AssociationSet Name="FK_PastryShop_Address" Association="Self.FK_PastryShop_Address">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="PastryShop" EntitySet="PastryShops" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PointOfSale_Address" Association="Self.FK_PointOfSale_Address">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="PointOfSale" EntitySet="PointOfSales" />
+          </AssociationSet>
+          <AssociationSet Name="user_address_fk" Association="Self.user_address_fk">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Category" Association="Self.FK_Product_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PastryShopDeleveryMethod_DeleveryDelay" Association="Self.FK_PastryShopDeleveryMethod_DeleveryDelay">
+            <End Role="DeleveryDelay" EntitySet="DeleveryDelays" />
+            <End Role="PastryShopDeleveryMethod" EntitySet="PastryShopDeleveryMethods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_DeleveryMethod" Association="Self.FK_Order_DeleveryMethod">
+            <End Role="DeleveryMethod" EntitySet="DeleveryMethods" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PastryShopDeleveryMethod_DeleveryMethod" Association="Self.FK_PastryShopDeleveryMethod_DeleveryMethod">
+            <End Role="DeleveryMethod" EntitySet="DeleveryMethods" />
+            <End Role="PastryShopDeleveryMethod" EntitySet="PastryShopDeleveryMethods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_PastryShop" Association="Self.FK_Order_PastryShop">
+            <End Role="PastryShop" EntitySet="PastryShops" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Payment" Association="Self.FK_Order_Payment">
+            <End Role="Payment" EntitySet="Payments" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Status" Association="Self.FK_Order_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_User" Association="Self.FK_Order_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderProduct_Order" Association="Self.FK_OrderProduct_Order">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderProduct" EntitySet="OrderProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderProduct_Product" Association="Self.FK_OrderProduct_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="OrderProduct" EntitySet="OrderProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PointOfSale_Parking" Association="Self.FK_PointOfSale_Parking">
+            <End Role="Parking" EntitySet="Parkings" />
+            <End Role="PointOfSale" EntitySet="PointOfSales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PastryDeleveryPayment_PastryShopDeleveryMethod" Association="Self.FK_PastryDeleveryPayment_PastryShopDeleveryMethod">
+            <End Role="PastryShopDeleveryMethod" EntitySet="PastryShopDeleveryMethods" />
+            <End Role="PastryDeleveryPayment" EntitySet="PastryDeleveryPayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PastryDeleveryPayment_Payment" Association="Self.FK_PastryDeleveryPayment_Payment">
+            <End Role="Payment" EntitySet="Payments" />
+            <End Role="PastryDeleveryPayment" EntitySet="PastryDeleveryPayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PastryShop_PriceRange" Association="Self.FK_PastryShop_PriceRange">
+            <End Role="PriceRange" EntitySet="PriceRanges" />
+            <End Role="PastryShop" EntitySet="PastryShops" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PastryShopDeleveryMethod_PastryShop" Association="Self.FK_PastryShopDeleveryMethod_PastryShop">
+            <End Role="PastryShop" EntitySet="PastryShops" />
+            <End Role="PastryShopDeleveryMethod" EntitySet="PastryShopDeleveryMethods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PointOfSale_PastryShop" Association="Self.FK_PointOfSale_PastryShop">
+            <End Role="PastryShop" EntitySet="PastryShops" />
+            <End Role="PointOfSale" EntitySet="PointOfSales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_PastryShop" Association="Self.FK_Product_PastryShop">
+            <End Role="PastryShop" EntitySet="PastryShops" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhoneNumber_PhoneNumberType" Association="Self.FK_PhoneNumber_PhoneNumberType">
+            <End Role="PhoneNumberType" EntitySet="PhoneNumberTypes" />
+            <End Role="PhoneNumber" EntitySet="PhoneNumbers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkDay_PointOfSale" Association="Self.FK_WorkDay_PointOfSale">
+            <End Role="PointOfSale" EntitySet="PointOfSales" />
+            <End Role="WorkDay" EntitySet="WorkDays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_SaleUnit" Association="Self.FK_Product_SaleUnit">
+            <End Role="SaleUnit" EntitySet="SaleUnits" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="DeleveryMethodPaymentMethod" Association="Self.DeleveryMethodPaymentMethod">
+            <End Role="DeleveryMethod" EntitySet="DeleveryMethods" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="PastryShopCategories" Association="Self.PastryShopCategories">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="PastryShop" EntitySet="PastryShops" />
+          </AssociationSet>
+          <AssociationSet Name="PastryShopPhoneNumber" Association="Self.PastryShopPhoneNumber">
+            <End Role="PhoneNumber" EntitySet="PhoneNumbers" />
+            <End Role="PastryShop" EntitySet="PastryShops" />
+          </AssociationSet>
+          <AssociationSet Name="PointOfSalePhoneNumber" Association="Self.PointOfSalePhoneNumber">
+            <End Role="PhoneNumber" EntitySet="PhoneNumbers" />
+            <End Role="PointOfSale" EntitySet="PointOfSales" />
+          </AssociationSet>
+          <AssociationSet Name="UserPhoneNumber" Association="Self.UserPhoneNumber">
+            <End Role="PhoneNumber" EntitySet="PhoneNumbers" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="KmandiliDBModelStoreContainer" CdmEntityContainer="KmandiliDBEntities">
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="KmandiliDBModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="KmandiliDBModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeleveryDelays">
+            <EntityTypeMapping TypeName="KmandiliDBModel.DeleveryDelay">
+              <MappingFragment StoreEntitySet="DeleveryDelay">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MinDelay" ColumnName="MinDelay" />
+                <ScalarProperty Name="MaxDelay" ColumnName="MaxDelay" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeleveryMethods">
+            <EntityTypeMapping TypeName="KmandiliDBModel.DeleveryMethod">
+              <MappingFragment StoreEntitySet="DeleveryMethod">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DeleveryType" ColumnName="DeleveryType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="KmandiliDBModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Status_FK" ColumnName="Status_FK" />
+                <ScalarProperty Name="User_FK" ColumnName="User_FK" />
+                <ScalarProperty Name="PastryShop_FK" ColumnName="PastryShop_FK" />
+                <ScalarProperty Name="DeleveryMethod_FK" ColumnName="DeleveryMethod_FK" />
+                <ScalarProperty Name="PaymentMethod_FK" ColumnName="PaymentMethod_FK" />
+                <ScalarProperty Name="SeenUser" ColumnName="SeenUser" />
+                <ScalarProperty Name="SeenPastryShop" ColumnName="SeenPastryShop" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderProducts">
+            <EntityTypeMapping TypeName="KmandiliDBModel.OrderProduct">
+              <MappingFragment StoreEntitySet="OrderProduct">
+                <ScalarProperty Name="Order_FK" ColumnName="Order_FK" />
+                <ScalarProperty Name="Product_FK" ColumnName="Product_FK" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parkings">
+            <EntityTypeMapping TypeName="KmandiliDBModel.Parking">
+              <MappingFragment StoreEntitySet="Parking">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ParkingType" ColumnName="ParkingType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PastryDeleveryPayments">
+            <EntityTypeMapping TypeName="KmandiliDBModel.PastryDeleveryPayment">
+              <MappingFragment StoreEntitySet="PastryDeleveryPayment">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PastryShopDeleveryMethod_FK" ColumnName="PastryShopDeleveryMethod_FK" />
+                <ScalarProperty Name="Payment_FK" ColumnName="Payment_FK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PastryShops">
+            <EntityTypeMapping TypeName="KmandiliDBModel.PastryShop">
+              <MappingFragment StoreEntitySet="PastryShop">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ShortDesc" ColumnName="ShortDesc" />
+                <ScalarProperty Name="LongDesc" ColumnName="LongDesc" />
+                <ScalarProperty Name="ProfilePic" ColumnName="ProfilePic" />
+                <ScalarProperty Name="CoverPic" ColumnName="CoverPic" />
+                <ScalarProperty Name="NumberOfRatings" ColumnName="NumberOfRatings" />
+                <ScalarProperty Name="RatingSum" ColumnName="RatingSum" />
+                <ScalarProperty Name="PriceRange_FK" ColumnName="PriceRange_FK" />
+                <ScalarProperty Name="Address_FK" ColumnName="Address_FK" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PastryShopDeleveryMethods">
+            <EntityTypeMapping TypeName="KmandiliDBModel.PastryShopDeleveryMethod">
+              <MappingFragment StoreEntitySet="PastryShopDeleveryMethod">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PastryShop_FK" ColumnName="PastryShop_FK" />
+                <ScalarProperty Name="DeleveryMethod_FK" ColumnName="DeleveryMethod_FK" />
+                <ScalarProperty Name="DeleveryDelay_FK" ColumnName="DeleveryDelay_FK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="KmandiliDBModel.Payment">
+              <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhoneNumbers">
+            <EntityTypeMapping TypeName="KmandiliDBModel.PhoneNumber">
+              <MappingFragment StoreEntitySet="PhoneNumber">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="PhoneNumberType_FK" ColumnName="PhoneNumberType_FK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhoneNumberTypes">
+            <EntityTypeMapping TypeName="KmandiliDBModel.PhoneNumberType">
+              <MappingFragment StoreEntitySet="PhoneNumberType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PointOfSales">
+            <EntityTypeMapping TypeName="KmandiliDBModel.PointOfSale">
+              <MappingFragment StoreEntitySet="PointOfSale">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="PastryShop_FK" ColumnName="PastryShop_FK" />
+                <ScalarProperty Name="ParkingType_FK" ColumnName="ParkingType_FK" />
+                <ScalarProperty Name="Address_FK" ColumnName="Address_FK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PriceRanges">
+            <EntityTypeMapping TypeName="KmandiliDBModel.PriceRange">
+              <MappingFragment StoreEntitySet="PriceRange">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MinPriceRange" ColumnName="MinPriceRange" />
+                <ScalarProperty Name="MaxPriceRange" ColumnName="MaxPriceRange" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="KmandiliDBModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Pic" ColumnName="Pic" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="SaleUnit_FK" ColumnName="SaleUnit_FK" />
+                <ScalarProperty Name="Category_FK" ColumnName="Category_FK" />
+                <ScalarProperty Name="PastryShop_FK" ColumnName="PastryShop_FK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SaleUnits">
+            <EntityTypeMapping TypeName="KmandiliDBModel.SaleUnit">
+              <MappingFragment StoreEntitySet="SaleUnit">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="KmandiliDBModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="KmandiliDBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="JoindDate" ColumnName="JoindDate" />
+                <ScalarProperty Name="Address_FK" ColumnName="Address_FK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkDays">
+            <EntityTypeMapping TypeName="KmandiliDBModel.WorkDay">
+              <MappingFragment StoreEntitySet="WorkDay">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
+                <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
+                <ScalarProperty Name="PointOfSale_FK" ColumnName="PointOfSale_FK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="DeleveryMethodPaymentMethod" TypeName="KmandiliDBModel.DeleveryMethodPaymentMethod" StoreEntitySet="DeleveryMethodPaymentMethod">
+            <EndProperty Name="DeleveryMethod">
+              <ScalarProperty Name="ID" ColumnName="DeleveryMethod_FK" />
+            </EndProperty>
+            <EndProperty Name="Payment">
+              <ScalarProperty Name="ID" ColumnName="PaymentMethod_FK" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="PastryShopCategories" TypeName="KmandiliDBModel.PastryShopCategories" StoreEntitySet="PastryShopCategories">
+            <EndProperty Name="Category">
+              <ScalarProperty Name="ID" ColumnName="Category_FK" />
+            </EndProperty>
+            <EndProperty Name="PastryShop">
+              <ScalarProperty Name="ID" ColumnName="PastryShop_FK" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="PastryShopPhoneNumber" TypeName="KmandiliDBModel.PastryShopPhoneNumber" StoreEntitySet="PastryShopPhoneNumber">
+            <EndProperty Name="PhoneNumber">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <EndProperty Name="PastryShop">
+              <ScalarProperty Name="ID" ColumnName="PastryShop_FK" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="PointOfSalePhoneNumber" TypeName="KmandiliDBModel.PointOfSalePhoneNumber" StoreEntitySet="PointOfSalePhoneNumber">
+            <EndProperty Name="PhoneNumber">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <EndProperty Name="PointOfSale">
+              <ScalarProperty Name="ID" ColumnName="PointOfSale_FK" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="UserPhoneNumber" TypeName="KmandiliDBModel.UserPhoneNumber" StoreEntitySet="UserPhoneNumber">
+            <EndProperty Name="PhoneNumber">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <EndProperty Name="User">
+              <ScalarProperty Name="ID" ColumnName="User_FK" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

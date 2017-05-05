@@ -1,0 +1,6 @@
+namespace KmandiliWebService.Areas.HelpPage.ModelDescriptions
+{
+    public class SimpleTypeModelDescription : ModelDescription
+    {
+    }
+}

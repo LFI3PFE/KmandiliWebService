@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <meta charset="ISO-8859-1">
+</head>
+<body>
+    <div class="container">
+        <div class="Header" style="display: flex;height: 15vh;">
+            <div class="LogoDiv" style="display: inline-block;align-self: center;"><img src="http://seifiisexpress.sytes.net:300/Uploads/ApplicationResources/logo.png" style="width: 20%;"></div>
+            <div class="BrandDiv" style="float: right;text-align: right;align-self: center;margin-left: auto;">
+                <h2 class="BrandTitle" style="padding: 0px;margin: 0px;font-size: 25px;font-weight: 500;">Kmandili</h2>
+                <a href="http://www.kmandili.tn">www.kmandili.tn</a><br>
+                <a href="mailto:kmandili.contact@gmail.com" class="email">kmandili.contact@gmail.com</a>
+            </div>
+        </div>
+        <hr style="border: solid gray 1px;padding: 0px;margin: 0px;margin-bottom: 2%;">
+        <div class="Body">
+            <div class="BodyHeader" style="display: flex;">
+                <div class="PastryInfo" style="border-left: solid #0087c3 5px; padding-left: 1%;">
+                    <span>Commande #ToFrom:</span>
+                    <h2 id="PastryName" style="padding: 0px; margin: 0px;">#PastryName</h2>
+                    <div id="PastryEmailDiv">
+                        #PastryEmail
+                        <!--<a href="mailto:omymna@gmail.com">omymna@gmail.com</a>-->
+                    </div>
+                    <div><span><strong>Adresse: </strong></span><span id="PastryAddress">#PastryAddress</span></div>
+                    <div>
+                        <span><strong>Numéro(s) de Téléphone: </strong></span>
+                        <div class="PhoneNumberDiv" style="margin-left: 5%;">
+                            #PastryPhoneNumbers
+                            <!--<a href="tel:26983424">26983424</a><span class="PhoneNumberType" style="margin-left: 3%;">Portable</span><br>
+                            <a href="tel:26983424">71749881</a><span class="PhoneNumberType" style="margin-left: 3%;">Fixe</span>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="OrderInfo" style="display: inline-block; margin-left: auto; text-align: right; align-self: center;">
+                    <div class="OrderNumberDiv" style="color: #0087c3; margin-bottom: 10%;">
+                        <h2 style="padding: 0px; margin: 0px;">Commande N°: <span class="OrderNumber" style="color: #0087c3 !important; font-size: inherit !important;">#OrderNumber</span></h2>
+                    </div>
+                    <div class="OrderDateDiv"><span style="font-size: 15px;"><strong>Date de commande:</strong></span><br><span id="OrderDate" style="font-size: 15px; margin-left: 3%;">#OrderDate</span></div>
+                    <div class="OrderDeleveryDiv"><span style="font-size: 15px;"><strong>Livraison:</strong></span><br><span id="OrderDelevery" style="font-size: 15px; margin-left: 3%;">#OrderDelevery</span></div>
+                    <div class="OrderPaymentDiv"><span style="font-size: 15px;"><strong>Payment:</strong></span><br><span id="OrderPayment" style="font-size: 15px; margin-left: 3%;">#OrderPayment</span></div>
+                </div>
+            </div>
+            <div style="font-size: 30px; text-align: center;">#OrderStatus</div>
+            <div class="BodyTable" style="margin-top: 3%;">
+                <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;border-collapse: collapse;border-spacing: 0;margin-bottom: 20px;">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="desc" style="padding: 20px;background: #EEEEEE;text-align: left;border-bottom: 1px solid #FFFFFF;white-space: nowrap;font-weight: normal;">PRODUIT</th>
+                            <th class="unit" style="padding: 20px;background: #DDDDDD;text-align: center;border-bottom: 1px solid #FFFFFF;white-space: nowrap;font-weight: normal;">PRIX D'UNITÉ</th>
+                            <th class="qty" style="padding: 20px;background: #EEEEEE;text-align: center;border-bottom: 1px solid #FFFFFF;white-space: nowrap;font-weight: normal;">QUANTITÉ</th>
+                            <th class="total" style="padding: 20px;background: #57B223;text-align: center;border-bottom: 1px solid #FFFFFF;white-space: nowrap;font-weight: normal;color: #FFFFFF;">TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        #OrderProducts
+                        <!--<tr>
+                            <td colspan="2" class="desc" style="padding: 20px;background: #EEEEEE;text-align: left;border-bottom: 1px solid #FFFFFF;">
+                                <div class="ProdImgDiv" style="align-self: center;display: inline-block;">
+                                    <img src="http://seifiisexpress.sytes.net:300/Uploads/5b1fa22f-2068-45ea-87d3-e86148de3817.jpg" style="width: 130px;margin-right: 30%;">
+                                </div>
+                                <div class="ProdInfoDiv" style="align-self: center;display: inline-block;">
+                                    <h3 id="Prod" style="color: #57B223;font-size: 1.2em;font-weight: normal;margin: 0 0 0.2em 0;">Website Design</h3>
+                                    Creating a recognizable design solution based on the company's existing visual identity
+                                </div>
+                            </td>
+                            <td class="unit" style="padding: 20px;background: #DDDDDD;text-align: right;border-bottom: 1px solid #FFFFFF;font-size: 1.2em;">$40.00</td>
+                            <td class="qty" style="padding: 20px;background: #EEEEEE;text-align: right;border-bottom: 1px solid #FFFFFF;font-size: 1.2em;">30</td>
+                            <td class="total" style="padding: 20px;background: #57B223;text-align: right;border-bottom: 1px solid #FFFFFF;color: #FFFFFF;font-size: 1.2em;">$1,200.00</td>
+                        </tr>-->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" style="padding: 10px 20px;background: #FFFFFF;text-align: right;border-bottom: none;font-size: 1.2em;white-space: nowrap;border-top: 1px solid #AAAAAA;border: none;"></td>
+                            <td colspan="2" style="padding: 10px 20px;background: #FFFFFF;text-align: right;border-bottom: none;font-size: 1.2em;white-space: nowrap;border-top: 1px solid #AAAAAA;">TOTAL</td>
+                            <td id="Total" style="padding: 10px 20px;background: #FFFFFF;text-align: right;border-bottom: none;font-size: 1.2em;white-space: nowrap;border-top: 1px solid #AAAAAA;">#OrderTotal</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                #Notice
+                <div class="footer" style="color: #777777;width: 100%;height: 30px;border-top: 1px solid #AAAAAA;padding: 8px 0;text-align: center;">
+                    Cet email à été générer automatiquement. Merci de ne pas répendre.<br>-- Kmandili --
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
