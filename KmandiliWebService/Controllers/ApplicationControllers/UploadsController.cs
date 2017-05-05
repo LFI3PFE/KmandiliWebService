@@ -64,22 +64,21 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             }
         }
 
-        [Route("Upload/{FileName}")]
+        [Route("api/uploads/{FileName}")]
         [AllowAnonymous]
         [HttpDelete]
         public HttpResponseMessage DeleteImage(string FileName)
         {
             try
             {
-                string imageFilePath = HostingEnvironment.MapPath("~/test");
-                imageFilePath = Path.Combine(imageFilePath, FileName);
-                //if (File.Exists(imageFilePath))
-                //{
-                //    File.Delete(imageFilePath);
-                //    return new HttpResponseMessage(HttpStatusCode.OK);
-                //}
-
-                File.Delete(imageFilePath);
+                string imageFilePath = HostingEnvironment.MapPath("~/Uploads");
+                imageFilePath = Path.Combine(imageFilePath, FileName+".jpg");
+                if (File.Exists(imageFilePath))
+                {
+                    File.Delete(imageFilePath);
+                    return new HttpResponseMessage(HttpStatusCode.OK);
+                }
+                //File.Delete(imageFilePath);
                 return new HttpResponseMessage(HttpStatusCode.OK);
                 //return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
