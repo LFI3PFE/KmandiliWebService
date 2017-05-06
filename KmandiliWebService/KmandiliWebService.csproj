@@ -256,6 +256,7 @@
     <Compile Include="Controllers\ApplicationControllers\UploadsController.cs" />
     <Compile Include="Controllers\ApplicationControllers\UsersController.cs" />
     <Compile Include="Controllers\ApplicationControllers\WorkDaysController.cs" />
+    <Compile Include="Controllers\ExtensionMethods.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">

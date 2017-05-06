@@ -62,6 +62,51 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             return Ok(pastryShop);
         }
 
+        [Route("api/PastryShops/Categories/{id}")]
+        [HttpPut]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutPastryShopCategories(int id, PastryShop pastryShop)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != pastryShop.ID)
+            {
+                return BadRequest();
+            }
+
+            var existingPastry = db.PastryShops.FirstOrDefault(p => p.ID == id);
+            var toDeleteCategories = existingPastry.Categories.Except(pastryShop.Categories,c => c.ID).ToList<Category>();
+            var toAddCategories = pastryShop.Categories.Except(existingPastry.Categories,c=> c.ID).ToList<Category>();
+
+            toDeleteCategories.ForEach(c => existingPastry.Categories.Remove(c));
+            foreach (var category in toAddCategories)
+            {
+                if (db.Entry(category).State == EntityState.Detached)
+                    db.Categories.Attach(category);
+                existingPastry.Categories.Add(category);
+            }
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PastryShopExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
         // PUT: api/PastryShops/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutPastryShop(int id, PastryShop pastryShop)
@@ -75,7 +120,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             {
                 return BadRequest();
             }
-
+            
             db.Entry(pastryShop).State = EntityState.Modified;
 
             try
@@ -148,5 +193,6 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             return db.PastryShops.Count(e => e.ID == id) > 0;
         }
+        
     }
 }
