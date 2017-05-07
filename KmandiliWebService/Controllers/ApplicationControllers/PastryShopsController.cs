@@ -4,9 +4,11 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliDataAccess;
@@ -173,12 +175,29 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             {
                 return NotFound();
             }
+            string profileFileName = pastryShop.ProfilePic.Substring(44, (pastryShop.ProfilePic.Length - 44));
+            string profileImageFilePath = HostingEnvironment.MapPath("~/Uploads");
+            profileImageFilePath = Path.Combine(profileImageFilePath, profileFileName);
+
+            string coverFileName = pastryShop.CoverPic.Substring(44, (pastryShop.CoverPic.Length - 44));
+            string coverImageFilePath = HostingEnvironment.MapPath("~/Uploads");
+            coverImageFilePath = Path.Combine(coverImageFilePath, coverFileName);
+            
+            foreach (var product in pastryShop.Products)
+            {
+                string productFileName = product.Pic.Substring(44, (product.Pic.Length - 44));
+                string productImageFilePath = HostingEnvironment.MapPath("~/Uploads");
+                productImageFilePath = Path.Combine(productImageFilePath, productFileName);
+                File.Delete(productImageFilePath);
+            }
+
             var phoneNumbers = new List<PhoneNumber>(pastryShop.PhoneNumbers);
             db.PastryShops.Remove(pastryShop);
             phoneNumbers.ForEach(p => db.PhoneNumbers.Remove(p));
             db.Addresses.Remove(db.Addresses.Find(pastryShop.Address_FK));
             db.SaveChanges();
-
+            File.Delete(profileImageFilePath);
+            File.Delete(coverImageFilePath);
             return Ok(pastryShop);
         }
 
