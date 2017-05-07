@@ -118,7 +118,10 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return NotFound();
             }
 
+            var phoneNumbers = new List<PhoneNumber>(user.PhoneNumbers);
             db.Users.Remove(user);
+            phoneNumbers.ForEach(p => db.PhoneNumbers.Remove(p));
+            db.Addresses.Remove(db.Addresses.Find(user.Address_FK));
             db.SaveChanges();
 
             return Ok(user);

@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliDataAccess;
+using WebGrease.Css.Extensions;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
@@ -94,10 +95,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             {
                 return NotFound();
             }
-
+            var phoneNumbers = new List<PhoneNumber>(pointOfSale.PhoneNumbers);
             db.PointOfSales.Remove(pointOfSale);
+            phoneNumbers.ForEach(p => db.PhoneNumbers.Remove(p));
+            db.Addresses.Remove(db.Addresses.Find(pointOfSale.Address_FK));
             db.SaveChanges();
-
             return Ok(pointOfSale);
         }
 
