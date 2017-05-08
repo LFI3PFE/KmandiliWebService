@@ -48,7 +48,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         }
 
         [Route("api/markAsSeenPastryShop/{id}")]
-        [HttpGet]
+        [HttpPut]
         public IHttpActionResult MarkAsSeenPastryShop(int id)
         {
             Order order = db.Orders.Find(id);
@@ -73,7 +73,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         }
 
         [Route("api/MarkAsSeenUser/{id}")]
-        [HttpGet]
+        [HttpPut]
         public IHttpActionResult MarkAsSeenUser(int id)
         {
             Order order = db.Orders.Find(id);
