@@ -41,6 +41,34 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                     "</div>" +
                 "</div>";
 
+        [Route("api/sendEmailVerificationCode/{email}")]
+        [HttpPost]
+        public IHttpActionResult SendEmailVerificationCode(string email)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            string Code = Guid.NewGuid().ToString().Substring(0,6);
+
+            string date = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
+            string content = "<b>Verification Email</b> Date: " + date + "<br/>" +
+                             "Copier le code de verification si desous dans Kmandili<br/>" +
+                             "<span style='font-size: 30px; color: black;'>" + Code + "</span>";
+            
+            MailMessage message = new MailMessage();
+            message.Subject = "Kmandili: Verification email " + date;
+            message.From = new MailAddress("kmandili.contact@gmail.com", "Kmandili");
+            message.To.Add(new MailAddress(email));
+            message.IsBodyHtml = true;
+            message.Body = content;
+            if (!SendEmail(message))
+            {
+                return BadRequest();
+            }
+            return Ok(Code);
+        }
+
         [Route("api/sendOrderEmail/{id}")]
         [HttpGet]
         public IHttpActionResult SendOrderEmail(int id)
@@ -168,7 +196,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             string phoneNumbers = "";
             foreach (PhoneNumber phoneNumber in order.User.PhoneNumbers)
             {
-                phoneNumbers += "<a href=\"tel: " + phoneNumber.Number + "\">" + phoneNumber.Number + "</a><span class=\"PhoneNumberType\" style=\"margin - left: 3 %; \">" + phoneNumber.PhoneNumberType.Type + "</span><br>";
+                phoneNumbers += "<a href=\"tel: " + phoneNumber.Number + "\">" + phoneNumber.Number + "</a><span class=\"PhoneNumberType\" style=\"margin-left: 3 %; \">" + phoneNumber.PhoneNumberType.Type + "</span><br>";
             }
             content = content.Replace("#PastryPhoneNumbers", phoneNumbers);
             content = content.Replace("#OrderNumber", order.ID.ToString());
