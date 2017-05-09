@@ -242,6 +242,7 @@
     <Compile Include="Controllers\ApplicationControllers\OrderProductsController.cs" />
     <Compile Include="Controllers\ApplicationControllers\OrdersController.cs" />
     <Compile Include="Controllers\ApplicationControllers\ParkingsController.cs" />
+    <Compile Include="Controllers\ApplicationControllers\PasswordController.cs" />
     <Compile Include="Controllers\ApplicationControllers\PastryDeleveryPaymentsController.cs" />
     <Compile Include="Controllers\ApplicationControllers\PastryShopDeleveryMethodsController.cs" />
     <Compile Include="Controllers\ApplicationControllers\PastryShopsController.cs" />

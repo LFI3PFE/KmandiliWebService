@@ -1,6 +1,7 @@
 ﻿using KmandiliDataAccess;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -40,6 +41,40 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                         "</div>" +
                     "</div>" +
                 "</div>";
+
+        [Route("api/SendPasswordRestCode/{email}")]
+        [HttpPost]
+        public IHttpActionResult SendPasswordRestCode(string email)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if ((db.Users.FirstOrDefault(u => u.Email == email) == null) &&
+                (db.PastryShops.FirstOrDefault(p => p.Email == email) == null))
+            {
+                return NotFound();
+            }
+            string Code = Guid.NewGuid().ToString().Substring(0, 6);
+
+            string date = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
+            string content = "<b>Code de réinitialisation de mot de passe</b> Date: " + date + "<br/>" +
+                             "Copier le code si desous dans Kmandili<br/>" +
+                             "<b>Ce code est valable pour 5 minnutes seulement!</b><br/>" + 
+                             "<span style='font-size: 30px; color: black;'>" + Code + "</span>";
+
+            MailMessage message = new MailMessage();
+            message.Subject = "Kmandili: réinitialiser le mot de passe " + date;
+            message.From = new MailAddress("kmandili.contact@gmail.com", "Kmandili");
+            message.To.Add(new MailAddress(email));
+            message.IsBodyHtml = true;
+            message.Body = content;
+            if (!SendEmail(message))
+            {
+                return BadRequest();
+            }
+            return Ok(Code);
+        }
 
         [Route("api/sendEmailVerificationCode/{email}")]
         [HttpPost]
