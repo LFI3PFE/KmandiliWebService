@@ -19,8 +19,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         // GET: api/DeleveryMethods
         public IQueryable<DeleveryMethod> GetDeleveryMethods()
         {
-            IQueryable<DeleveryMethod> q = db.DeleveryMethods; ;
-            return q;
+            return db.DeleveryMethods;
         }
 
         // GET: api/DeleveryMethods/5
