@@ -13,6 +13,7 @@ using WebGrease.Css.Extensions;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
+    //[Authorize]
     public class UsersController : ApiController
     {
         private KmandiliDBEntities db = new KmandiliDBEntities();
