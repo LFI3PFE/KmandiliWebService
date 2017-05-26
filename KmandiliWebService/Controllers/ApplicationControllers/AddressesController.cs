@@ -12,6 +12,7 @@ using KmandiliDataAccess;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
+    [Authorize]
     public class AddressesController : ApiController
     {
         private KmandiliDBEntities db = new KmandiliDBEntities();
@@ -72,6 +73,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
 
         // POST: api/Addresses
         [ResponseType(typeof(Address))]
+        [AllowAnonymous]
         public IHttpActionResult PostAddress(Address address)
         {
             if (!ModelState.IsValid)

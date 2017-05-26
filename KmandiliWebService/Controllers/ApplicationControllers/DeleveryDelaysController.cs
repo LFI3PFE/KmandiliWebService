@@ -12,11 +12,13 @@ using KmandiliDataAccess;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
+    [Authorize]
     public class DeleveryDelaysController : ApiController
     {
         private KmandiliDBEntities db = new KmandiliDBEntities();
 
         // GET: api/DeleveryDelays
+        [AllowAnonymous]
         public IQueryable<DeleveryDelay> GetDeleveryDelays()
         {
             IQueryable<DeleveryDelay> q = db.DeleveryDelays;

@@ -12,6 +12,7 @@ using KmandiliDataAccess;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
+    [Authorize]
     public class PastryDeleveryPaymentsController : ApiController
     {
         private KmandiliDBEntities db = new KmandiliDBEntities();
@@ -72,6 +73,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
 
         // POST: api/PastryDeleveryPayments
         [ResponseType(typeof(PastryDeleveryPayment))]
+        [AllowAnonymous]
         public IHttpActionResult PostPastryDeleveryPayment(PastryDeleveryPayment pastryDeleveryPayment)
         {
             if (!ModelState.IsValid)

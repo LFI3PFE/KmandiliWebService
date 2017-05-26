@@ -12,11 +12,13 @@ using KmandiliDataAccess;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
+    [Authorize]
     public class PriceRangesController : ApiController
     {
         private KmandiliDBEntities db = new KmandiliDBEntities();
 
         // GET: api/PriceRanges
+        [AllowAnonymous]
         public IQueryable<PriceRange> GetPriceRanges()
         {
             return db.PriceRanges;

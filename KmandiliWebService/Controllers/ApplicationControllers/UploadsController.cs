@@ -65,7 +65,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         }
 
         [Route("api/uploads/{FileName}")]
-        [AllowAnonymous]
+        [Authorize]
         [HttpDelete]
         public HttpResponseMessage DeleteImage(string FileName)
         {

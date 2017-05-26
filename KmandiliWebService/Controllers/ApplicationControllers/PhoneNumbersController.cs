@@ -12,6 +12,7 @@ using KmandiliDataAccess;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
+    [Authorize]
     public class PhoneNumbersController : ApiController
     {
         private KmandiliDBEntities db = new KmandiliDBEntities();
@@ -72,6 +73,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
 
         // POST: api/PhoneNumbers
         [ResponseType(typeof(PhoneNumber))]
+        [AllowAnonymous]
         public IHttpActionResult PostPhoneNumber(PhoneNumber phoneNumber)
         {
             if (!ModelState.IsValid)

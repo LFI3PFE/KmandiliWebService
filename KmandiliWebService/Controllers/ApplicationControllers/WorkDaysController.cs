@@ -12,6 +12,7 @@ using KmandiliDataAccess;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
+    [Authorize]
     public class WorkDaysController : ApiController
     {
         private KmandiliDBEntities db = new KmandiliDBEntities();

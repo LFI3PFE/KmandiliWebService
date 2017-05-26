@@ -12,6 +12,7 @@ using KmandiliDataAccess;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
+    [Authorize]
     public class ParkingsController : ApiController
     {
         private KmandiliDBEntities db = new KmandiliDBEntities();

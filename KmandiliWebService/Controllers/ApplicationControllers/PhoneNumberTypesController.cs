@@ -12,11 +12,13 @@ using KmandiliDataAccess;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
+    [Authorize]
     public class PhoneNumberTypesController : ApiController
     {
         private KmandiliDBEntities db = new KmandiliDBEntities();
 
         // GET: api/PhoneNumberTypes
+        [AllowAnonymous]
         public IQueryable<PhoneNumberType> GetPhoneNumberTypes()
         {
             return db.PhoneNumberTypes;

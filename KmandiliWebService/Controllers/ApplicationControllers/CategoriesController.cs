@@ -12,11 +12,13 @@ using KmandiliDataAccess;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
+    [Authorize]
     public class CategoriesController : ApiController
     {
         private KmandiliDBEntities db = new KmandiliDBEntities();
 
         // GET: api/Categories
+        [AllowAnonymous]
         public IQueryable<Category> GetCategories()
         {
             IQueryable<Category> ic = db.Categories;

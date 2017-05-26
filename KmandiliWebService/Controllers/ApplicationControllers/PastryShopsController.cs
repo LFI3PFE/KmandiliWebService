@@ -15,6 +15,7 @@ using KmandiliDataAccess;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
+    [Authorize]
     public class PastryShopsController : ApiController
     {
         private KmandiliDBEntities db = new KmandiliDBEntities();
@@ -52,6 +53,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         }
 
         [Route("api/PastryShops/ByEmail/{email}/")]
+        [AllowAnonymous]
         [ResponseType(typeof(PastryShop))]
         public IHttpActionResult GetPastryShop(string email)
         {
@@ -146,6 +148,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
 
         // POST: api/PastryShops
         [ResponseType(typeof(PastryShop))]
+        [AllowAnonymous]
         public IHttpActionResult PostPastryShop(PastryShop pastryShop)
         {
             if (!ModelState.IsValid)

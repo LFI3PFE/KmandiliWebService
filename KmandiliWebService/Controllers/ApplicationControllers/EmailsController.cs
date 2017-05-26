@@ -42,6 +42,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                     "</div>" +
                 "</div>";
 
+        [AllowAnonymous]
         [Route("api/SendPasswordRestCode/{email}")]
         [HttpPost]
         public IHttpActionResult SendPasswordRestCode(string email)
@@ -75,7 +76,8 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             }
             return Ok(Code);
         }
-
+        
+        [AllowAnonymous]
         [Route("api/sendEmailVerificationCode/{email}")]
         [HttpPost]
         public IHttpActionResult SendEmailVerificationCode(string email)

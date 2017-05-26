@@ -14,6 +14,7 @@ using System.Data.SqlClient;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
+    [Authorize]
     public class PastryShopDeleveryMethodsController : ApiController
     {
         private KmandiliDBEntities db = new KmandiliDBEntities();
@@ -74,6 +75,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
 
         // POST: api/PastryShopDeleveryMethods
         [ResponseType(typeof(PastryShopDeleveryMethod))]
+        [AllowAnonymous]
         public IHttpActionResult PostPastryShopDeleveryMethod(PastryShopDeleveryMethod pastryShopDeleveryMethod)
         {
             if (!ModelState.IsValid)

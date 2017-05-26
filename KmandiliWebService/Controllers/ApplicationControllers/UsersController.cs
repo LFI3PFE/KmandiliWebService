@@ -13,7 +13,7 @@ using WebGrease.Css.Extensions;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
-    //[Authorize]
+    [Authorize]
     public class UsersController : ApiController
     {
         private KmandiliDBEntities db = new KmandiliDBEntities();
@@ -49,6 +49,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             return Ok(user);
         }
         
+        [AllowAnonymous]
         [Route("api/Users/ByEmail/{email}/")]
         public IHttpActionResult GetUser(string email)
         {
@@ -95,6 +96,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         }
 
         // POST: api/Users
+        [AllowAnonymous]
         [ResponseType(typeof(User))]
         public IHttpActionResult PostUser(User user)
         {
