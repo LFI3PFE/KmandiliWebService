@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1231B519-FA6E-470E-B4D3-4AF43DEAF4E1}</ProjectGuid>
+    <ProjectGuid>{983DFB6A-47BA-4466-90FC-CA5B15478B52}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KmandiliDataAccess</RootNamespace>
@@ -115,6 +115,9 @@
       <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rating.cs">
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SaleUnit.cs">
       <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>

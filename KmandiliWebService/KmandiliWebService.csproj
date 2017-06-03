@@ -252,6 +252,7 @@
     <Compile Include="Controllers\ApplicationControllers\PointOfSalesController.cs" />
     <Compile Include="Controllers\ApplicationControllers\PriceRangesController.cs" />
     <Compile Include="Controllers\ApplicationControllers\ProductsController.cs" />
+    <Compile Include="Controllers\ApplicationControllers\RatingsController.cs" />
     <Compile Include="Controllers\ApplicationControllers\SaleUnitsController.cs" />
     <Compile Include="Controllers\ApplicationControllers\StatusController.cs" />
     <Compile Include="Controllers\ApplicationControllers\UploadsController.cs" />
@@ -354,7 +355,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KmandiliDataAccess\KmandiliDataAccess.csproj">
-      <Project>{1231b519-fa6e-470e-b4d3-4af43deaf4e1}</Project>
+      <Project>{983dfb6a-47ba-4466-90fc-ca5b15478b52}</Project>
       <Name>KmandiliDataAccess</Name>
     </ProjectReference>
   </ItemGroup>

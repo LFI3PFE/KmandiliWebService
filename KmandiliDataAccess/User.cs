@@ -18,6 +18,7 @@ namespace KmandiliDataAccess
         public User()
         {
             this.Orders = new HashSet<Order>();
+            this.Ratings = new HashSet<Rating>();
             this.PhoneNumbers = new HashSet<PhoneNumber>();
         }
     
@@ -32,6 +33,8 @@ namespace KmandiliDataAccess
         public virtual Address Address { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Rating> Ratings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
     }

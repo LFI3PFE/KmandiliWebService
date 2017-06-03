@@ -41,6 +41,7 @@ namespace KmandiliDataAccess
         public virtual DbSet<PointOfSale> PointOfSales { get; set; }
         public virtual DbSet<PriceRange> PriceRanges { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Rating> Ratings { get; set; }
         public virtual DbSet<SaleUnit> SaleUnits { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<User> Users { get; set; }

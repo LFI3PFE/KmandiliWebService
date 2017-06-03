@@ -95,8 +95,6 @@
           <Property Name="LongDesc" Type="varchar(max)" Nullable="false" />
           <Property Name="ProfilePic" Type="varchar(max)" Nullable="false" />
           <Property Name="CoverPic" Type="varchar(max)" Nullable="false" />
-          <Property Name="NumberOfRatings" Type="int" Nullable="false" />
-          <Property Name="RatingSum" Type="int" Nullable="false" />
           <Property Name="PriceRange_FK" Type="int" Nullable="false" />
           <Property Name="Address_FK" Type="int" Nullable="false" />
           <Property Name="Email" Type="varchar(max)" Nullable="false" />
@@ -185,6 +183,15 @@
           <Property Name="SaleUnit_FK" Type="int" Nullable="false" />
           <Property Name="Category_FK" Type="int" Nullable="false" />
           <Property Name="PastryShop_FK" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="User_FK" />
+            <PropertyRef Name="PastryShop_FK" />
+          </Key>
+          <Property Name="User_FK" Type="int" Nullable="false" />
+          <Property Name="PastryShop_FK" Type="int" Nullable="false" />
+          <Property Name="Value" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="SaleUnit">
           <Key>
@@ -386,7 +393,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PastryDeleveryPayment_PastryShopDeleveryMethod">
-          <End Role="PastryShopDeleveryMethod" Type="Self.PastryShopDeleveryMethod" Multiplicity="1" />
+          <End Role="PastryShopDeleveryMethod" Type="Self.PastryShopDeleveryMethod" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="PastryDeleveryPayment" Type="Self.PastryDeleveryPayment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PastryShopDeleveryMethod">
@@ -484,7 +493,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PastryShopDeleveryMethod_PastryShop">
-          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="1" />
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="PastryShopDeleveryMethod" Type="Self.PastryShopDeleveryMethod" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PastryShop">
@@ -611,6 +622,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Rating_PastryShop">
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PastryShop">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="PastryShop_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rating_User">
+          <End Role="User" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="User_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserPhoneNumber_User">
           <End Role="User" Type="Self.User" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -672,6 +711,7 @@
           <EntitySet Name="PointOfSalePhoneNumber" EntityType="Self.PointOfSalePhoneNumber" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PriceRange" EntityType="Self.PriceRange" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rating" EntityType="Self.Rating" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SaleUnit" EntityType="Self.SaleUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -797,6 +837,14 @@
             <End Role="SaleUnit" EntitySet="SaleUnit" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
+          <AssociationSet Name="FK_Rating_PastryShop" Association="Self.FK_Rating_PastryShop">
+            <End Role="PastryShop" EntitySet="PastryShop" />
+            <End Role="Rating" EntitySet="Rating" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rating_User" Association="Self.FK_Rating_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Rating" EntitySet="Rating" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserPhoneNumber_User" Association="Self.FK_UserPhoneNumber_User">
             <End Role="User" EntitySet="User" />
             <End Role="UserPhoneNumber" EntitySet="UserPhoneNumber" />
@@ -917,8 +965,6 @@
           <Property Name="LongDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ProfilePic" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CoverPic" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NumberOfRatings" Type="Int32" Nullable="false" />
-          <Property Name="RatingSum" Type="Int32" Nullable="false" />
           <Property Name="PriceRange_FK" Type="Int32" Nullable="false" />
           <Property Name="Address_FK" Type="Int32" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
@@ -929,6 +975,7 @@
           <NavigationProperty Name="PastryShopDeleveryMethods" Relationship="Self.FK_PastryShopDeleveryMethod_PastryShop" FromRole="PastryShop" ToRole="PastryShopDeleveryMethod" />
           <NavigationProperty Name="PointOfSales" Relationship="Self.FK_PointOfSale_PastryShop" FromRole="PastryShop" ToRole="PointOfSale" />
           <NavigationProperty Name="Products" Relationship="Self.FK_Product_PastryShop" FromRole="PastryShop" ToRole="Product" />
+          <NavigationProperty Name="Ratings" Relationship="Self.FK_Rating_PastryShop" FromRole="PastryShop" ToRole="Rating" />
           <NavigationProperty Name="Categories" Relationship="Self.PastryShopCategories" FromRole="PastryShop" ToRole="Category" />
           <NavigationProperty Name="PhoneNumbers" Relationship="Self.PastryShopPhoneNumber" FromRole="PastryShop" ToRole="PhoneNumber" />
         </EntityType>
@@ -1016,6 +1063,17 @@
           <NavigationProperty Name="PastryShop" Relationship="Self.FK_Product_PastryShop" FromRole="Product" ToRole="PastryShop" />
           <NavigationProperty Name="SaleUnit" Relationship="Self.FK_Product_SaleUnit" FromRole="Product" ToRole="SaleUnit" />
         </EntityType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="User_FK" />
+            <PropertyRef Name="PastryShop_FK" />
+          </Key>
+          <Property Name="User_FK" Type="Int32" Nullable="false" />
+          <Property Name="PastryShop_FK" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PastryShop" Relationship="Self.FK_Rating_PastryShop" FromRole="Rating" ToRole="PastryShop" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Rating_User" FromRole="Rating" ToRole="User" />
+        </EntityType>
         <EntityType Name="SaleUnit">
           <Key>
             <PropertyRef Name="ID" />
@@ -1045,6 +1103,7 @@
           <Property Name="Address_FK" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Address" Relationship="Self.user_address_fk" FromRole="User" ToRole="Address" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_Order_User" FromRole="User" ToRole="Order" />
+          <NavigationProperty Name="Ratings" Relationship="Self.FK_Rating_User" FromRole="User" ToRole="Rating" />
           <NavigationProperty Name="PhoneNumbers" Relationship="Self.UserPhoneNumber" FromRole="User" ToRole="PhoneNumber" />
         </EntityType>
         <EntityType Name="WorkDay">
@@ -1233,7 +1292,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PastryDeleveryPayment_PastryShopDeleveryMethod">
-          <End Role="PastryShopDeleveryMethod" Type="Self.PastryShopDeleveryMethod" Multiplicity="1" />
+          <End Role="PastryShopDeleveryMethod" Type="Self.PastryShopDeleveryMethod" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="PastryDeleveryPayment" Type="Self.PastryDeleveryPayment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PastryShopDeleveryMethod">
@@ -1269,7 +1330,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_PastryShopDeleveryMethod_PastryShop">
-          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="1" />
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="PastryShopDeleveryMethod" Type="Self.PastryShopDeleveryMethod" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PastryShop">
@@ -1304,6 +1367,20 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Product">
+              <PropertyRef Name="PastryShop_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rating_PastryShop">
+          <End Role="PastryShop" Type="Self.PastryShop" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PastryShop">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Rating">
               <PropertyRef Name="PastryShop_FK" />
             </Dependent>
           </ReferentialConstraint>
@@ -1346,6 +1423,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Rating_User">
+          <End Role="User" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="User_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="DeleveryMethodPaymentMethod">
           <End Role="DeleveryMethod" Type="Self.DeleveryMethod" Multiplicity="*" />
           <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
@@ -1383,6 +1474,7 @@
           <EntitySet Name="PointOfSales" EntityType="Self.PointOfSale" />
           <EntitySet Name="PriceRanges" EntityType="Self.PriceRange" />
           <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="Ratings" EntityType="Self.Rating" />
           <EntitySet Name="SaleUnits" EntityType="Self.SaleUnit" />
           <EntitySet Name="Status" EntityType="Self.Status" />
           <EntitySet Name="Users" EntityType="Self.User" />
@@ -1467,6 +1559,10 @@
             <End Role="PastryShop" EntitySet="PastryShops" />
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
+          <AssociationSet Name="FK_Rating_PastryShop" Association="Self.FK_Rating_PastryShop">
+            <End Role="PastryShop" EntitySet="PastryShops" />
+            <End Role="Rating" EntitySet="Ratings" />
+          </AssociationSet>
           <AssociationSet Name="FK_PhoneNumber_PhoneNumberType" Association="Self.FK_PhoneNumber_PhoneNumberType">
             <End Role="PhoneNumberType" EntitySet="PhoneNumberTypes" />
             <End Role="PhoneNumber" EntitySet="PhoneNumbers" />
@@ -1478,6 +1574,10 @@
           <AssociationSet Name="FK_Product_SaleUnit" Association="Self.FK_Product_SaleUnit">
             <End Role="SaleUnit" EntitySet="SaleUnits" />
             <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rating_User" Association="Self.FK_Rating_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Rating" EntitySet="Ratings" />
           </AssociationSet>
           <AssociationSet Name="DeleveryMethodPaymentMethod" Association="Self.DeleveryMethodPaymentMethod">
             <End Role="DeleveryMethod" EntitySet="DeleveryMethods" />
@@ -1594,8 +1694,6 @@
                 <ScalarProperty Name="LongDesc" ColumnName="LongDesc" />
                 <ScalarProperty Name="ProfilePic" ColumnName="ProfilePic" />
                 <ScalarProperty Name="CoverPic" ColumnName="CoverPic" />
-                <ScalarProperty Name="NumberOfRatings" ColumnName="NumberOfRatings" />
-                <ScalarProperty Name="RatingSum" ColumnName="RatingSum" />
                 <ScalarProperty Name="PriceRange_FK" ColumnName="PriceRange_FK" />
                 <ScalarProperty Name="Address_FK" ColumnName="Address_FK" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -1669,6 +1767,15 @@
                 <ScalarProperty Name="SaleUnit_FK" ColumnName="SaleUnit_FK" />
                 <ScalarProperty Name="Category_FK" ColumnName="Category_FK" />
                 <ScalarProperty Name="PastryShop_FK" ColumnName="PastryShop_FK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ratings">
+            <EntityTypeMapping TypeName="KmandiliDBModel.Rating">
+              <MappingFragment StoreEntitySet="Rating">
+                <ScalarProperty Name="User_FK" ColumnName="User_FK" />
+                <ScalarProperty Name="PastryShop_FK" ColumnName="PastryShop_FK" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

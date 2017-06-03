@@ -21,6 +21,7 @@ namespace KmandiliDataAccess
             this.PastryShopDeleveryMethods = new HashSet<PastryShopDeleveryMethod>();
             this.PointOfSales = new HashSet<PointOfSale>();
             this.Products = new HashSet<Product>();
+            this.Ratings = new HashSet<Rating>();
             this.Categories = new HashSet<Category>();
             this.PhoneNumbers = new HashSet<PhoneNumber>();
         }
@@ -31,8 +32,6 @@ namespace KmandiliDataAccess
         public string LongDesc { get; set; }
         public string ProfilePic { get; set; }
         public string CoverPic { get; set; }
-        public int NumberOfRatings { get; set; }
-        public int RatingSum { get; set; }
         public int PriceRange_FK { get; set; }
         public int Address_FK { get; set; }
         public string Email { get; set; }
@@ -48,6 +47,8 @@ namespace KmandiliDataAccess
         public virtual ICollection<PointOfSale> PointOfSales { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Rating> Ratings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Category> Categories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
