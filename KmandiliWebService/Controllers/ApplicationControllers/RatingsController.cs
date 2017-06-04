@@ -12,7 +12,7 @@ using KmandiliDataAccess;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
-    //[Authorize]
+    [Authorize]
     public class RatingsController : ApiController
     {
         private KmandiliDBEntities db = new KmandiliDBEntities();
