@@ -236,6 +236,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationControllers\AddressesController.cs" />
     <Compile Include="Controllers\ApplicationControllers\CategoriesController.cs" />
+    <Compile Include="Controllers\ApplicationControllers\ChartsController.cs" />
     <Compile Include="Controllers\ApplicationControllers\DeleveryDelaysController.cs" />
     <Compile Include="Controllers\ApplicationControllers\DeleveryMethodsController.cs" />
     <Compile Include="Controllers\ApplicationControllers\EmailsController.cs" />
@@ -320,6 +321,12 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Uploads\ApplicationResources\logo.png" />
     <Content Include="Uploads\ApplicationResources\OrderEmailStyle.css" />
+    <Content Include="Views\Charts\bootstrap.css" />
+    <Content Include="Views\Charts\Chart.js" />
+    <Content Include="Views\Charts\Doughnut\local.html" />
+    <Content Include="Views\Charts\Doughnut\Main.js" />
+    <Content Include="Views\Charts\Line\local.html" />
+    <Content Include="Views\Charts\Line\Main.js" />
     <Content Include="Views\EmailViews\OrderViews\OrderEmailLayout.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
