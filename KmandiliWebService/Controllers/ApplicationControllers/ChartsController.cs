@@ -20,6 +20,7 @@ using WebGrease.Css.Extensions;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
+    [Authorize]
     public class ChartsController : ApiController
     {
         private class JSONDataObject
