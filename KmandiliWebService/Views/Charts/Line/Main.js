@@ -1,12 +1,15 @@
 var ctx = document.getElementById("lineChart");
 var jsonDataString = document.getElementById("lineData").innerHTML.replace(/(\r\n|\n|\r|\t| )/gm, "");
 var data = JSON.parse(jsonDataString);
+var maxValue = Math.max.apply(null, data.Values);
+//var maxValue = 20;
 var myBarChar = new Chart(ctx, {
     type: 'line',
+    scaleIntegersOnly: true,
     data: {
         datasets: [
             {
-                label: 'Commandes',
+                label: 'Commandes ('+data.Year+')',
                 lineTension: 0.1,
                 borderColor: "rgba(75, 192, 192, 1)",
                 borderCupStyle: "butt",
@@ -29,6 +32,13 @@ var myBarChar = new Chart(ctx, {
     },
     options: {
         responsive: true,
-        scaleBeginAtZero: true,
+        scales: {
+          yAxes: [{
+                  ticks: {
+                      beginAtZero: true,
+                      callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                  }
+              }]
+        }
     }
 });

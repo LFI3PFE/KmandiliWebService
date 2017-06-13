@@ -23,7 +23,7 @@ var myPieChart = new Chart(ctx, {
                     var label = currentData.labels[tooltipItem.index];
                     var total = data.Total;
                     var currentValue = dataset.data[tooltipItem.index];
-                    var precentage = (currentValue / total) * 100;         
+                    var precentage = roundToTwo((currentValue / total) * 100);
                     return label +" "+ precentage + "%";
                 }
             }
@@ -71,3 +71,7 @@ var myPieChart = new Chart(ctx, {
         }
     }
 });
+
+function roundToTwo(num) {
+    return +(Math.round(num + "e+2") + "e-2");
+}

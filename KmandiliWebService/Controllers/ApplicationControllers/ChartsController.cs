@@ -20,7 +20,7 @@ using WebGrease.Css.Extensions;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
-    [Authorize]
+    //[Authorize]
     public class ChartsController : ApiController
     {
         private class JSONDataObject
@@ -30,17 +30,19 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 this.Labels = new List<string>();
                 this.Values = new List<double>();
                 this.Total = 0;
+                this.Year = 2005;
             }
 
             public int Total { get; set; }
+            public int Year { get; set; }
 
             public List<string> Labels { get; set; }
             public List<double> Values { get; set; }
         }
 
 
-        [Route("api/GetLineChartView/{id}")]
-        public HttpResponseMessage GetLineChartView(int id)
+        [Route("api/GetLineChartView/{id}/{year}/{sem}")]
+        public HttpResponseMessage GetLineChartView(int id, int year, int sem)
         {
             string htmlPath = HostingEnvironment.MapPath("~/Views/Charts/Line/local.html");
             string chartJSPath = HostingEnvironment.MapPath("~/Views/Charts/Chart.js");
@@ -64,14 +66,46 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return null;
             }
 
-            var ordersByMonth = pastryShop.Orders.GroupBy(o => o.Date.Month).Select(g => new { Month = g.Key, Count = g.Count() }).Take(6);
+            DateTime start, end;
+            if (sem == 1)
+            {
+                start = new DateTime(year, 1, 1);
+                end = new DateTime(year, 6, 30);
+            }
+            else
+            {
+                start = new DateTime(year, 7, 1);
+                end = new DateTime(year, 12, 31);
+            }
+            var months = new List<DateTime>();
+            months.Add(start);
+            while ((months.Last().Year != end.Year) || (months.Last().Month != end.Month))
+            {
+                months.Add(months.Last().AddMonths(1));
+            }
+
+            var ordersByMonth =
+                months.GroupJoin(pastryShop.Orders,
+                    m => new { month = m.Month, year = m.Year },
+                    order => new {
+                        month = order.Date.Month,
+                        year = order.Date.Year
+                    },
+                    (p, g) => new {
+                        month = p.Month,
+                        year = p.Year,
+                        count = g.Count()
+                    });
+
             var ordersByMonthJSON = new JSONDataObject();
+            ordersByMonthJSON.Year = year;
             foreach (var orderByMonth in ordersByMonth)
             {
-                ordersByMonthJSON.Labels.Add(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(orderByMonth.Month));
-                ordersByMonthJSON.Values.Add(orderByMonth.Count);
-                ordersByMonthJSON.Total += orderByMonth.Count;
+                ordersByMonthJSON.Labels.Add(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(new CultureInfo("fr-FR").DateTimeFormat.GetMonthName(orderByMonth.month).ToLower()));
+                ordersByMonthJSON.Values.Add(orderByMonth.count);
+                ordersByMonthJSON.Total += orderByMonth.count;
             }
+
             string json = JsonConvert.SerializeObject(ordersByMonthJSON);
             html = html.Replace("#lineDataJSON", json);
 
@@ -80,7 +114,6 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             MemoryStream stream = new MemoryStream(byteArray);
             response.Content = new StreamContent(stream);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-
 
             return response;
         }
@@ -103,7 +136,6 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             html = html.Replace("#BootStrap.css", bootstrap);
             html = html.Replace("#Chart.js", chartJS);
             html = html.Replace("#Main.js", mainJS);
-
 
             var db = new KmandiliDBEntities();
             PastryShop pastryShop = db.PastryShops.Find(id);
@@ -141,13 +173,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             string jsonData = JsonConvert.SerializeObject(jsonDataObject);
             html = html.Replace("#doughnutDataJSON", jsonData);
 
-
             var response = new HttpResponseMessage();
             byte[] byteArray = Encoding.UTF8.GetBytes(html);
             MemoryStream stream = new MemoryStream(byteArray);
             response.Content = new StreamContent(stream);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-
 
             return response;
         }

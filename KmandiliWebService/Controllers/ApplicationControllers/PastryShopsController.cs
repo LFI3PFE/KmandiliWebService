@@ -195,9 +195,12 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             }
 
             var phoneNumbers = new List<PhoneNumber>(pastryShop.PhoneNumbers);
+            var orders = new List<Order>(pastryShop.Orders);
             db.PastryShops.Remove(pastryShop);
             phoneNumbers.ForEach(p => db.PhoneNumbers.Remove(p));
+            orders.ForEach(o => db.Orders.Remove(o));
             db.Addresses.Remove(db.Addresses.Find(pastryShop.Address_FK));
+            
             db.SaveChanges();
             File.Delete(profileImageFilePath);
             File.Delete(coverImageFilePath);
