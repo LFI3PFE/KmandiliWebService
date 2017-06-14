@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KmandiliWebService", "KmandiliWebService\KmandiliWebService.csproj", "{CBD0A67C-CD42-4067-9853-6CF1EAE032FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KmandiliDataAccess", "KmandiliDataAccess\KmandiliDataAccess.csproj", "{983DFB6A-47BA-4466-90FC-CA5B15478B52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KmandiliDataAccess", "KmandiliDataAccess\KmandiliDataAccess.csproj", "{B7054394-F6E3-4F0D-BB10-528623CF9B5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{CBD0A67C-CD42-4067-9853-6CF1EAE032FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBD0A67C-CD42-4067-9853-6CF1EAE032FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBD0A67C-CD42-4067-9853-6CF1EAE032FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{983DFB6A-47BA-4466-90FC-CA5B15478B52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{983DFB6A-47BA-4466-90FC-CA5B15478B52}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{983DFB6A-47BA-4466-90FC-CA5B15478B52}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{983DFB6A-47BA-4466-90FC-CA5B15478B52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7054394-F6E3-4F0D-BB10-528623CF9B5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7054394-F6E3-4F0D-BB10-528623CF9B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7054394-F6E3-4F0D-BB10-528623CF9B5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7054394-F6E3-4F0D-BB10-528623CF9B5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

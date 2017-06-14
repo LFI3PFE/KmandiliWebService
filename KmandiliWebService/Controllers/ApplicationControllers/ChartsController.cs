@@ -63,7 +63,9 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             PastryShop pastryShop = db.PastryShops.Find(id);
             if (pastryShop == null)
             {
-                return null;
+                var x = new HttpResponseMessage();
+                x.StatusCode = HttpStatusCode.NotFound;
+                return x;
             }
 
             DateTime start, end;
@@ -141,7 +143,9 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             PastryShop pastryShop = db.PastryShops.Find(id);
             if (pastryShop == null)
             {
-                return null;
+                var x = new HttpResponseMessage();
+                x.StatusCode = HttpStatusCode.NotFound;
+                return x;
             }
             var allOrders = (from product in db.Products
                 from orderedProduct in db.OrderProducts
@@ -160,7 +164,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
 
             var jsonDataObject = new JSONDataObject();
             double sum = 0;
-            jsonDataObject.Total = allOrders.Sum(p => p.numberOfOrders);
+            jsonDataObject.Total = allOrders.Any()?allOrders.Sum(p => p.numberOfOrders):0;
             var topFive = allOrders.Take(5);
             foreach (var orderProductCount in topFive)
             {

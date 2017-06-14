@@ -194,10 +194,17 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 File.Delete(productImageFilePath);
             }
 
+            var poinOfSalesPhoneNumbers = new List<PhoneNumber>();
+            foreach (var pointOfSale in pastryShop.PointOfSales)
+            {
+               poinOfSalesPhoneNumbers.AddRange(pointOfSale.PhoneNumbers);
+            }
+
             var phoneNumbers = new List<PhoneNumber>(pastryShop.PhoneNumbers);
             var orders = new List<Order>(pastryShop.Orders);
             db.PastryShops.Remove(pastryShop);
             phoneNumbers.ForEach(p => db.PhoneNumbers.Remove(p));
+            poinOfSalesPhoneNumbers.ForEach(p => db.PhoneNumbers.Remove(p));
             orders.ForEach(o => db.Orders.Remove(o));
             db.Addresses.Remove(db.Addresses.Find(pastryShop.Address_FK));
             

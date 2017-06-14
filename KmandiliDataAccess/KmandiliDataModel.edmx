@@ -99,6 +99,7 @@
           <Property Name="Address_FK" Type="int" Nullable="false" />
           <Property Name="Email" Type="varchar(max)" Nullable="false" />
           <Property Name="Password" Type="varchar(max)" Nullable="false" />
+          <Property Name="JoinDate" Type="date" />
         </EntityType>
         <EntityType Name="PastryShopCategories">
           <Key>
@@ -216,7 +217,7 @@
           <Property Name="LastName" Type="varchar(max)" Nullable="false" />
           <Property Name="Email" Type="varchar(max)" Nullable="false" />
           <Property Name="Password" Type="varchar(max)" Nullable="false" />
-          <Property Name="JoindDate" Type="date" Nullable="false" />
+          <Property Name="JoinDate" Type="date" Nullable="false" />
           <Property Name="Address_FK" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="UserPhoneNumber">
@@ -969,6 +970,7 @@
           <Property Name="Address_FK" Type="Int32" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="JoinDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Address" Relationship="Self.FK_PastryShop_Address" FromRole="PastryShop" ToRole="Address" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_Order_PastryShop" FromRole="PastryShop" ToRole="Order" />
           <NavigationProperty Name="PriceRange" Relationship="Self.FK_PastryShop_PriceRange" FromRole="PastryShop" ToRole="PriceRange" />
@@ -1099,7 +1101,7 @@
           <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="JoindDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="JoinDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Address_FK" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Address" Relationship="Self.user_address_fk" FromRole="User" ToRole="Address" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_Order_User" FromRole="User" ToRole="Order" />
@@ -1698,6 +1700,7 @@
                 <ScalarProperty Name="Address_FK" ColumnName="Address_FK" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="JoinDate" ColumnName="JoinDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1803,7 +1806,7 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="JoindDate" ColumnName="JoindDate" />
+                <ScalarProperty Name="JoinDate" ColumnName="JoinDate" />
                 <ScalarProperty Name="Address_FK" ColumnName="Address_FK" />
               </MappingFragment>
             </EntityTypeMapping>

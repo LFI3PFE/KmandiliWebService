@@ -104,7 +104,6 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             {
                 return BadRequest(ModelState);
             }
-
             db.Users.Add(user);
             db.SaveChanges();
 

@@ -27,7 +27,7 @@ namespace KmandiliDataAccess
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public System.DateTime JoindDate { get; set; }
+        public System.DateTime JoinDate { get; set; }
         public int Address_FK { get; set; }
     
         public virtual Address Address { get; set; }
