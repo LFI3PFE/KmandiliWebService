@@ -327,6 +327,8 @@
     <Content Include="Views\Charts\Doughnut\Main.js" />
     <Content Include="Views\Charts\Line\local.html" />
     <Content Include="Views\Charts\Line\Main.js" />
+    <Content Include="Views\Charts\Product\local.html" />
+    <Content Include="Views\Charts\Product\Main.js" />
     <Content Include="Views\EmailViews\OrderViews\OrderEmailLayout.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
