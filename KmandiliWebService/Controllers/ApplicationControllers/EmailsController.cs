@@ -147,6 +147,22 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        [Route("api/sendCanelOrderEmailByAdmin/{id}")]
+        [HttpGet]
+        public IHttpActionResult SendCanelOrderEmailByAdmin(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            Order order = db.Orders.Find(id);
+            if (!SendOrderEmailToUser(order, "Commande Annulée Par l'Administrateur") || !SendOrderEmailToPastryShop(order, "Commande Annulée  Par l'Administrateur", ""))
+            {
+                return BadRequest();
+            }
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
         private bool SendOrderEmailToUser(Order order, string orderStatusMessage)
         {
             //string path = HttpContext.Current.Server.MapPath("~/Views/EmailViews/OrderViews/OrderEmailLayout.html");
@@ -157,12 +173,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             if (!orderStatusMessage.IsEmpty())
             {
                 content = content.Replace("#OrderStatus", orderStatusMessage);
+                message.Subject = "Kmandili: Commande " + orderStatusMessage;
             }
             else
             {
                 content = content.Replace("#OrderStatus", "Commande " + order.Status.StatusName);
+                message.Subject = "Kmandili: Commande " + order.Status.StatusName;
             }
-            message.Subject = "Kmandili: Commande " + order.Status.StatusName;
+            
             content = content.Replace("#ToFrom", "à");
             content = content.Replace("#PastryName", order.PastryShop.Name);
             content = content.Replace("#PastryEmail", "<a href=\"mailto: " + order.PastryShop.Email + "\">" + order.PastryShop.Email + "</a>");
@@ -217,13 +235,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             if (!orderStatusMessage.IsEmpty())
             {
                 content = content.Replace("#OrderStatus", orderStatusMessage);
+                message.Subject = "Kmandili: Commande " + orderStatusMessage;
             }
             else
             {
                 content = content.Replace("#OrderStatus", "Commande " + order.Status.StatusName);
-                
+                message.Subject = "Kmandili: Commande " + order.Status.StatusName;
+
             }
-            message.Subject = "Kmandili: Commande " + order.Status.StatusName;
             content = content.Replace("#Notice", noticeString);
             content = content.Replace("#ToFrom", "de");
             content = content.Replace("#PastryName", order.User.Name + " " + order.User.LastName);
