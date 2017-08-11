@@ -33,7 +33,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 this.Year = 2005;
             }
 
-            public int Total { get; set; }
+            public double Total { get; set; }
             public int Year { get; set; }
 
             public List<string> Labels { get; set; }
@@ -210,6 +210,88 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
 
             string json = JsonConvert.SerializeObject(ordersByMonthJSON);
             html = html.Replace("#lineDataJSON", json);
+            html = html.Replace("#lineTitle", "Commandes");
+
+            var response = new HttpResponseMessage();
+            byte[] byteArray = Encoding.UTF8.GetBytes(html);
+            MemoryStream stream = new MemoryStream(byteArray);
+            response.Content = new StreamContent(stream);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+
+            return response;
+        }
+
+        [Route("api/GetIncomsChartView/{id}/{year}/{sem}")]
+        public HttpResponseMessage GetIncomsChartView(int id, int year, int sem)
+        {
+            string htmlPath = HostingEnvironment.MapPath("~/Views/Charts/Line/local.html");
+            string chartJSPath = HostingEnvironment.MapPath("~/Views/Charts/Chart.js");
+            string mainJSPath = HostingEnvironment.MapPath("~/Views/Charts/Line/Main.js");
+            string bootstrapPath = HostingEnvironment.MapPath("~/Views/Charts/bootstrap.css");
+
+            string chartJS = File.ReadAllText(chartJSPath);
+            string mainJS = File.ReadAllText(mainJSPath);
+            string bootstrap = File.ReadAllText(bootstrapPath);
+            string html = File.ReadAllText(htmlPath);
+
+            html = html.Replace("#BootStrap.css", bootstrap);
+            html = html.Replace("#Chart.js", chartJS);
+            html = html.Replace("#Main.js", mainJS);
+
+
+            var db = new KmandiliDBEntities();
+            PastryShop pastryShop = db.PastryShops.Find(id);
+            if (pastryShop == null)
+            {
+                var x = new HttpResponseMessage();
+                x.StatusCode = HttpStatusCode.NotFound;
+                return x;
+            }
+
+            DateTime start, end;
+            if (sem == 1)
+            {
+                start = new DateTime(year, 1, 1);
+                end = new DateTime(year, 6, 30);
+            }
+            else
+            {
+                start = new DateTime(year, 7, 1);
+                end = new DateTime(year, 12, 31);
+            }
+            var months = new List<DateTime>();
+            months.Add(start);
+            while ((months.Last().Year != end.Year) || (months.Last().Month != end.Month))
+            {
+                months.Add(months.Last().AddMonths(1));
+            }
+
+            var ordersByMonth =
+                months.GroupJoin(pastryShop.Orders,
+                    m => new { month = m.Month, year = m.Year},
+                    order => new {
+                        month = order.Date.Month,
+                        year = order.Date.Year
+                    },
+                    (p, g) => new {
+                        month = p.Month,
+                        year = p.Year,
+                        incoms = g.Where(o => o.Status_FK == 5).Sum(o => (o.OrderProducts.Sum(op => (op.Quantity * op.Product.Price)))),
+                        count = g.Count()
+                    });
+
+            var ordersByMonthJSON = new JSONDataObject();
+            ordersByMonthJSON.Year = year;
+            foreach (var orderByMonth in ordersByMonth)
+            {
+                ordersByMonthJSON.Labels.Add(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(new CultureInfo("fr-FR").DateTimeFormat.GetMonthName(orderByMonth.month).ToLower()));
+                ordersByMonthJSON.Values.Add(orderByMonth.incoms);
+                ordersByMonthJSON.Total += orderByMonth.incoms;
+            }
+
+            string json = JsonConvert.SerializeObject(ordersByMonthJSON);
+            html = html.Replace("#lineDataJSON", json);
+            html = html.Replace("#lineTitle", "Revenues");
 
             var response = new HttpResponseMessage();
             byte[] byteArray = Encoding.UTF8.GetBytes(html);

@@ -1,5 +1,6 @@
 var ctx = document.getElementById("lineChart");
 var jsonDataString = document.getElementById("lineData").innerHTML.replace(/(\r\n|\n|\r|\t| )/gm, "");
+var lineTitle = document.getElementById("lineTitle").innerHTML;
 var data = JSON.parse(jsonDataString);
 var maxValue = Math.max.apply(null, data.Values);
 //var maxValue = 20;
@@ -9,7 +10,7 @@ var myBarChar = new Chart(ctx, {
     data: {
         datasets: [
             {
-                label: 'Commandes ('+data.Year+')',
+                label: lineTitle + ' ('+data.Year+')',
                 lineTension: 0.1,
                 borderColor: "rgba(75, 192, 192, 1)",
                 borderCupStyle: "butt",
