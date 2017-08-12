@@ -55,7 +55,7 @@ var myPieChart = new Chart(ctx, {
                             return {
                                 // Instead of `text: label,`
                                 // We add the value to the string
-                                text: label + " : " + value,
+                                text: label + " : " + value + " cde.",
                                 fillStyle: fill,
                                 strokeStyle: stroke,
                                 lineWidth: bw,

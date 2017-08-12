@@ -221,6 +221,283 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             return response;
         }
 
+        [Route("api/GetNewUsersChartView/{year}/{sem}")]
+        public HttpResponseMessage GetNewUsersChartView(int year, int sem)
+        {
+            string htmlPath = HostingEnvironment.MapPath("~/Views/Charts/User/local.html");
+            string chartJSPath = HostingEnvironment.MapPath("~/Views/Charts/Chart.js");
+            string mainJSPath = HostingEnvironment.MapPath("~/Views/Charts/User/Main.js");
+            string bootstrapPath = HostingEnvironment.MapPath("~/Views/Charts/bootstrap.css");
+
+            string chartJS = File.ReadAllText(chartJSPath);
+            string mainJS = File.ReadAllText(mainJSPath);
+            string bootstrap = File.ReadAllText(bootstrapPath);
+            string html = File.ReadAllText(htmlPath);
+
+            html = html.Replace("#BootStrap.css", bootstrap);
+            html = html.Replace("#Chart.js", chartJS);
+            html = html.Replace("#Main.js", mainJS);
+
+
+            var db = new KmandiliDBEntities();
+            var pastryShops = db.PastryShops;
+            var clients = db.Users;
+            if (pastryShops == null || clients == null)
+            {
+                var x = new HttpResponseMessage();
+                x.StatusCode = HttpStatusCode.NotFound;
+                return x;
+            }
+
+            DateTime start, end;
+            if (sem == 1)
+            {
+                start = new DateTime(year, 1, 1);
+                end = new DateTime(year, 6, 30);
+            }
+            else
+            {
+                start = new DateTime(year, 7, 1);
+                end = new DateTime(year, 12, 31);
+            }
+            var months = new List<DateTime>();
+            months.Add(start);
+            while ((months.Last().Year != end.Year) || (months.Last().Month != end.Month))
+            {
+                months.Add(months.Last().AddMonths(1));
+            }
+
+            var pastryShopsByMonth =
+                months.GroupJoin(pastryShops,
+                    m => new {month = m.Month, year = m.Year},
+                    pastryShop => new
+                    {
+                        month = pastryShop.JoinDate.Value.Month,
+                        year = pastryShop.JoinDate.Value.Year
+                    },
+                    (p, g) => new
+                    {
+                        month = p.Month,
+                        year = p.Year,
+                        count = g.Count()
+                    });
+
+            var clientsByMonth =
+                months.GroupJoin(clients,
+                    m => new {month = m.Month, year = m.Year},
+                    client => new
+                    {
+                        month = client.JoinDate.Month,
+                        year = client.JoinDate.Year
+                    },
+                    (p, g) => new
+                    {
+                        month = p.Month,
+                        year = p.Year,
+                        count = g.Count()
+                    });
+
+            var usersByMonth = clientsByMonth.GroupJoin(pastryShops,
+                m => new {mm = m.month, yy = m.year},
+                pastryShop => new
+                {
+                    mm = pastryShop.JoinDate.Value.Month,
+                    yy = pastryShop.JoinDate.Value.Year,
+                },
+                (p, g) => new
+                {
+                    mm = p.month,
+                    yy = p.year,
+                    count = p.count + g.Count()
+                });
+
+            var clientsJsonObject = new JSONDataObject();
+            clientsJsonObject.Year = year;
+            foreach (var clientMonth in clientsByMonth)
+            {
+                clientsJsonObject.Labels.Add(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(new CultureInfo("fr-FR").DateTimeFormat.GetMonthName(clientMonth.month).ToLower()));
+                clientsJsonObject.Values.Add(clientMonth.count);
+                clientsJsonObject.Total += clientMonth.count;
+            }
+
+            var pastryShopsJsonObject = new JSONDataObject();
+            pastryShopsJsonObject.Year = year;
+            foreach (var pastryShopMonth in pastryShopsByMonth)
+            {
+                pastryShopsJsonObject.Labels.Add(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(new CultureInfo("fr-FR").DateTimeFormat.GetMonthName(pastryShopMonth.month).ToLower()));
+                pastryShopsJsonObject.Values.Add(pastryShopMonth.count);
+                pastryShopsJsonObject.Total += pastryShopMonth.count;
+            }
+
+            var usersJsonObject = new JSONDataObject();
+            usersJsonObject.Year = year;
+            foreach (var userMonth in usersByMonth)
+            {
+                usersJsonObject.Labels.Add(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(new CultureInfo("fr-FR").DateTimeFormat.GetMonthName(userMonth.mm).ToLower()));
+                usersJsonObject.Values.Add(userMonth.count);
+                usersJsonObject.Total += userMonth.count;
+            }
+
+            string clientsJson = JsonConvert.SerializeObject(clientsJsonObject);
+            string pastryShopsJson = JsonConvert.SerializeObject(pastryShopsJsonObject);
+            string usersJson = JsonConvert.SerializeObject(usersJsonObject);
+            html = html.Replace("#clientDataJSON", clientsJson);
+            html = html.Replace("#pastryDataJSON", pastryShopsJson);
+            html = html.Replace("#userDataJSON", usersJson);
+
+            var response = new HttpResponseMessage();
+            byte[] byteArray = Encoding.UTF8.GetBytes(html);
+            MemoryStream stream = new MemoryStream(byteArray);
+            response.Content = new StreamContent(stream);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+
+            return response;
+        }
+
+        [Route("api/GetUsersChartView/{year}/{sem}")]
+        public HttpResponseMessage GetUsersChartView(int year, int sem)
+        {
+            string htmlPath = HostingEnvironment.MapPath("~/Views/Charts/User/local.html");
+            string chartJSPath = HostingEnvironment.MapPath("~/Views/Charts/Chart.js");
+            string mainJSPath = HostingEnvironment.MapPath("~/Views/Charts/User/Main.js");
+            string bootstrapPath = HostingEnvironment.MapPath("~/Views/Charts/bootstrap.css");
+
+            string chartJS = File.ReadAllText(chartJSPath);
+            string mainJS = File.ReadAllText(mainJSPath);
+            string bootstrap = File.ReadAllText(bootstrapPath);
+            string html = File.ReadAllText(htmlPath);
+
+            html = html.Replace("#BootStrap.css", bootstrap);
+            html = html.Replace("#Chart.js", chartJS);
+            html = html.Replace("#Main.js", mainJS);
+
+
+            var db = new KmandiliDBEntities();
+            var pastryShops = db.PastryShops;
+            var clients = db.Users;
+            if (pastryShops == null || clients == null)
+            {
+                var x = new HttpResponseMessage();
+                x.StatusCode = HttpStatusCode.NotFound;
+                return x;
+            }
+
+            DateTime start, end;
+            if (sem == 1)
+            {
+                start = new DateTime(year, 1, 1);
+                end = new DateTime(year, 6, 30);
+            }
+            else
+            {
+                start = new DateTime(year, 7, 1);
+                end = new DateTime(year, 12, 31);
+            }
+            var months = new List<DateTime>();
+            months.Add(start);
+            while ((months.Last().Year != end.Year) || (months.Last().Month != end.Month))
+            {
+                months.Add(months.Last().AddMonths(1));
+            }
+
+            var pastryShopsByMonth =
+                months.ToList().GroupJoin(pastryShops,
+                    m => new {month = m.Month, year = m.Year},
+                    pastryShop => new
+                    {
+                        month = pastryShop.JoinDate.Value.Month,
+                        year = pastryShop.JoinDate.Value.Year
+                    },
+                    (p, g) => new
+                    {
+                        month = p.Month,
+                        year = p.Year,
+                        count =
+                            g.Count() +
+                            pastryShops.Count(
+                                ps =>
+                                    (ps.JoinDate.Value.Month <=
+                                     ((sem == 1 && p.Month == 1) ? 12 : ((sem == 2 && p.Month == 7) ? 6 : (p.Month - 1))))
+                                    && ps.JoinDate.Value.Year == ((sem == 1 && p.Month == 1) ? (p.Year - 1) : p.Year)
+                                )
+                    });
+
+            var clientsByMonth =
+                months.GroupJoin(clients,
+                    m => new {month = m.Month, year = m.Year},
+                    client => new
+                    {
+                        month = client.JoinDate.Month,
+                        year = client.JoinDate.Year
+                    },
+                    (p, g) => new
+                    {
+                        month = p.Month,
+                        year = p.Year,
+                        count =
+                            g.Count() +
+                            clients.Count(c => (c.JoinDate.Month <=
+                                     ((sem == 1 && p.Month == 1) ? 12 : ((sem == 2 && p.Month == 7) ? 6 : (p.Month - 1))))
+                                    && c.JoinDate.Year == ((sem == 1 && p.Month == 1) ? (p.Year - 1) : p.Year))
+                    });
+
+            var usersByMonth =
+                clientsByMonth.SelectMany(clientByMonth => pastryShopsByMonth,
+                    (clientByMonth, pastryShopByMonth) => new {clientByMonth, pastryShopByMonth})
+                    .Where(
+                        @t =>
+                            (@t.clientByMonth.month == @t.pastryShopByMonth.month &&
+                             @t.clientByMonth.year == @t.pastryShopByMonth.year))
+                    .Select(@t => new
+                    {
+                        month = @t.clientByMonth.month,
+                        year = @t.clientByMonth.year,
+                        count = @t.clientByMonth.count + @t.pastryShopByMonth.count
+                    });
+
+            var clientsJsonObject = new JSONDataObject();
+            clientsJsonObject.Year = year;
+            foreach (var clientMonth in clientsByMonth)
+            {
+                clientsJsonObject.Labels.Add(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(new CultureInfo("fr-FR").DateTimeFormat.GetMonthName(clientMonth.month).ToLower()));
+                clientsJsonObject.Values.Add(clientMonth.count);
+                clientsJsonObject.Total += clientMonth.count;
+            }
+
+            var pastryShopsJsonObject = new JSONDataObject();
+            pastryShopsJsonObject.Year = year;
+            foreach (var pastryShopMonth in pastryShopsByMonth)
+            {
+                pastryShopsJsonObject.Labels.Add(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(new CultureInfo("fr-FR").DateTimeFormat.GetMonthName(pastryShopMonth.month).ToLower()));
+                pastryShopsJsonObject.Values.Add(pastryShopMonth.count);
+                pastryShopsJsonObject.Total += pastryShopMonth.count;
+            }
+
+            var usersJsonObject = new JSONDataObject();
+            usersJsonObject.Year = year;
+            foreach (var userMonth in usersByMonth)
+            {
+                usersJsonObject.Labels.Add(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(new CultureInfo("fr-FR").DateTimeFormat.GetMonthName(userMonth.month).ToLower()));
+                usersJsonObject.Values.Add(userMonth.count);
+                usersJsonObject.Total += userMonth.count;
+            }
+
+            string clientsJson = JsonConvert.SerializeObject(clientsJsonObject);
+            string pastryShopsJson = JsonConvert.SerializeObject(pastryShopsJsonObject);
+            string usersJson = JsonConvert.SerializeObject(usersJsonObject);
+            html = html.Replace("#clientDataJSON", clientsJson);
+            html = html.Replace("#pastryDataJSON", pastryShopsJson);
+            html = html.Replace("#userDataJSON", usersJson);
+
+            var response = new HttpResponseMessage();
+            byte[] byteArray = Encoding.UTF8.GetBytes(html);
+            MemoryStream stream = new MemoryStream(byteArray);
+            response.Content = new StreamContent(stream);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+
+            return response;
+        }
+
         [Route("api/GetIncomsChartView/{id}/{year}/{sem}")]
         public HttpResponseMessage GetIncomsChartView(int id, int year, int sem)
         {
@@ -291,7 +568,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
 
             string json = JsonConvert.SerializeObject(ordersByMonthJSON);
             html = html.Replace("#lineDataJSON", json);
-            html = html.Replace("#lineTitle", "Revenues");
+            html = html.Replace("#lineTitle", "Dinar Tunisien");
 
             var response = new HttpResponseMessage();
             byte[] byteArray = Encoding.UTF8.GetBytes(html);
@@ -301,7 +578,6 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
 
             return response;
         }
-
 
         [Route("api/GetDoughnutChartView/{id}")]
         // GET: Charts
