@@ -10,7 +10,7 @@ var myBarChar = new Chart(ctx, {
     data: {
         datasets: [
             {
-                label: lineTitle + ' ('+data.Year+')',
+                label: lineTitle,
                 lineTension: 0.1,
                 borderColor: "rgba(75, 192, 192, 1)",
                 borderCupStyle: "butt",

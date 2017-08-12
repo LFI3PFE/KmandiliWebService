@@ -130,6 +130,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             string quantityJson = JsonConvert.SerializeObject(quantityJSON);
             html = html.Replace("#productOrdersDataJSON", ordersJson);
             html = html.Replace("#productQunatityDataJSON", quantityJson);
+            html = html.Replace("#Year", "Année: " + year.ToString());
 
             var response = new HttpResponseMessage();
             byte[] byteArray = Encoding.UTF8.GetBytes(html);
@@ -211,6 +212,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             string json = JsonConvert.SerializeObject(ordersByMonthJSON);
             html = html.Replace("#lineDataJSON", json);
             html = html.Replace("#lineTitle", "Commandes");
+            html = html.Replace("#Year", "Année: " + year.ToString());
 
             var response = new HttpResponseMessage();
             byte[] byteArray = Encoding.UTF8.GetBytes(html);
@@ -344,6 +346,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             html = html.Replace("#clientDataJSON", clientsJson);
             html = html.Replace("#pastryDataJSON", pastryShopsJson);
             html = html.Replace("#userDataJSON", usersJson);
+            html = html.Replace("#Year", "Année: " + year.ToString());
 
             var response = new HttpResponseMessage();
             byte[] byteArray = Encoding.UTF8.GetBytes(html);
@@ -416,9 +419,10 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                             g.Count() +
                             pastryShops.Count(
                                 ps =>
-                                    (ps.JoinDate.Value.Month <=
-                                     ((sem == 1 && p.Month == 1) ? 12 : ((sem == 2 && p.Month == 7) ? 6 : (p.Month - 1))))
-                                    && ps.JoinDate.Value.Year == ((sem == 1 && p.Month == 1) ? (p.Year - 1) : p.Year)
+                                    (DbFunctions.TruncateTime(DbFunctions.AddDays(ps.JoinDate.Value,
+                                        -ps.JoinDate.Value.Day + 1)).Value <=
+                                     DbFunctions.AddMonths(DbFunctions.CreateDateTime(p.Year, p.Month, 1, 0, 0, 0), -1)
+                                         .Value)
                                 )
                     });
 
@@ -436,9 +440,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                         year = p.Year,
                         count =
                             g.Count() +
-                            clients.Count(c => (c.JoinDate.Month <=
-                                     ((sem == 1 && p.Month == 1) ? 12 : ((sem == 2 && p.Month == 7) ? 6 : (p.Month - 1))))
-                                    && c.JoinDate.Year == ((sem == 1 && p.Month == 1) ? (p.Year - 1) : p.Year))
+                            clients.Count(c => (DbFunctions.TruncateTime(DbFunctions.AddDays(c.JoinDate,
+                                -c.JoinDate.Day + 1)).Value <=
+                                                DbFunctions.AddMonths(
+                                                    DbFunctions.CreateDateTime(p.Year, p.Month, 1, 0, 0, 0), -1)
+                                                    .Value))
                     });
 
             var usersByMonth =
@@ -488,6 +494,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             html = html.Replace("#clientDataJSON", clientsJson);
             html = html.Replace("#pastryDataJSON", pastryShopsJson);
             html = html.Replace("#userDataJSON", usersJson);
+            html = html.Replace("#Year", "Année: " + year.ToString());
 
             var response = new HttpResponseMessage();
             byte[] byteArray = Encoding.UTF8.GetBytes(html);
@@ -569,6 +576,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             string json = JsonConvert.SerializeObject(ordersByMonthJSON);
             html = html.Replace("#lineDataJSON", json);
             html = html.Replace("#lineTitle", "Dinar Tunisien");
+            html = html.Replace("#Year", "Année: " + year.ToString());
 
             var response = new HttpResponseMessage();
             byte[] byteArray = Encoding.UTF8.GetBytes(html);
