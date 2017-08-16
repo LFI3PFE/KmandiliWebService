@@ -24,7 +24,7 @@ namespace KmandiliWebService.Providers
                 var password = context.Password;
                 var userService = new UserService();
                 ServerUser user;
-                if (username == "Admin" && password == "AdminPass")
+                if (username == System.Web.Configuration.WebConfigurationManager.AppSettings["AdminUserName"] && password == System.Web.Configuration.WebConfigurationManager.AppSettings["AdminPassword"])
                 {
                     user = new ServerUser()
                     {
