@@ -37,6 +37,51 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             return Ok(deleveryMethod);
         }
 
+        [Route("api/DeleveryMethods/Payments/{id}")]
+        [HttpPut]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutDeleveryMethodPayments(int id, DeleveryMethod deleveryMethod)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != deleveryMethod.ID)
+            {
+                return BadRequest();
+            }
+
+            var existingDeleveryMethod = db.DeleveryMethods.FirstOrDefault(d => d.ID == id);
+            var toDeletePayments = existingDeleveryMethod.Payments.Except(deleveryMethod.Payments, p => p.ID).ToList<Payment>();
+            var toAddPayments = deleveryMethod.Payments.Except(existingDeleveryMethod.Payments, p => p.ID).ToList<Payment>();
+
+            toDeletePayments.ForEach(c => existingDeleveryMethod.Payments.Remove(c));
+            foreach (var payment in toAddPayments)
+            {
+                if (db.Entry(payment).State == EntityState.Detached)
+                    db.Payments.Attach(payment);
+                existingDeleveryMethod.Payments.Add(payment);
+            }
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!DeleveryMethodExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
         // PUT: api/DeleveryMethods/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutDeleveryMethod(int id, DeleveryMethod deleveryMethod)
@@ -81,7 +126,17 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest(ModelState);
             }
 
+            var toAddPayments = new List<Payment>(deleveryMethod.Payments);
+            deleveryMethod.Payments.Clear();
+
             db.DeleveryMethods.Add(deleveryMethod);
+
+            foreach (var payment in toAddPayments)
+            {
+                if (db.Entry(payment).State == EntityState.Detached)
+                    db.Payments.Attach(payment);
+                deleveryMethod.Payments.Add(payment);
+            }
 
             try
             {
