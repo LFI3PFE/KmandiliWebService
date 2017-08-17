@@ -29,9 +29,9 @@ namespace KmandiliWebService.Providers
                     user = new ServerUser()
                     {
                         ID = 0,
-                        Email = "Admin",
+                        Email = username,
                         Name = "Admin",
-                        Password = "AdminPass",
+                        Password = password,
                         Type = "a"
                     };
                 }

@@ -6,6 +6,7 @@ using System.Net;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
+using KmandiliDataAccess;
 using KmandiliWebService.Models;
 using Newtonsoft.Json;
 
@@ -46,6 +47,15 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             {
                 return BadRequest();
             }
+        }
+
+        [Route("api/GetEmailExist/{email}")]
+        [HttpGet]
+        [ResponseType(typeof (bool))]
+        public bool GetEmailExist(string email)
+        {
+            var db = new KmandiliDBEntities();
+            return (db.Users.Any(u => u.Email == email) || db.PastryShops.Any(p => p.Email == email));
         }
     }
 }
