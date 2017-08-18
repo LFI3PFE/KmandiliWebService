@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -24,31 +25,40 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             {
                 return BadRequest(ModelState);
             }
-            var user = db.Users.FirstOrDefault(u => u.Email == email);
-            if (user == null)
+            if (email == System.Web.Configuration.WebConfigurationManager.AppSettings["AdminUserName"])
             {
-                var pastryShop = db.PastryShops.FirstOrDefault(u => u.Email == email);
-                if (pastryShop != null)
-                {
-                    pastryShop.Password = newPassword;
-                    db.Entry(pastryShop).State = EntityState.Modified;
-                }
+                var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+                var section = (AppSettingsSection)config.GetSection("appSettings");
+                section.Settings["AdminPassword"].Value = newPassword;
+                config.Save(ConfigurationSaveMode.Minimal);
             }
             else
             {
-                user.Password = newPassword;
-                db.Entry(user).State = EntityState.Modified;
-            }
-            
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw;
-            }
+                var user = db.Users.FirstOrDefault(u => u.Email == email);
+                if (user == null)
+                {
+                    var pastryShop = db.PastryShops.FirstOrDefault(u => u.Email == email);
+                    if (pastryShop != null)
+                    {
+                        pastryShop.Password = newPassword;
+                        db.Entry(pastryShop).State = EntityState.Modified;
+                    }
+                }
+                else
+                {
+                    user.Password = newPassword;
+                    db.Entry(user).State = EntityState.Modified;
+                }
 
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+            }
             return StatusCode(HttpStatusCode.NoContent);
         }
     }

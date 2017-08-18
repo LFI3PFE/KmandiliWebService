@@ -49,13 +49,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             }
         }
 
+        [AllowAnonymous]
         [Route("api/GetEmailExist/{email}")]
         [HttpGet]
         [ResponseType(typeof (bool))]
         public bool GetEmailExist(string email)
         {
             var db = new KmandiliDBEntities();
-            return (db.Users.Any(u => u.Email == email) || db.PastryShops.Any(p => p.Email == email));
+            return (db.Users.Any(u => u.Email == email) || db.PastryShops.Any(p => p.Email == email) || System.Web.Configuration.WebConfigurationManager.AppSettings["AdminUserName"] == email);
         }
     }
 }

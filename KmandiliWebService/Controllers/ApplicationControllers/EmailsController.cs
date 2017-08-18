@@ -52,7 +52,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest(ModelState);
             }
             if ((db.Users.FirstOrDefault(u => u.Email == email) == null) &&
-                (db.PastryShops.FirstOrDefault(p => p.Email == email) == null))
+                (db.PastryShops.FirstOrDefault(p => p.Email == email) == null) && System.Web.Configuration.WebConfigurationManager.AppSettings["AdminUserName"] != email)
             {
                 return NotFound();
             }
