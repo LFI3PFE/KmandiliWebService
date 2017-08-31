@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="aa0f8cb5396c429bb8475e9134f0df63" Name="Diagram1">
+      <Diagram DiagramId="49e44db6265148b8b8b2af5f567ca9fc" Name="Diagram1">
         <EntityTypeShape EntityType="kmandiliDBModel.Address" Width="1.5" PointX="0.75" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="kmandiliDBModel.Category" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
         <EntityTypeShape EntityType="kmandiliDBModel.DeleveryDelay" Width="1.5" PointX="3" PointY="6.5" IsExpanded="true" />

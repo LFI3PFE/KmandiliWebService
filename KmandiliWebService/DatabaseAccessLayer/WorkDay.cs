@@ -7,18 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KmandiliDataAccess
+namespace KmandiliWebService.DatabaseAccessLayer
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderProduct
+    public partial class WorkDay
     {
-        public int Order_FK { get; set; }
-        public int Product_FK { get; set; }
-        public int Quantity { get; set; }
+        public int ID { get; set; }
+        public int Day { get; set; }
+        public System.TimeSpan OpenTime { get; set; }
+        public System.TimeSpan CloseTime { get; set; }
+        public int PointOfSale_FK { get; set; }
     
-        public virtual Order Order { get; set; }
-        public virtual Product Product { get; set; }
+        public virtual PointOfSale PointOfSale { get; set; }
     }
 }

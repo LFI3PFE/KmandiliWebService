@@ -7,32 +7,28 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KmandiliDataAccess
+namespace KmandiliWebService.DatabaseAccessLayer
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class PointOfSale
+    public partial class PastryShopDeleveryMethod
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PointOfSale()
+        public PastryShopDeleveryMethod()
         {
-            this.WorkDays = new HashSet<WorkDay>();
-            this.PhoneNumbers = new HashSet<PhoneNumber>();
+            this.PastryDeleveryPayments = new HashSet<PastryDeleveryPayment>();
         }
     
         public int ID { get; set; }
-        public System.DateTime CreationDate { get; set; }
         public int PastryShop_FK { get; set; }
-        public int ParkingType_FK { get; set; }
-        public int Address_FK { get; set; }
+        public int DeleveryMethod_FK { get; set; }
+        public int DeleveryDelay_FK { get; set; }
     
-        public virtual Address Address { get; set; }
-        public virtual Parking Parking { get; set; }
+        public virtual DeleveryDelay DeleveryDelay { get; set; }
+        public virtual DeleveryMethod DeleveryMethod { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PastryDeleveryPayment> PastryDeleveryPayments { get; set; }
         public virtual PastryShop PastryShop { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WorkDay> WorkDays { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
     }
 }

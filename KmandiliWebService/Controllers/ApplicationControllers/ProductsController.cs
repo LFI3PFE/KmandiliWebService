@@ -10,7 +10,7 @@ using System.Net.Http;
 using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Http.Description;
-using KmandiliDataAccess;
+using KmandiliWebService.DatabaseAccessLayer;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {

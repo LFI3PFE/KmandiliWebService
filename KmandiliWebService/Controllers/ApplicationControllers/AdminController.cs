@@ -6,7 +6,7 @@ using System.Net;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
-using KmandiliDataAccess;
+using KmandiliWebService.DatabaseAccessLayer;
 using KmandiliWebService.Models;
 using Newtonsoft.Json;
 

@@ -7,18 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KmandiliDataAccess
+namespace KmandiliWebService.DatabaseAccessLayer
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class PastryDeleveryPayment
+    public partial class Rating
     {
-        public int ID { get; set; }
-        public int PastryShopDeleveryMethod_FK { get; set; }
-        public int Payment_FK { get; set; }
+        public int User_FK { get; set; }
+        public int PastryShop_FK { get; set; }
+        public int Value { get; set; }
     
-        public virtual PastryShopDeleveryMethod PastryShopDeleveryMethod { get; set; }
-        public virtual Payment Payment { get; set; }
+        public virtual PastryShop PastryShop { get; set; }
+        public virtual User User { get; set; }
     }
 }

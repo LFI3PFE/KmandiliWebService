@@ -80,6 +80,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -263,6 +264,84 @@
     <Compile Include="Controllers\ExtensionMethods.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="DatabaseAccessLayer\Address.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\Category.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\DeleveryDelay.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\DeleveryMethod.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\KmandiliDataAccess.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KmandiliDataAccess.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\KmandiliDataAccess.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\KmandiliDataAccess.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KmandiliDataAccess.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\Order.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\OrderProduct.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\Parking.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\PastryDeleveryPayment.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\PastryShop.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\PastryShopDeleveryMethod.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\Payment.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\PhoneNumber.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\PhoneNumberType.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\PointOfSale.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\PriceRange.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\Product.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\Rating.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\SaleUnit.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\Status.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\User.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseAccessLayer\WorkDay.cs">
+      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\OwinContextExtentions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -284,6 +363,16 @@
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="DatabaseAccessLayer\KmandiliDataAccess.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>KmandiliDataAccess.edmx</DependentUpon>
+      <LastGenOutput>KmandiliDataAccess.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DatabaseAccessLayer\KmandiliDataAccess.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>KmandiliDataAccess.edmx</DependentUpon>
+      <LastGenOutput>KmandiliDataAccess.cs</LastGenOutput>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -310,6 +399,13 @@
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <EntityDeploy Include="DatabaseAccessLayer\KmandiliDataAccess.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>KmandiliDataAccess.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="DatabaseAccessLayer\KmandiliDataAccess.edmx.diagram">
+      <DependentUpon>KmandiliDataAccess.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -368,10 +464,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KmandiliDataAccess\KmandiliDataAccess.csproj">
-      <Project>{b643b2e6-e913-49db-a994-698e85ae3999}</Project>
-      <Name>KmandiliDataAccess</Name>
-    </ProjectReference>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

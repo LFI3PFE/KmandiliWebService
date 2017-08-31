@@ -7,19 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KmandiliDataAccess
+namespace KmandiliWebService.DatabaseAccessLayer
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class WorkDay
+    public partial class Status
     {
-        public int ID { get; set; }
-        public int Day { get; set; }
-        public System.TimeSpan OpenTime { get; set; }
-        public System.TimeSpan CloseTime { get; set; }
-        public int PointOfSale_FK { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Status()
+        {
+            this.Orders = new HashSet<Order>();
+        }
     
-        public virtual PointOfSale PointOfSale { get; set; }
+        public int ID { get; set; }
+        public string StatusName { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

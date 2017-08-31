@@ -7,24 +7,32 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KmandiliDataAccess
+namespace KmandiliWebService.DatabaseAccessLayer
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class PriceRange
+    public partial class Product
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PriceRange()
+        public Product()
         {
-            this.PastryShops = new HashSet<PastryShop>();
+            this.OrderProducts = new HashSet<OrderProduct>();
         }
     
         public int ID { get; set; }
-        public double MinPriceRange { get; set; }
-        public double MaxPriceRange { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Pic { get; set; }
+        public double Price { get; set; }
+        public int SaleUnit_FK { get; set; }
+        public int Category_FK { get; set; }
+        public int PastryShop_FK { get; set; }
     
+        public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PastryShop> PastryShops { get; set; }
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
+        public virtual PastryShop PastryShop { get; set; }
+        public virtual SaleUnit SaleUnit { get; set; }
     }
 }

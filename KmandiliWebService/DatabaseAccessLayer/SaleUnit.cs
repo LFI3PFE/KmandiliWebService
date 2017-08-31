@@ -7,23 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KmandiliDataAccess
+namespace KmandiliWebService.DatabaseAccessLayer
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class PhoneNumberType
+    public partial class SaleUnit
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PhoneNumberType()
+        public SaleUnit()
         {
-            this.PhoneNumbers = new HashSet<PhoneNumber>();
+            this.Products = new HashSet<Product>();
         }
     
         public int ID { get; set; }
-        public string Type { get; set; }
+        public string Unit { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

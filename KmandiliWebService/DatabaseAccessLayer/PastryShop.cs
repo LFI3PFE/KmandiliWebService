@@ -7,34 +7,51 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KmandiliDataAccess
+namespace KmandiliWebService.DatabaseAccessLayer
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class PastryShop
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
+        public PastryShop()
         {
             this.Orders = new HashSet<Order>();
+            this.PastryShopDeleveryMethods = new HashSet<PastryShopDeleveryMethod>();
+            this.PointOfSales = new HashSet<PointOfSale>();
+            this.Products = new HashSet<Product>();
             this.Ratings = new HashSet<Rating>();
+            this.Categories = new HashSet<Category>();
             this.PhoneNumbers = new HashSet<PhoneNumber>();
         }
     
         public int ID { get; set; }
         public string Name { get; set; }
-        public string LastName { get; set; }
+        public string ShortDesc { get; set; }
+        public string LongDesc { get; set; }
+        public string ProfilePic { get; set; }
+        public string CoverPic { get; set; }
+        public int PriceRange_FK { get; set; }
+        public int Address_FK { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public System.DateTime JoinDate { get; set; }
-        public int Address_FK { get; set; }
+        public Nullable<System.DateTime> JoinDate { get; set; }
     
         public virtual Address Address { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
+        public virtual PriceRange PriceRange { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PastryShopDeleveryMethod> PastryShopDeleveryMethods { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PointOfSale> PointOfSales { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Product> Products { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Rating> Ratings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Category> Categories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
     }

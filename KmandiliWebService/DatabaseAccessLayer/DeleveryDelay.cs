@@ -7,23 +7,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KmandiliDataAccess
+namespace KmandiliWebService.DatabaseAccessLayer
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class SaleUnit
+    public partial class DeleveryDelay
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SaleUnit()
+        public DeleveryDelay()
         {
-            this.Products = new HashSet<Product>();
+            this.PastryShopDeleveryMethods = new HashSet<PastryShopDeleveryMethod>();
         }
     
         public int ID { get; set; }
-        public string Unit { get; set; }
+        public int MinDelay { get; set; }
+        public int MaxDelay { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<PastryShopDeleveryMethod> PastryShopDeleveryMethods { get; set; }
     }
 }

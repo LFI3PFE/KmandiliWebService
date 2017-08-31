@@ -7,29 +7,32 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KmandiliDataAccess
+namespace KmandiliWebService.DatabaseAccessLayer
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class DeleveryMethod
+    public partial class PointOfSale
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DeleveryMethod()
+        public PointOfSale()
         {
-            this.Orders = new HashSet<Order>();
-            this.PastryShopDeleveryMethods = new HashSet<PastryShopDeleveryMethod>();
-            this.Payments = new HashSet<Payment>();
+            this.WorkDays = new HashSet<WorkDay>();
+            this.PhoneNumbers = new HashSet<PhoneNumber>();
         }
     
         public int ID { get; set; }
-        public string DeleveryType { get; set; }
+        public System.DateTime CreationDate { get; set; }
+        public int PastryShop_FK { get; set; }
+        public int ParkingType_FK { get; set; }
+        public int Address_FK { get; set; }
     
+        public virtual Address Address { get; set; }
+        public virtual Parking Parking { get; set; }
+        public virtual PastryShop PastryShop { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<WorkDay> WorkDays { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PastryShopDeleveryMethod> PastryShopDeleveryMethods { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Payment> Payments { get; set; }
+        public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
     }
 }

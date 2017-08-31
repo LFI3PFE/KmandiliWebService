@@ -7,20 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KmandiliDataAccess
+namespace KmandiliWebService.DatabaseAccessLayer
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class PhoneNumber
+    public partial class OrderProduct
     {
-        public int ID { get; set; }
-        public string Number { get; set; }
-        public int PhoneNumberType_FK { get; set; }
+        public int Order_FK { get; set; }
+        public int Product_FK { get; set; }
+        public int Quantity { get; set; }
     
-        public virtual PhoneNumberType PhoneNumberType { get; set; }
-        public virtual PastryShop PastryShop { get; set; }
-        public virtual PointOfSale PointOfSale { get; set; }
-        public virtual User User { get; set; }
+        public virtual Order Order { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

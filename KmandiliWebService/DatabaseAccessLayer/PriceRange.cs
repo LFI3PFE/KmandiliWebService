@@ -7,29 +7,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KmandiliDataAccess
+namespace KmandiliWebService.DatabaseAccessLayer
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Payment
+    public partial class PriceRange
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Payment()
+        public PriceRange()
         {
-            this.Orders = new HashSet<Order>();
-            this.PastryDeleveryPayments = new HashSet<PastryDeleveryPayment>();
-            this.DeleveryMethods = new HashSet<DeleveryMethod>();
+            this.PastryShops = new HashSet<PastryShop>();
         }
     
         public int ID { get; set; }
-        public string PaymentMethod { get; set; }
+        public double MinPriceRange { get; set; }
+        public double MaxPriceRange { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PastryDeleveryPayment> PastryDeleveryPayments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DeleveryMethod> DeleveryMethods { get; set; }
+        public virtual ICollection<PastryShop> PastryShops { get; set; }
     }
 }

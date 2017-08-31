@@ -1,5 +1,4 @@
-﻿using KmandiliDataAccess;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -10,6 +9,7 @@ using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.WebPages;
+using KmandiliWebService.DatabaseAccessLayer;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {

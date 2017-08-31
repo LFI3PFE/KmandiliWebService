@@ -8,12 +8,12 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using KmandiliDataAccess;
+using KmandiliWebService.DatabaseAccessLayer;
 using WebGrease.Css.Extensions;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
-    //[Authorize]
+    [Authorize]
     public class UsersController : ApiController
     {
         private KmandiliDBEntities db = new KmandiliDBEntities();

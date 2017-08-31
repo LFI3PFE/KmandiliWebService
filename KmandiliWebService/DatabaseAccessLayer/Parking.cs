@@ -7,28 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KmandiliDataAccess
+namespace KmandiliWebService.DatabaseAccessLayer
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class PastryShopDeleveryMethod
+    public partial class Parking
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PastryShopDeleveryMethod()
+        public Parking()
         {
-            this.PastryDeleveryPayments = new HashSet<PastryDeleveryPayment>();
+            this.PointOfSales = new HashSet<PointOfSale>();
         }
     
         public int ID { get; set; }
-        public int PastryShop_FK { get; set; }
-        public int DeleveryMethod_FK { get; set; }
-        public int DeleveryDelay_FK { get; set; }
+        public string ParkingType { get; set; }
     
-        public virtual DeleveryDelay DeleveryDelay { get; set; }
-        public virtual DeleveryMethod DeleveryMethod { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PastryDeleveryPayment> PastryDeleveryPayments { get; set; }
-        public virtual PastryShop PastryShop { get; set; }
+        public virtual ICollection<PointOfSale> PointOfSales { get; set; }
     }
 }
