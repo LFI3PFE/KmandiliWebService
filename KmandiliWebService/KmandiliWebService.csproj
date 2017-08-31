@@ -369,7 +369,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KmandiliDataAccess\KmandiliDataAccess.csproj">
-      <Project>{b7054394-f6e3-4f0d-bb10-528623cf9b5d}</Project>
+      <Project>{b643b2e6-e913-49db-a994-698e85ae3999}</Project>
       <Name>KmandiliDataAccess</Name>
     </ProjectReference>
   </ItemGroup>

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="KmandiliDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="kmandiliDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="ID" />
@@ -280,7 +280,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DeleveryMethodPaymentMethod_DeleveryMethod">
-          <End Role="DeleveryMethod" Type="Self.DeleveryMethod" Multiplicity="1" />
+          <End Role="DeleveryMethod" Type="Self.DeleveryMethod" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DeleveryMethodPaymentMethod" Type="Self.DeleveryMethodPaymentMethod" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DeleveryMethod">
@@ -691,7 +693,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="KmandiliDBModelStoreContainer">
+        <EntityContainer Name="kmandiliDBModelStoreContainer">
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DeleveryDelay" EntityType="Self.DeleveryDelay" Schema="dbo" store:Type="Tables" />
@@ -863,7 +865,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="KmandiliDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="kmandiliDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="ID" />
@@ -1607,9 +1609,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="KmandiliDBModelStoreContainer" CdmEntityContainer="KmandiliDBEntities">
+        <EntityContainerMapping StorageEntityContainer="kmandiliDBModelStoreContainer" CdmEntityContainer="KmandiliDBEntities">
           <EntitySetMapping Name="Addresses">
-            <EntityTypeMapping TypeName="KmandiliDBModel.Address">
+            <EntityTypeMapping TypeName="kmandiliDBModel.Address">
               <MappingFragment StoreEntitySet="Address">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Number" ColumnName="Number" />
@@ -1622,7 +1624,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Categories">
-            <EntityTypeMapping TypeName="KmandiliDBModel.Category">
+            <EntityTypeMapping TypeName="kmandiliDBModel.Category">
               <MappingFragment StoreEntitySet="Category">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
@@ -1630,7 +1632,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DeleveryDelays">
-            <EntityTypeMapping TypeName="KmandiliDBModel.DeleveryDelay">
+            <EntityTypeMapping TypeName="kmandiliDBModel.DeleveryDelay">
               <MappingFragment StoreEntitySet="DeleveryDelay">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="MinDelay" ColumnName="MinDelay" />
@@ -1639,7 +1641,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DeleveryMethods">
-            <EntityTypeMapping TypeName="KmandiliDBModel.DeleveryMethod">
+            <EntityTypeMapping TypeName="kmandiliDBModel.DeleveryMethod">
               <MappingFragment StoreEntitySet="DeleveryMethod">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="DeleveryType" ColumnName="DeleveryType" />
@@ -1647,7 +1649,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Orders">
-            <EntityTypeMapping TypeName="KmandiliDBModel.Order">
+            <EntityTypeMapping TypeName="kmandiliDBModel.Order">
               <MappingFragment StoreEntitySet="Order">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
@@ -1662,7 +1664,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="OrderProducts">
-            <EntityTypeMapping TypeName="KmandiliDBModel.OrderProduct">
+            <EntityTypeMapping TypeName="kmandiliDBModel.OrderProduct">
               <MappingFragment StoreEntitySet="OrderProduct">
                 <ScalarProperty Name="Order_FK" ColumnName="Order_FK" />
                 <ScalarProperty Name="Product_FK" ColumnName="Product_FK" />
@@ -1671,7 +1673,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Parkings">
-            <EntityTypeMapping TypeName="KmandiliDBModel.Parking">
+            <EntityTypeMapping TypeName="kmandiliDBModel.Parking">
               <MappingFragment StoreEntitySet="Parking">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ParkingType" ColumnName="ParkingType" />
@@ -1679,7 +1681,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PastryDeleveryPayments">
-            <EntityTypeMapping TypeName="KmandiliDBModel.PastryDeleveryPayment">
+            <EntityTypeMapping TypeName="kmandiliDBModel.PastryDeleveryPayment">
               <MappingFragment StoreEntitySet="PastryDeleveryPayment">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="PastryShopDeleveryMethod_FK" ColumnName="PastryShopDeleveryMethod_FK" />
@@ -1688,7 +1690,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PastryShops">
-            <EntityTypeMapping TypeName="KmandiliDBModel.PastryShop">
+            <EntityTypeMapping TypeName="kmandiliDBModel.PastryShop">
               <MappingFragment StoreEntitySet="PastryShop">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1705,7 +1707,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PastryShopDeleveryMethods">
-            <EntityTypeMapping TypeName="KmandiliDBModel.PastryShopDeleveryMethod">
+            <EntityTypeMapping TypeName="kmandiliDBModel.PastryShopDeleveryMethod">
               <MappingFragment StoreEntitySet="PastryShopDeleveryMethod">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="PastryShop_FK" ColumnName="PastryShop_FK" />
@@ -1715,7 +1717,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Payments">
-            <EntityTypeMapping TypeName="KmandiliDBModel.Payment">
+            <EntityTypeMapping TypeName="kmandiliDBModel.Payment">
               <MappingFragment StoreEntitySet="Payment">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
@@ -1723,7 +1725,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PhoneNumbers">
-            <EntityTypeMapping TypeName="KmandiliDBModel.PhoneNumber">
+            <EntityTypeMapping TypeName="kmandiliDBModel.PhoneNumber">
               <MappingFragment StoreEntitySet="PhoneNumber">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Number" ColumnName="Number" />
@@ -1732,7 +1734,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PhoneNumberTypes">
-            <EntityTypeMapping TypeName="KmandiliDBModel.PhoneNumberType">
+            <EntityTypeMapping TypeName="kmandiliDBModel.PhoneNumberType">
               <MappingFragment StoreEntitySet="PhoneNumberType">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -1740,7 +1742,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PointOfSales">
-            <EntityTypeMapping TypeName="KmandiliDBModel.PointOfSale">
+            <EntityTypeMapping TypeName="kmandiliDBModel.PointOfSale">
               <MappingFragment StoreEntitySet="PointOfSale">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
@@ -1751,7 +1753,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PriceRanges">
-            <EntityTypeMapping TypeName="KmandiliDBModel.PriceRange">
+            <EntityTypeMapping TypeName="kmandiliDBModel.PriceRange">
               <MappingFragment StoreEntitySet="PriceRange">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="MinPriceRange" ColumnName="MinPriceRange" />
@@ -1760,7 +1762,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Products">
-            <EntityTypeMapping TypeName="KmandiliDBModel.Product">
+            <EntityTypeMapping TypeName="kmandiliDBModel.Product">
               <MappingFragment StoreEntitySet="Product">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1774,7 +1776,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Ratings">
-            <EntityTypeMapping TypeName="KmandiliDBModel.Rating">
+            <EntityTypeMapping TypeName="kmandiliDBModel.Rating">
               <MappingFragment StoreEntitySet="Rating">
                 <ScalarProperty Name="User_FK" ColumnName="User_FK" />
                 <ScalarProperty Name="PastryShop_FK" ColumnName="PastryShop_FK" />
@@ -1783,7 +1785,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SaleUnits">
-            <EntityTypeMapping TypeName="KmandiliDBModel.SaleUnit">
+            <EntityTypeMapping TypeName="kmandiliDBModel.SaleUnit">
               <MappingFragment StoreEntitySet="SaleUnit">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Unit" ColumnName="Unit" />
@@ -1791,7 +1793,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Status">
-            <EntityTypeMapping TypeName="KmandiliDBModel.Status">
+            <EntityTypeMapping TypeName="kmandiliDBModel.Status">
               <MappingFragment StoreEntitySet="Status">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="StatusName" ColumnName="StatusName" />
@@ -1799,7 +1801,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="KmandiliDBModel.User">
+            <EntityTypeMapping TypeName="kmandiliDBModel.User">
               <MappingFragment StoreEntitySet="User">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1812,7 +1814,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="WorkDays">
-            <EntityTypeMapping TypeName="KmandiliDBModel.WorkDay">
+            <EntityTypeMapping TypeName="kmandiliDBModel.WorkDay">
               <MappingFragment StoreEntitySet="WorkDay">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Day" ColumnName="Day" />
@@ -1822,7 +1824,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="DeleveryMethodPaymentMethod" TypeName="KmandiliDBModel.DeleveryMethodPaymentMethod" StoreEntitySet="DeleveryMethodPaymentMethod">
+          <AssociationSetMapping Name="DeleveryMethodPaymentMethod" TypeName="kmandiliDBModel.DeleveryMethodPaymentMethod" StoreEntitySet="DeleveryMethodPaymentMethod">
             <EndProperty Name="DeleveryMethod">
               <ScalarProperty Name="ID" ColumnName="DeleveryMethod_FK" />
             </EndProperty>
@@ -1830,7 +1832,7 @@
               <ScalarProperty Name="ID" ColumnName="PaymentMethod_FK" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="PastryShopCategories" TypeName="KmandiliDBModel.PastryShopCategories" StoreEntitySet="PastryShopCategories">
+          <AssociationSetMapping Name="PastryShopCategories" TypeName="kmandiliDBModel.PastryShopCategories" StoreEntitySet="PastryShopCategories">
             <EndProperty Name="Category">
               <ScalarProperty Name="ID" ColumnName="Category_FK" />
             </EndProperty>
@@ -1838,7 +1840,7 @@
               <ScalarProperty Name="ID" ColumnName="PastryShop_FK" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="PastryShopPhoneNumber" TypeName="KmandiliDBModel.PastryShopPhoneNumber" StoreEntitySet="PastryShopPhoneNumber">
+          <AssociationSetMapping Name="PastryShopPhoneNumber" TypeName="kmandiliDBModel.PastryShopPhoneNumber" StoreEntitySet="PastryShopPhoneNumber">
             <EndProperty Name="PhoneNumber">
               <ScalarProperty Name="ID" ColumnName="ID" />
             </EndProperty>
@@ -1846,7 +1848,7 @@
               <ScalarProperty Name="ID" ColumnName="PastryShop_FK" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="PointOfSalePhoneNumber" TypeName="KmandiliDBModel.PointOfSalePhoneNumber" StoreEntitySet="PointOfSalePhoneNumber">
+          <AssociationSetMapping Name="PointOfSalePhoneNumber" TypeName="kmandiliDBModel.PointOfSalePhoneNumber" StoreEntitySet="PointOfSalePhoneNumber">
             <EndProperty Name="PhoneNumber">
               <ScalarProperty Name="ID" ColumnName="ID" />
             </EndProperty>
@@ -1854,7 +1856,7 @@
               <ScalarProperty Name="ID" ColumnName="PointOfSale_FK" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="UserPhoneNumber" TypeName="KmandiliDBModel.UserPhoneNumber" StoreEntitySet="UserPhoneNumber">
+          <AssociationSetMapping Name="UserPhoneNumber" TypeName="kmandiliDBModel.UserPhoneNumber" StoreEntitySet="UserPhoneNumber">
             <EndProperty Name="PhoneNumber">
               <ScalarProperty Name="ID" ColumnName="ID" />
             </EndProperty>

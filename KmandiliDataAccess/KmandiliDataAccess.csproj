@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B7054394-F6E3-4F0D-BB10-528623CF9B5D}</ProjectGuid>
+    <ProjectGuid>{B643B2E6-E913-49DB-A994-698E85AE3999}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KmandiliDataAccess</RootNamespace>

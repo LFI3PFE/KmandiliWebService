@@ -4,58 +4,58 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="29e84f25f9a44ccc9e67cb7e064d26fc" Name="Diagram1">
-        <EntityTypeShape EntityType="KmandiliDBModel.Address" Width="1.5" PointX="0.75" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.Category" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.DeleveryDelay" Width="1.5" PointX="3" PointY="6.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.DeleveryMethod" Width="1.5" PointX="3" PointY="3" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.Order" Width="1.5" PointX="8.25" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.OrderProduct" Width="1.5" PointX="13.5" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.Parking" Width="1.5" PointX="3" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.PastryDeleveryPayment" Width="1.5" PointX="10.5" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.PastryShop" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.PastryShopDeleveryMethod" Width="1.5" PointX="5.25" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.Payment" Width="1.5" PointX="8.25" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.PhoneNumber" Width="1.5" PointX="0.75" PointY="15.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.PhoneNumberType" Width="1.5" PointX="1.5" PointY="18.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.PointOfSale" Width="1.5" PointX="5.25" PointY="15.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.PriceRange" Width="1.5" PointX="0.75" PointY="21.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.Product" Width="1.5" PointX="8.25" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.Rating" Width="1.5" PointX="11.25" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.SaleUnit" Width="1.5" PointX="6" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.Status" Width="1.5" PointX="6" PointY="19.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.User" Width="1.5" PointX="6" PointY="11.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="KmandiliDBModel.WorkDay" Width="1.5" PointX="7.5" PointY="15.625" IsExpanded="true" />
-        <AssociationConnector Association="KmandiliDBModel.FK_PastryShop_Address" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_PointOfSale_Address" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.user_address_fk" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_Product_Category" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_PastryShopDeleveryMethod_DeleveryDelay" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_Order_DeleveryMethod" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_PastryShopDeleveryMethod_DeleveryMethod" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_Order_PastryShop" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_Order_Payment" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_Order_Status" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_Order_User" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_OrderProduct_Order" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_OrderProduct_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_PointOfSale_Parking" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_PastryDeleveryPayment_PastryShopDeleveryMethod" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_PastryDeleveryPayment_Payment" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_PastryShop_PriceRange" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_PastryShopDeleveryMethod_PastryShop" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_PointOfSale_PastryShop" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_Product_PastryShop" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_Rating_PastryShop" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_PhoneNumber_PhoneNumberType" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_WorkDay_PointOfSale" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_Product_SaleUnit" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.FK_Rating_User" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.DeleveryMethodPaymentMethod" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.PastryShopCategories" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.PastryShopPhoneNumber" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.PointOfSalePhoneNumber" ManuallyRouted="false" />
-        <AssociationConnector Association="KmandiliDBModel.UserPhoneNumber" ManuallyRouted="false" />
+      <Diagram DiagramId="aa0f8cb5396c429bb8475e9134f0df63" Name="Diagram1">
+        <EntityTypeShape EntityType="kmandiliDBModel.Address" Width="1.5" PointX="0.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.Category" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.DeleveryDelay" Width="1.5" PointX="3" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.DeleveryMethod" Width="1.5" PointX="3" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.Order" Width="1.5" PointX="8.25" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.OrderProduct" Width="1.5" PointX="13.5" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.Parking" Width="1.5" PointX="3" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.PastryDeleveryPayment" Width="1.5" PointX="10.5" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.PastryShop" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.PastryShopDeleveryMethod" Width="1.5" PointX="5.25" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.Payment" Width="1.5" PointX="8.25" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.PhoneNumber" Width="1.5" PointX="0.75" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.PhoneNumberType" Width="1.5" PointX="1.5" PointY="18.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.PointOfSale" Width="1.5" PointX="5.25" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.PriceRange" Width="1.5" PointX="0.75" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.Product" Width="1.5" PointX="8.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.Rating" Width="1.5" PointX="11.25" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.SaleUnit" Width="1.5" PointX="6" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.Status" Width="1.5" PointX="6" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.User" Width="1.5" PointX="6" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="kmandiliDBModel.WorkDay" Width="1.5" PointX="7.5" PointY="15.625" IsExpanded="true" />
+        <AssociationConnector Association="kmandiliDBModel.FK_PastryShop_Address" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_PointOfSale_Address" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.user_address_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_Product_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_PastryShopDeleveryMethod_DeleveryDelay" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_Order_DeleveryMethod" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_PastryShopDeleveryMethod_DeleveryMethod" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_Order_PastryShop" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_Order_Payment" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_Order_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_Order_User" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_OrderProduct_Order" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_OrderProduct_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_PointOfSale_Parking" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_PastryDeleveryPayment_PastryShopDeleveryMethod" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_PastryDeleveryPayment_Payment" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_PastryShop_PriceRange" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_PastryShopDeleveryMethod_PastryShop" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_PointOfSale_PastryShop" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_Product_PastryShop" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_Rating_PastryShop" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_PhoneNumber_PhoneNumberType" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_WorkDay_PointOfSale" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_Product_SaleUnit" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.FK_Rating_User" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.DeleveryMethodPaymentMethod" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.PastryShopCategories" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.PastryShopPhoneNumber" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.PointOfSalePhoneNumber" ManuallyRouted="false" />
+        <AssociationConnector Association="kmandiliDBModel.UserPhoneNumber" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
