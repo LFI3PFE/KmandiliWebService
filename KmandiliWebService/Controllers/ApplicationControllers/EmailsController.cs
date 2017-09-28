@@ -66,7 +66,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
 
             MailMessage message = new MailMessage();
             message.Subject = "Kmandili: réinitialiser le mot de passe " + date;
-            message.From = new MailAddress("kmandili.contact@gmail.com", "Kmandili");
+            message.From = new MailAddress("kmandili@ili-studios.tn", "Kmandili");
             message.To.Add(new MailAddress(email));
             message.IsBodyHtml = true;
             message.Body = content;
@@ -95,7 +95,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             
             MailMessage message = new MailMessage();
             message.Subject = "Kmandili: Verification email " + date;
-            message.From = new MailAddress("kmandili.contact@gmail.com", "Kmandili");
+            message.From = new MailAddress("kmandili@ili-studios.tn", "Kmandili");
             message.To.Add(new MailAddress(email));
             message.IsBodyHtml = true;
             message.Body = content;
@@ -218,7 +218,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
 
 
             
-            message.From = new MailAddress("kmandili.contact@gmail.com", "Kmandili");
+            message.From = new MailAddress("kmandili@ili-studios.tn", "Kmandili");
             message.To.Add(new MailAddress(order.User.Email, order.User.Name));
             message.IsBodyHtml = true;
             message.Body = content;
@@ -278,7 +278,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             content = content.Replace("#OrderProducts", productsRows);
             content = content.Replace("#OrderTotal", Total.ToString() + " TND");
             
-            message.From = new MailAddress("kmandili.contact@gmail.com", "Kmandili");
+            message.From = new MailAddress("kmandili@ili-studios.tn", "Kmandili");
             message.To.Add(new MailAddress(order.PastryShop.Email, order.PastryShop.Name));
             message.IsBodyHtml = true;
             message.Body = content;
@@ -291,8 +291,9 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             {
                 client.Port = 587;
                 client.Host = "smtp.gmail.com";
-                client.EnableSsl = true;
+                //client.Host = "ns0.hebergili.com";
                 client.Credentials = new System.Net.NetworkCredential("kmandili.contact@gmail.com", "kmandili2016");
+                //client.Credentials = new System.Net.NetworkCredential("kmandili@ili-studios.tn", "KmandiLi@2017");
                 client.EnableSsl = true;
                 try
                 {

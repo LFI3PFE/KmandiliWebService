@@ -265,82 +265,82 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DatabaseAccessLayer\Address.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\Category.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\DeleveryDelay.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\DeleveryMethod.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseAccessLayer\KmandiliDataAccess.Context.cs">
+    <Compile Include="DatabaseAccessLayer\KmandiliDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>KmandiliDataAccess.Context.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseAccessLayer\KmandiliDataAccess.cs">
+    <Compile Include="DatabaseAccessLayer\KmandiliDataModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseAccessLayer\KmandiliDataAccess.Designer.cs">
+    <Compile Include="DatabaseAccessLayer\KmandiliDataModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>KmandiliDataAccess.edmx</DependentUpon>
+      <DependentUpon>KmandiliDataModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\Order.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\OrderProduct.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\Parking.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\PastryDeleveryPayment.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\PastryShop.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\PastryShopDeleveryMethod.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\Payment.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\PhoneNumber.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\PhoneNumberType.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\PointOfSale.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\PriceRange.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\Product.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\Rating.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\SaleUnit.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\Status.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\User.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DatabaseAccessLayer\WorkDay.cs">
-      <DependentUpon>KmandiliDataAccess.tt</DependentUpon>
+      <DependentUpon>KmandiliDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Extensions\OwinContextExtentions.cs" />
     <Compile Include="Global.asax.cs">
@@ -358,20 +358,22 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\AdminSettings.xml" />
+    <Content Include="App_Data\AdminSettings.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\KmandiliDB.sql" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="DatabaseAccessLayer\KmandiliDataAccess.Context.tt">
+    <Content Include="DatabaseAccessLayer\KmandiliDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KmandiliDataAccess.edmx</DependentUpon>
-      <LastGenOutput>KmandiliDataAccess.Context.cs</LastGenOutput>
+      <DependentUpon>KmandiliDataModel.edmx</DependentUpon>
+      <LastGenOutput>KmandiliDataModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="DatabaseAccessLayer\KmandiliDataAccess.tt">
+    <Content Include="DatabaseAccessLayer\KmandiliDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KmandiliDataAccess.edmx</DependentUpon>
-      <LastGenOutput>KmandiliDataAccess.cs</LastGenOutput>
+      <DependentUpon>KmandiliDataModel.edmx</DependentUpon>
+      <LastGenOutput>KmandiliDataModel.cs</LastGenOutput>
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -400,13 +402,14 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EntityDeploy Include="DatabaseAccessLayer\KmandiliDataAccess.edmx">
+    <EntityDeploy Include="DatabaseAccessLayer\KmandiliDataModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>KmandiliDataAccess.Designer.cs</LastGenOutput>
+      <LastGenOutput>KmandiliDataModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="DatabaseAccessLayer\KmandiliDataAccess.edmx.diagram">
-      <DependentUpon>KmandiliDataAccess.edmx</DependentUpon>
+    <Content Include="DatabaseAccessLayer\KmandiliDataModel.edmx.diagram">
+      <DependentUpon>KmandiliDataModel.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\kmandili - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -484,7 +487,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50812</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50812/</IISUrl>
+          <IISUrl>http://localhost:4356/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

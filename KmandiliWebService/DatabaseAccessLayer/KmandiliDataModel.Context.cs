@@ -16,7 +16,7 @@ namespace KmandiliWebService.DatabaseAccessLayer
     public partial class KmandiliDBEntities : DbContext
     {
         public KmandiliDBEntities()
-            : base("name=KmandiliDBEntities")
+            : base("name=KmandiliDBEntities3")
         {
         }
     
