@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
 using KmandiliWebService.Models;
-using Newtonsoft.Json;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
@@ -15,19 +11,19 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
     [Authorize]
     public class StatusController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/Status
         public IQueryable<Status> GetStatus()
         {
-            return db.Status;
+            return _db.Status;
         }
 
         // GET: api/Status/5
         [ResponseType(typeof(Status))]
         public IHttpActionResult GetStatus(int id)
         {
-            Status status = db.Status.Find(id);
+            Status status = _db.Status.Find(id);
             if (status == null)
             {
                 return NotFound();
@@ -50,11 +46,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(status).State = EntityState.Modified;
+            _db.Entry(status).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -62,10 +58,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -80,11 +73,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest(ModelState);
             }
 
-            db.Status.Add(status);
+            _db.Status.Add(status);
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateException)
             {
@@ -92,10 +85,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return Conflict();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return CreatedAtRoute("DefaultApi", new { id = status.ID }, status);
@@ -105,14 +95,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(Status))]
         public IHttpActionResult DeleteStatus(int id)
         {
-            Status status = db.Status.Find(id);
+            Status status = _db.Status.Find(id);
             if (status == null)
             {
                 return NotFound();
             }
 
-            db.Status.Remove(status);
-            db.SaveChanges();
+            _db.Status.Remove(status);
+            _db.SaveChanges();
 
             return Ok(status);
         }
@@ -121,14 +111,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool StatusExists(int id)
         {
-            return db.Status.Count(e => e.ID == id) > 0;
+            return _db.Status.Count(e => e.ID == id) > 0;
         }
     }
 }

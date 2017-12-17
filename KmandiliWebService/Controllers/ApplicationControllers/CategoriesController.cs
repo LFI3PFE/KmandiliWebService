@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
@@ -15,13 +11,13 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
     [Authorize]
     public class CategoriesController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/Categories
         [AllowAnonymous]
         public IQueryable<Category> GetCategories()
         {
-            IQueryable<Category> ic = db.Categories;
+            IQueryable<Category> ic = _db.Categories;
             foreach(Category c in ic)
             {
                 c.PastryShops.Clear();
@@ -34,7 +30,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(Category))]
         public IHttpActionResult GetCategory(int id)
         {
-            Category category = db.Categories.Find(id);
+            Category category = _db.Categories.Find(id);
             if (category == null)
             {
                 return NotFound();
@@ -57,11 +53,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(category).State = EntityState.Modified;
+            _db.Entry(category).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -69,10 +65,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -87,11 +80,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest(ModelState);
             }
 
-            db.Categories.Add(category);
+            _db.Categories.Add(category);
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateException)
             {
@@ -99,10 +92,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return Conflict();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return CreatedAtRoute("DefaultApi", new { id = category.ID }, category);
@@ -112,14 +102,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(Category))]
         public IHttpActionResult DeleteCategory(int id)
         {
-            Category category = db.Categories.Find(id);
+            Category category = _db.Categories.Find(id);
             if (category == null)
             {
                 return NotFound();
             }
 
-            db.Categories.Remove(category);
-            db.SaveChanges();
+            _db.Categories.Remove(category);
+            _db.SaveChanges();
 
             return Ok(category);
         }
@@ -128,14 +118,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool CategoryExists(int id)
         {
-            return db.Categories.Count(e => e.ID == id) > 0;
+            return _db.Categories.Count(e => e.ID == id) > 0;
         }
     }
 }

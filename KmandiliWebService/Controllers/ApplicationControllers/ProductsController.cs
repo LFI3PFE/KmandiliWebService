@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -17,19 +13,19 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
     [Authorize]
     public class ProductsController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/Products
         public IQueryable<Product> GetProducts()
         {
-            return db.Products;
+            return _db.Products;
         }
 
         // GET: api/Products/5
         [ResponseType(typeof(Product))]
         public IHttpActionResult GetProduct(int id)
         {
-            Product product = db.Products.Find(id);
+            Product product = _db.Products.Find(id);
             if (product == null)
             {
                 return NotFound();
@@ -52,11 +48,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(product).State = EntityState.Modified;
+            _db.Entry(product).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -64,10 +60,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -82,8 +75,8 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest(ModelState);
             }
 
-            db.Products.Add(product);
-            db.SaveChanges();
+            _db.Products.Add(product);
+            _db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = product.ID }, product);
         }
@@ -92,19 +85,20 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(Product))]
         public IHttpActionResult DeleteProduct(int id)
         {
-            Product product = db.Products.Find(id);
+            Product product = _db.Products.Find(id);
             if (product == null)
             {
                 return NotFound();
             }
-            string FileName = product.Pic.Substring(44, (product.Pic.Length - 44));
+            string fileName = product.Pic.Substring(44, (product.Pic.Length - 44));
             string imageFilePath = HostingEnvironment.MapPath("~/Uploads");
-            imageFilePath = Path.Combine(imageFilePath, FileName);
+            if (imageFilePath == null) return NotFound();
+            imageFilePath = Path.Combine(imageFilePath, fileName);
 
-            db.Orders.RemoveRange(db.Orders.Where(o => o.OrderProducts.Any(op => op.Product_FK == id)));
+            _db.Orders.RemoveRange(_db.Orders.Where(o => o.OrderProducts.Any(op => op.Product_FK == id)));
 
-            db.Products.Remove(product);
-            db.SaveChanges();
+            _db.Products.Remove(product);
+            _db.SaveChanges();
             File.Delete(imageFilePath);
             return Ok(product);
         }
@@ -113,14 +107,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool ProductExists(int id)
         {
-            return db.Products.Count(e => e.ID == id) > 0;
+            return _db.Products.Count(e => e.ID == id) > 0;
         }
     }
 }

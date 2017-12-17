@@ -1,34 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
-using WebGrease.Css.Extensions;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
     [Authorize]
     public class PointOfSalesController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/PointOfSales
         public IQueryable<PointOfSale> GetPointOfSales()
         {
-            return db.PointOfSales;
+            return _db.PointOfSales;
         }
 
         // GET: api/PointOfSales/5
         [ResponseType(typeof(PointOfSale))]
         public IHttpActionResult GetPointOfSale(int id)
         {
-            PointOfSale pointOfSale = db.PointOfSales.Find(id);
+            PointOfSale pointOfSale = _db.PointOfSales.Find(id);
             if (pointOfSale == null)
             {
                 return NotFound();
@@ -51,11 +47,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(pointOfSale).State = EntityState.Modified;
+            _db.Entry(pointOfSale).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -63,10 +59,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -81,8 +74,8 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest(ModelState);
             }
 
-            db.PointOfSales.Add(pointOfSale);
-            db.SaveChanges();
+            _db.PointOfSales.Add(pointOfSale);
+            _db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = pointOfSale.ID }, pointOfSale);
         }
@@ -91,16 +84,18 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(PointOfSale))]
         public IHttpActionResult DeletePointOfSale(int id)
         {
-            PointOfSale pointOfSale = db.PointOfSales.Find(id);
+            PointOfSale pointOfSale = _db.PointOfSales.Find(id);
             if (pointOfSale == null)
             {
                 return NotFound();
             }
             var phoneNumbers = new List<PhoneNumber>(pointOfSale.PhoneNumbers);
-            db.PointOfSales.Remove(pointOfSale);
-            phoneNumbers.ForEach(p => db.PhoneNumbers.Remove(p));
-            db.Addresses.Remove(db.Addresses.Find(pointOfSale.Address_FK));
-            db.SaveChanges();
+            _db.PointOfSales.Remove(pointOfSale);
+            phoneNumbers.ForEach(p => _db.PhoneNumbers.Remove(p));
+            var a = _db.Addresses.Find(pointOfSale.Address_FK);
+            if (a == null) return NotFound();
+            _db.Addresses.Remove(a);
+            _db.SaveChanges();
             return Ok(pointOfSale);
         }
 
@@ -108,14 +103,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool PointOfSaleExists(int id)
         {
-            return db.PointOfSales.Count(e => e.ID == id) > 0;
+            return _db.PointOfSales.Count(e => e.ID == id) > 0;
         }
     }
 }

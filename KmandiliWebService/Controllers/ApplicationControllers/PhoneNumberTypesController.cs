@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
@@ -15,20 +11,20 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
     [Authorize]
     public class PhoneNumberTypesController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/PhoneNumberTypes
         [AllowAnonymous]
         public IQueryable<PhoneNumberType> GetPhoneNumberTypes()
         {
-            return db.PhoneNumberTypes;
+            return _db.PhoneNumberTypes;
         }
 
         // GET: api/PhoneNumberTypes/5
         [ResponseType(typeof(PhoneNumberType))]
         public IHttpActionResult GetPhoneNumberType(int id)
         {
-            PhoneNumberType phoneNumberType = db.PhoneNumberTypes.Find(id);
+            PhoneNumberType phoneNumberType = _db.PhoneNumberTypes.Find(id);
             if (phoneNumberType == null)
             {
                 return NotFound();
@@ -51,11 +47,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(phoneNumberType).State = EntityState.Modified;
+            _db.Entry(phoneNumberType).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -63,10 +59,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -81,11 +74,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest(ModelState);
             }
 
-            db.PhoneNumberTypes.Add(phoneNumberType);
+            _db.PhoneNumberTypes.Add(phoneNumberType);
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateException)
             {
@@ -93,10 +86,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return Conflict();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return CreatedAtRoute("DefaultApi", new { id = phoneNumberType.ID }, phoneNumberType);
@@ -106,14 +96,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(PhoneNumberType))]
         public IHttpActionResult DeletePhoneNumberType(int id)
         {
-            PhoneNumberType phoneNumberType = db.PhoneNumberTypes.Find(id);
+            PhoneNumberType phoneNumberType = _db.PhoneNumberTypes.Find(id);
             if (phoneNumberType == null)
             {
                 return NotFound();
             }
 
-            db.PhoneNumberTypes.Remove(phoneNumberType);
-            db.SaveChanges();
+            _db.PhoneNumberTypes.Remove(phoneNumberType);
+            _db.SaveChanges();
 
             return Ok(phoneNumberType);
         }
@@ -122,14 +112,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool PhoneNumberTypeExists(int id)
         {
-            return db.PhoneNumberTypes.Count(e => e.ID == id) > 0;
+            return _db.PhoneNumberTypes.Count(e => e.ID == id) > 0;
         }
     }
 }

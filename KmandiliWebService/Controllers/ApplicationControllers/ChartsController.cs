@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Validation;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -13,24 +10,22 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Web.Hosting;
 using System.Web.Http;
-using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
 using Newtonsoft.Json;
-using WebGrease.Css.Extensions;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
     //[Authorize]
     public class ChartsController : ApiController
     {
-        private class JSONDataObject
+        private class JsonDataObject
         {
-            public JSONDataObject()
+            public JsonDataObject()
             {
-                this.Labels = new List<string>();
-                this.Values = new List<double>();
-                this.Total = 0;
-                this.Year = 2005;
+                Labels = new List<string>();
+                Values = new List<double>();
+                Total = 0;
+                Year = 2005;
             }
 
             public double Total { get; set; }
@@ -98,7 +93,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                         count = g.Count()
                     });
 
-            var quantityJSON = new JSONDataObject();
+            var quantityJSON = new JsonDataObject();
             foreach (var month in months)
             {
                 var p = product.OrderProducts.Where(
@@ -117,7 +112,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 quantityJSON.Values.Add(p.Any()?p.First().Sum:0);
             }
 
-            var ordersByMonthJSON = new JSONDataObject();
+            var ordersByMonthJSON = new JsonDataObject();
             ordersByMonthJSON.Year = year;
             foreach (var orderByMonth in ordersByMonth)
             {
@@ -200,7 +195,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                         count = g.Count()
                     });
 
-            var ordersByMonthJSON = new JSONDataObject();
+            var ordersByMonthJSON = new JsonDataObject();
             ordersByMonthJSON.Year = year;
             foreach (var orderByMonth in ordersByMonth)
             {
@@ -313,7 +308,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                     count = p.count + g.Count()
                 });
 
-            var clientsJsonObject = new JSONDataObject();
+            var clientsJsonObject = new JsonDataObject();
             clientsJsonObject.Year = year;
             foreach (var clientMonth in clientsByMonth)
             {
@@ -322,7 +317,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 clientsJsonObject.Total += clientMonth.count;
             }
 
-            var pastryShopsJsonObject = new JSONDataObject();
+            var pastryShopsJsonObject = new JsonDataObject();
             pastryShopsJsonObject.Year = year;
             foreach (var pastryShopMonth in pastryShopsByMonth)
             {
@@ -331,7 +326,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 pastryShopsJsonObject.Total += pastryShopMonth.count;
             }
 
-            var usersJsonObject = new JSONDataObject();
+            var usersJsonObject = new JsonDataObject();
             usersJsonObject.Year = year;
             foreach (var userMonth in usersByMonth)
             {
@@ -461,7 +456,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                         count = @t.clientByMonth.count + @t.pastryShopByMonth.count
                     });
 
-            var clientsJsonObject = new JSONDataObject();
+            var clientsJsonObject = new JsonDataObject();
             clientsJsonObject.Year = year;
             foreach (var clientMonth in clientsByMonth)
             {
@@ -470,7 +465,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 clientsJsonObject.Total += clientMonth.count;
             }
 
-            var pastryShopsJsonObject = new JSONDataObject();
+            var pastryShopsJsonObject = new JsonDataObject();
             pastryShopsJsonObject.Year = year;
             foreach (var pastryShopMonth in pastryShopsByMonth)
             {
@@ -479,7 +474,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 pastryShopsJsonObject.Total += pastryShopMonth.count;
             }
 
-            var usersJsonObject = new JSONDataObject();
+            var usersJsonObject = new JsonDataObject();
             usersJsonObject.Year = year;
             foreach (var userMonth in usersByMonth)
             {
@@ -564,7 +559,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                         count = g.Count()
                     });
 
-            var ordersByMonthJSON = new JSONDataObject();
+            var ordersByMonthJSON = new JsonDataObject();
             ordersByMonthJSON.Year = year;
             foreach (var orderByMonth in ordersByMonth)
             {
@@ -628,7 +623,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 }
                 ).OrderByDescending(x => x.numberOfOrders);
 
-            var jsonDataObject = new JSONDataObject();
+            var jsonDataObject = new JsonDataObject();
             double sum = 0;
             jsonDataObject.Total = allOrders.Any()?allOrders.Sum(p => p.numberOfOrders):0;
             var topFive = allOrders.Take(5);

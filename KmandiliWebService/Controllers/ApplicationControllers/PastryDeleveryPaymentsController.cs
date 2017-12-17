@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
@@ -15,19 +11,19 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
     [Authorize]
     public class PastryDeleveryPaymentsController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/PastryDeleveryPayments
         public IQueryable<PastryDeleveryPayment> GetPastryDeleveryPayments()
         {
-            return db.PastryDeleveryPayments;
+            return _db.PastryDeleveryPayments;
         }
 
         // GET: api/PastryDeleveryPayments/5
         [ResponseType(typeof(PastryDeleveryPayment))]
         public IHttpActionResult GetPastryDeleveryPayment(int id)
         {
-            PastryDeleveryPayment pastryDeleveryPayment = db.PastryDeleveryPayments.Find(id);
+            PastryDeleveryPayment pastryDeleveryPayment = _db.PastryDeleveryPayments.Find(id);
             if (pastryDeleveryPayment == null)
             {
                 return NotFound();
@@ -50,11 +46,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(pastryDeleveryPayment).State = EntityState.Modified;
+            _db.Entry(pastryDeleveryPayment).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -62,10 +58,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -81,11 +74,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest(ModelState);
             }
 
-            db.PastryDeleveryPayments.Add(pastryDeleveryPayment);
+            _db.PastryDeleveryPayments.Add(pastryDeleveryPayment);
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateException)
             {
@@ -93,10 +86,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return Conflict();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return CreatedAtRoute("DefaultApi", new { id = pastryDeleveryPayment.ID }, pastryDeleveryPayment);
@@ -106,14 +96,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(PastryDeleveryPayment))]
         public IHttpActionResult DeletePastryDeleveryPayment(int id)
         {
-            PastryDeleveryPayment pastryDeleveryPayment = db.PastryDeleveryPayments.Find(id);
+            PastryDeleveryPayment pastryDeleveryPayment = _db.PastryDeleveryPayments.Find(id);
             if (pastryDeleveryPayment == null)
             {
                 return NotFound();
             }
 
-            db.PastryDeleveryPayments.Remove(pastryDeleveryPayment);
-            db.SaveChanges();
+            _db.PastryDeleveryPayments.Remove(pastryDeleveryPayment);
+            _db.SaveChanges();
 
             return Ok(pastryDeleveryPayment);
         }
@@ -122,14 +112,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool PastryDeleveryPaymentExists(int id)
         {
-            return db.PastryDeleveryPayments.Count(e => e.ID == id) > 0;
+            return _db.PastryDeleveryPayments.Count(e => e.ID == id) > 0;
         }
     }
 }

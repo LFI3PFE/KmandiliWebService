@@ -3,11 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Hosting;
 using System.Web.Http;
-using System.Web.Http.Description;
 using System.Web.WebPages;
 using KmandiliWebService.DatabaseAccessLayer;
 
@@ -15,7 +12,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
 {
     public class EmailsController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         const string ProductCellTemplate = "<tr>" +
                             "<td colspan=\"2\" class=\"desc\" style=\"padding: 20px;background: #EEEEEE;text-align: left;border-bottom: 1px solid #FFFFFF;\">" +
@@ -51,22 +48,24 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             {
                 return BadRequest(ModelState);
             }
-            if ((db.Users.FirstOrDefault(u => u.Email == email) == null) &&
-                (db.PastryShops.FirstOrDefault(p => p.Email == email) == null) && System.Web.Configuration.WebConfigurationManager.AppSettings["AdminUserName"] != email)
+            if (_db.Users.FirstOrDefault(u => u.Email == email) == null &&
+                _db.PastryShops.FirstOrDefault(p => p.Email == email) == null && System.Web.Configuration.WebConfigurationManager.AppSettings["AdminUserName"] != email)
             {
                 return NotFound();
             }
-            string Code = Guid.NewGuid().ToString().Substring(0, 6);
+            string code = Guid.NewGuid().ToString().Substring(0, 6);
 
             string date = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
             string content = "<b>Code de réinitialisation de mot de passe</b> Date: " + date + "<br/>" +
                              "Copier le code si desous dans Kmandili<br/>" +
                              "<b>Ce code est valable pour 5 minnutes seulement!</b><br/>" + 
-                             "<span style='font-size: 30px; color: black;'>" + Code + "</span>";
+                             "<span style='font-size: 30px; color: black;'>" + code + "</span>";
 
-            MailMessage message = new MailMessage();
-            message.Subject = "Kmandili: réinitialiser le mot de passe " + date;
-            message.From = new MailAddress("kmandili@ili-studios.tn", "Kmandili");
+            MailMessage message = new MailMessage
+            {
+                Subject = "Kmandili: réinitialiser le mot de passe " + date,
+                From = new MailAddress("kmandili@ili-studios.tn", "Kmandili")
+            };
             message.To.Add(new MailAddress(email));
             message.IsBodyHtml = true;
             message.Body = content;
@@ -74,7 +73,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             {
                 return BadRequest();
             }
-            return Ok(Code);
+            return Ok(code);
         }
         
         [AllowAnonymous]
@@ -86,16 +85,18 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             {
                 return BadRequest(ModelState);
             }
-            string Code = Guid.NewGuid().ToString().Substring(0,6);
+            string code = Guid.NewGuid().ToString().Substring(0,6);
 
             string date = DateTime.Now.ToString("MM/dd/yyyy HH:mm");
             string content = "<b>Verification Email</b> Date: " + date + "<br/>" +
                              "Copier le code de verification si desous dans Kmandili<br/>" +
-                             "<span style='font-size: 30px; color: black;'>" + Code + "</span>";
-            
-            MailMessage message = new MailMessage();
-            message.Subject = "Kmandili: Verification email " + date;
-            message.From = new MailAddress("kmandili@ili-studios.tn", "Kmandili");
+                             "<span style='font-size: 30px; color: black;'>" + code + "</span>";
+
+            MailMessage message = new MailMessage
+            {
+                Subject = "Kmandili: Verification email " + date,
+                From = new MailAddress("kmandili@ili-studios.tn", "Kmandili")
+            };
             message.To.Add(new MailAddress(email));
             message.IsBodyHtml = true;
             message.Body = content;
@@ -103,7 +104,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             {
                 return BadRequest();
             }
-            return Ok(Code);
+            return Ok(code);
         }
 
         [Route("api/sendOrderEmail/{id}")]
@@ -114,7 +115,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             {
                 return BadRequest(ModelState);
             }
-            Order order = db.Orders.Find(id);
+            Order order = _db.Orders.Find(id);
             if(!SendOrderEmailToUser(order, "") || !SendOrderEmailToPastryShop(order, "", NoticeString))
             {
                 return BadRequest();
@@ -124,7 +125,8 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
 
         public void SendTimeOutCancelEmail(int id)
         {
-            var order = db.Orders.Find(id);
+            var order = _db.Orders.Find(id);
+            if (order == null) return;
             order.Status.StatusName = "Annulée";
             SendOrderEmailToUser(order,
                 "Nous somme désolé de vous informer que votre commande a été annuler parcequ'elle a dépassé les delais d'attente.");
@@ -139,7 +141,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             {
                 return BadRequest(ModelState);
             }
-            Order order = db.Orders.Find(id);
+            Order order = _db.Orders.Find(id);
             if (!SendOrderEmailToUser(order, "Commande Annulée") || !SendOrderEmailToPastryShop(order, "Commande Annulée", ""))
             {
                 return BadRequest();
@@ -155,7 +157,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             {
                 return BadRequest(ModelState);
             }
-            Order order = db.Orders.Find(id);
+            Order order = _db.Orders.Find(id);
             if (!SendOrderEmailToUser(order, "Commande Annulée Par l'Administrateur") || !SendOrderEmailToPastryShop(order, "Commande Annulée  Par l'Administrateur", ""))
             {
                 return BadRequest();
@@ -165,8 +167,8 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
 
         private bool SendOrderEmailToUser(Order order, string orderStatusMessage)
         {
-            //string path = HttpContext.Current.Server.MapPath("~/Views/EmailViews/OrderViews/OrderEmailLayout.html");
             string path = HostingEnvironment.MapPath("~/Views/EmailViews/OrderViews/OrderEmailLayout.html");
+            if (path == null) return false;
             MailMessage message = new MailMessage();
 
             string content = File.ReadAllText(path);
@@ -198,23 +200,23 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             content = content.Replace("#OrderDelevery", order.DeleveryMethod.DeleveryType);
             content = content.Replace("#OrderPayment", order.Payment.PaymentMethod);
             string productsRows = "";
-            double Total = 0;
+            double total = 0;
             foreach (OrderProduct orderProduct in order.OrderProducts)
             {
                 string productCell = ProductCellTemplate;
                 productCell = productCell.Replace("#ImgSRC", orderProduct.Product.Pic);
                 productCell = productCell.Replace("#ProductName", orderProduct.Product.Name);
                 productCell = productCell.Replace("#ProductDescription", orderProduct.Product.Description);
-                productCell = productCell.Replace("#ProductPrice", orderProduct.Product.Price.ToString() + " TND");
+                productCell = productCell.Replace("#ProductPrice", orderProduct.Product.Price + " TND");
                 productCell = productCell.Replace("#ProductQuantity", orderProduct.Quantity.ToString());
-                productCell = productCell.Replace("#ProductTotal", (orderProduct.Quantity * orderProduct.Product.Price).ToString() + " TND");
-                Total += (orderProduct.Quantity * orderProduct.Product.Price);
+                productCell = productCell.Replace("#ProductTotal", (orderProduct.Quantity * orderProduct.Product.Price) + " TND");
+                total += orderProduct.Quantity * orderProduct.Product.Price;
 
                 productsRows += productCell;
             }
 
             content = content.Replace("#OrderProducts", productsRows);
-            content = content.Replace("#OrderTotal", Total + " TND");
+            content = content.Replace("#OrderTotal", total + " TND");
 
 
             
@@ -227,8 +229,8 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
 
         private bool SendOrderEmailToPastryShop(Order order, string orderStatusMessage, string noticeString)
         {
-            //string path = HttpContext.Current.Server.MapPath("~/Views/EmailViews/OrderViews/OrderEmailLayout.html");
             string path = HostingEnvironment.MapPath("~/Views/EmailViews/OrderViews/OrderEmailLayout.html");
+            if (path == null) return false;
             MailMessage message = new MailMessage();
 
             string content = File.ReadAllText(path);
@@ -260,23 +262,23 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             content = content.Replace("#OrderDelevery", order.DeleveryMethod.DeleveryType);
             content = content.Replace("#OrderPayment", order.Payment.PaymentMethod);
             string productsRows = "";
-            double Total = 0;
+            double total = 0;
             foreach (OrderProduct orderProduct in order.OrderProducts)
             {
                 string productCell = ProductCellTemplate;
                 productCell = productCell.Replace("#ImgSRC", orderProduct.Product.Pic);
                 productCell = productCell.Replace("#ProductName", orderProduct.Product.Name);
                 productCell = productCell.Replace("#ProductDescription", orderProduct.Product.Description);
-                productCell = productCell.Replace("#ProductPrice", orderProduct.Product.Price.ToString() + " TND");
+                productCell = productCell.Replace("#ProductPrice", orderProduct.Product.Price + " TND");
                 productCell = productCell.Replace("#ProductQuantity", orderProduct.Quantity.ToString());
-                productCell = productCell.Replace("#ProductTotal", (orderProduct.Quantity * orderProduct.Product.Price).ToString() + " TND");
-                Total += (orderProduct.Quantity * orderProduct.Product.Price);
+                productCell = productCell.Replace("#ProductTotal", (orderProduct.Quantity * orderProduct.Product.Price) + " TND");
+                total += orderProduct.Quantity * orderProduct.Product.Price;
 
                 productsRows += productCell;
             }
 
             content = content.Replace("#OrderProducts", productsRows);
-            content = content.Replace("#OrderTotal", Total.ToString() + " TND");
+            content = content.Replace("#OrderTotal", total + " TND");
             
             message.From = new MailAddress("kmandili@ili-studios.tn", "Kmandili");
             message.To.Add(new MailAddress(order.PastryShop.Email, order.PastryShop.Name));
@@ -291,9 +293,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             {
                 client.Port = 587;
                 client.Host = "smtp.gmail.com";
-                //client.Host = "ns0.hebergili.com";
-                client.Credentials = new System.Net.NetworkCredential("kmandili.contact@gmail.com", "kmandili2016");
-                //client.Credentials = new System.Net.NetworkCredential("kmandili@ili-studios.tn", "KmandiLi@2017");
+                client.Credentials = new NetworkCredential("kmandili.contact@gmail.com", "kmandili2016");
                 client.EnableSsl = true;
                 try
                 {

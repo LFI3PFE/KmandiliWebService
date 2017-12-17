@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
@@ -15,19 +11,19 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
     [Authorize]
     public class WorkDaysController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/WorkDays
         public IQueryable<WorkDay> GetWorkDays()
         {
-            return db.WorkDays;
+            return _db.WorkDays;
         }
 
         // GET: api/WorkDays/5
         [ResponseType(typeof(WorkDay))]
         public IHttpActionResult GetWorkDay(int id)
         {
-            WorkDay workDay = db.WorkDays.Find(id);
+            WorkDay workDay = _db.WorkDays.Find(id);
             if (workDay == null)
             {
                 return NotFound();
@@ -50,11 +46,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(workDay).State = EntityState.Modified;
+            _db.Entry(workDay).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -80,8 +76,8 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest(ModelState);
             }
 
-            db.WorkDays.Add(workDay);
-            db.SaveChanges();
+            _db.WorkDays.Add(workDay);
+            _db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = workDay.ID }, workDay);
         }
@@ -90,14 +86,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(WorkDay))]
         public IHttpActionResult DeleteWorkDay(int id)
         {
-            WorkDay workDay = db.WorkDays.Find(id);
+            WorkDay workDay = _db.WorkDays.Find(id);
             if (workDay == null)
             {
                 return NotFound();
             }
 
-            db.WorkDays.Remove(workDay);
-            db.SaveChanges();
+            _db.WorkDays.Remove(workDay);
+            _db.SaveChanges();
 
             return Ok(workDay);
         }
@@ -106,14 +102,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool WorkDayExists(int id)
         {
-            return db.WorkDays.Count(e => e.ID == id) > 0;
+            return _db.WorkDays.Count(e => e.ID == id) > 0;
         }
     }
 }

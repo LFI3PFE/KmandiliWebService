@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Configuration;
-using System.Data.SqlClient;
 using KmandiliWebService.DatabaseAccessLayer;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
@@ -17,19 +11,19 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
     [Authorize]
     public class PastryShopDeleveryMethodsController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/PastryShopDeleveryMethods
         public IQueryable<PastryShopDeleveryMethod> GetPastryShopDeleveryMethods()
         {
-            return db.PastryShopDeleveryMethods;
+            return _db.PastryShopDeleveryMethods;
         }
 
         // GET: api/PastryShopDeleveryMethods/5
         [ResponseType(typeof(PastryShopDeleveryMethod))]
         public IHttpActionResult GetPastryShopDeleveryMethod(int id)
         {
-            PastryShopDeleveryMethod pastryShopDeleveryMethod = db.PastryShopDeleveryMethods.Find(id);
+            PastryShopDeleveryMethod pastryShopDeleveryMethod = _db.PastryShopDeleveryMethods.Find(id);
             if (pastryShopDeleveryMethod == null)
             {
                 return NotFound();
@@ -52,11 +46,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(pastryShopDeleveryMethod).State = EntityState.Modified;
+            _db.Entry(pastryShopDeleveryMethod).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -64,10 +58,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -82,11 +73,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             {
                 return BadRequest(ModelState);
             }
-            db.PastryShopDeleveryMethods.Add(pastryShopDeleveryMethod);
+            _db.PastryShopDeleveryMethods.Add(pastryShopDeleveryMethod);
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateException)
             {
@@ -94,10 +85,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return Conflict();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
             return CreatedAtRoute("DefaultApi", new { id = pastryShopDeleveryMethod.PastryShop_FK }, pastryShopDeleveryMethod);
         }
@@ -106,14 +94,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(PastryShopDeleveryMethod))]
         public IHttpActionResult DeletePastryShopDeleveryMethod(int id)
         {
-            PastryShopDeleveryMethod pastryShopDeleveryMethod = db.PastryShopDeleveryMethods.Find(id);
+            PastryShopDeleveryMethod pastryShopDeleveryMethod = _db.PastryShopDeleveryMethods.Find(id);
             if (pastryShopDeleveryMethod == null)
             {
                 return NotFound();
             }
 
-            db.PastryShopDeleveryMethods.Remove(pastryShopDeleveryMethod);
-            db.SaveChanges();
+            _db.PastryShopDeleveryMethods.Remove(pastryShopDeleveryMethod);
+            _db.SaveChanges();
 
             return Ok(pastryShopDeleveryMethod);
         }
@@ -122,14 +110,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool PastryShopDeleveryMethodExists(int id)
         {
-            return db.PastryShopDeleveryMethods.Count(e => e.PastryShop_FK == id) > 0;
+            return _db.PastryShopDeleveryMethods.Count(e => e.PastryShop_FK == id) > 0;
         }
     }
 }

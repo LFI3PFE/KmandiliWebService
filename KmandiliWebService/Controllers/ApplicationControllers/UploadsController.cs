@@ -1,33 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Hosting;
 using System.Web.Http;
-using System.Web.Http.Description;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
-    //[RoutePrefix("api/Upload")]
     public class UploadsController : ApiController
     {
         public IHttpActionResult GetUploads()
         {
-            return Ok("Yooo");
+            return Ok();
         }
 
         [Route("api/uploads/{FileName}")]
         [AllowAnonymous]
         [HttpPost]
-        public HttpResponseMessage PostUploads(string FileName)
+        public HttpResponseMessage PostUploads(string fileName)
         {
-            string path = "";
             var result = new HttpResponseMessage(HttpStatusCode.OK);
             if (Request.Content.IsMimeMultipartContent())
             {
@@ -39,50 +33,46 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                     {
                         Stream stream = content.ReadAsStreamAsync().Result;
                         Image image = Image.FromStream(stream);
-                        //var testName = content.Headers.ContentDisposition.FileName;
                         string filePath = HostingEnvironment.MapPath("~/Uploads");
-                        if (!Directory.Exists(filePath))
+                        if (filePath != null)
                         {
-                            Directory.CreateDirectory(filePath);
+                            if (!Directory.Exists(filePath))
+                            {
+                                Directory.CreateDirectory(filePath);
 
+                            }
+                            string fullPath = Path.Combine(filePath, fileName + ".jpg");
+
+                            double x = (300 / (double)image.Height);
+                            var newWidth = image.Width * x;
+                            var img = RezizeImage(image, newWidth, 300);
+                            img.Save(fullPath);
                         }
-                        string fullPath = Path.Combine(filePath, FileName + ".jpg");
-                        path = fullPath;
-
-                        double x = (300 / (double)image.Height);
-                        var newWidth = image.Width * x;
-                        var img = RezizeImage(image, newWidth, 300);
-                        //yourImage = resizeImage(yourImage, new Size(50,50));
-                        img.Save(fullPath);
                     }
                 });
                 return result;
             }
-            else
-            {
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotAcceptable, "This request is not properly formatted"));
-            }
+            throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotAcceptable, "This request is not properly formatted"));
         }
 
         [Route("api/uploads/{FileName}")]
         [Authorize]
         [HttpDelete]
-        public HttpResponseMessage DeleteImage(string FileName)
+        public HttpResponseMessage DeleteImage(string fileName)
         {
             try
             {
                 string imageFilePath = HostingEnvironment.MapPath("~/Uploads");
-                imageFilePath = Path.Combine(imageFilePath, FileName+".jpg");
+                if(imageFilePath == null) return new HttpResponseMessage(HttpStatusCode.NoContent);
+                imageFilePath = Path.Combine(imageFilePath, fileName+".jpg");
                 if (File.Exists(imageFilePath))
                 {
                     File.Delete(imageFilePath);
                     return new HttpResponseMessage(HttpStatusCode.OK);
                 }
-                //File.Delete(imageFilePath);
                 return new HttpResponseMessage(HttpStatusCode.OK);
-                //return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotAcceptable, "This request is not properly formatted"));
             }
@@ -94,8 +84,8 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             if (img.Height < maxHeight && img.Width < maxWidth) return img;
             using (img)
             {
-                double xRatio = (double)img.Width / maxWidth;
-                double yRatio = (double)img.Height / maxHeight;
+                double xRatio = img.Width / maxWidth;
+                double yRatio = img.Height / maxHeight;
                 double ratio = Math.Max(xRatio, yRatio);
                 int nnx = (int)Math.Floor(img.Width / ratio);
                 int nny = (int)Math.Floor(img.Height / ratio);
@@ -115,10 +105,6 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return cpy;
             }
 
-        }
-        public static Image resizeImage(Image imgToResize, Size size)
-        {
-            return (Image)(new Bitmap(imgToResize, size));
         }
     }
 }

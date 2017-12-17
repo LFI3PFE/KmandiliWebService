@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
@@ -15,19 +11,19 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
     [Authorize]
     public class AddressesController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/Addresses
         public IQueryable<Address> GetAddresses()
         {
-            return db.Addresses;
+            return _db.Addresses;
         }
 
         // GET: api/Addresses/5
         [ResponseType(typeof(Address))]
         public IHttpActionResult GetAddress(int id)
         {
-            Address address = db.Addresses.Find(id);
+            Address address = _db.Addresses.Find(id);
             if (address == null)
             {
                 return NotFound();
@@ -50,11 +46,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(address).State = EntityState.Modified;
+            _db.Entry(address).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -62,10 +58,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -81,8 +74,8 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest(ModelState);
             }
 
-            db.Addresses.Add(address);
-            db.SaveChanges();
+            _db.Addresses.Add(address);
+            _db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = address.ID }, address);
         }
@@ -91,14 +84,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(Address))]
         public IHttpActionResult DeleteAddress(int id)
         {
-            Address address = db.Addresses.Find(id);
+            Address address = _db.Addresses.Find(id);
             if (address == null)
             {
                 return NotFound();
             }
 
-            db.Addresses.Remove(address);
-            db.SaveChanges();
+            _db.Addresses.Remove(address);
+            _db.SaveChanges();
 
             return Ok(address);
         }
@@ -107,14 +100,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool AddressExists(int id)
         {
-            return db.Addresses.Count(e => e.ID == id) > 0;
+            return _db.Addresses.Count(e => e.ID == id) > 0;
         }
     }
 }

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
@@ -15,20 +12,20 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
     [Authorize]
     public class DeleveryMethodsController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/DeleveryMethods
         [AllowAnonymous]
         public IQueryable<DeleveryMethod> GetDeleveryMethods()
         {
-            return db.DeleveryMethods;
+            return _db.DeleveryMethods;
         }
 
         // GET: api/DeleveryMethods/5
         [ResponseType(typeof(DeleveryMethod))]
         public IHttpActionResult GetDeleveryMethod(int id)
         {
-            DeleveryMethod deleveryMethod = db.DeleveryMethods.Find(id);
+            DeleveryMethod deleveryMethod = _db.DeleveryMethods.Find(id);
             if (deleveryMethod == null)
             {
                 return NotFound();
@@ -52,21 +49,22 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            var existingDeleveryMethod = db.DeleveryMethods.FirstOrDefault(d => d.ID == id);
-            var toDeletePayments = existingDeleveryMethod.Payments.Except(deleveryMethod.Payments, p => p.ID).ToList<Payment>();
-            var toAddPayments = deleveryMethod.Payments.Except(existingDeleveryMethod.Payments, p => p.ID).ToList<Payment>();
+            var existingDeleveryMethod = _db.DeleveryMethods.FirstOrDefault(d => d.ID == id);
+            if (existingDeleveryMethod == null) return NotFound();
+            var toDeletePayments = existingDeleveryMethod.Payments.Except(deleveryMethod.Payments, p => p.ID).ToList();
+            var toAddPayments = deleveryMethod.Payments.Except(existingDeleveryMethod.Payments, p => p.ID).ToList();
 
             toDeletePayments.ForEach(c => existingDeleveryMethod.Payments.Remove(c));
             foreach (var payment in toAddPayments)
             {
-                if (db.Entry(payment).State == EntityState.Detached)
-                    db.Payments.Attach(payment);
+                if (_db.Entry(payment).State == EntityState.Detached)
+                    _db.Payments.Attach(payment);
                 existingDeleveryMethod.Payments.Add(payment);
             }
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -74,10 +72,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -96,11 +91,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(deleveryMethod).State = EntityState.Modified;
+            _db.Entry(deleveryMethod).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -108,10 +103,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -129,18 +121,18 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             var toAddPayments = new List<Payment>(deleveryMethod.Payments);
             deleveryMethod.Payments.Clear();
 
-            db.DeleveryMethods.Add(deleveryMethod);
+            _db.DeleveryMethods.Add(deleveryMethod);
 
             foreach (var payment in toAddPayments)
             {
-                if (db.Entry(payment).State == EntityState.Detached)
-                    db.Payments.Attach(payment);
+                if (_db.Entry(payment).State == EntityState.Detached)
+                    _db.Payments.Attach(payment);
                 deleveryMethod.Payments.Add(payment);
             }
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateException)
             {
@@ -148,10 +140,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return Conflict();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return CreatedAtRoute("DefaultApi", new { id = deleveryMethod.ID }, deleveryMethod);
@@ -161,14 +150,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(DeleveryMethod))]
         public IHttpActionResult DeleteDeleveryMethod(int id)
         {
-            DeleveryMethod deleveryMethod = db.DeleveryMethods.Find(id);
+            DeleveryMethod deleveryMethod = _db.DeleveryMethods.Find(id);
             if (deleveryMethod == null)
             {
                 return NotFound();
             }
 
-            db.DeleveryMethods.Remove(deleveryMethod);
-            db.SaveChanges();
+            _db.DeleveryMethods.Remove(deleveryMethod);
+            _db.SaveChanges();
 
             return Ok(deleveryMethod);
         }
@@ -177,14 +166,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool DeleveryMethodExists(int id)
         {
-            return db.DeleveryMethods.Count(e => e.ID == id) > 0;
+            return _db.DeleveryMethods.Count(e => e.ID == id) > 0;
         }
     }
 }

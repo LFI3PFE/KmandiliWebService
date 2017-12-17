@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
@@ -15,13 +11,13 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
     [Authorize]
     public class DeleveryDelaysController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/DeleveryDelays
         [AllowAnonymous]
         public IQueryable<DeleveryDelay> GetDeleveryDelays()
         {
-            IQueryable<DeleveryDelay> q = db.DeleveryDelays;
+            IQueryable<DeleveryDelay> q = _db.DeleveryDelays;
             return q;
         }
 
@@ -29,7 +25,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(DeleveryDelay))]
         public IHttpActionResult GetDeleveryDelay(int id)
         {
-            DeleveryDelay deleveryDelay = db.DeleveryDelays.Find(id);
+            DeleveryDelay deleveryDelay = _db.DeleveryDelays.Find(id);
             if (deleveryDelay == null)
             {
                 return NotFound();
@@ -52,11 +48,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(deleveryDelay).State = EntityState.Modified;
+            _db.Entry(deleveryDelay).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -64,10 +60,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -82,11 +75,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest(ModelState);
             }
 
-            db.DeleveryDelays.Add(deleveryDelay);
+            _db.DeleveryDelays.Add(deleveryDelay);
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateException)
             {
@@ -94,10 +87,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return Conflict();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return CreatedAtRoute("DefaultApi", new { id = deleveryDelay.ID }, deleveryDelay);
@@ -107,14 +97,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(DeleveryDelay))]
         public IHttpActionResult DeleteDeleveryDelay(int id)
         {
-            DeleveryDelay deleveryDelay = db.DeleveryDelays.Find(id);
+            DeleveryDelay deleveryDelay = _db.DeleveryDelays.Find(id);
             if (deleveryDelay == null)
             {
                 return NotFound();
             }
 
-            db.DeleveryDelays.Remove(deleveryDelay);
-            db.SaveChanges();
+            _db.DeleveryDelays.Remove(deleveryDelay);
+            _db.SaveChanges();
 
             return Ok(deleveryDelay);
         }
@@ -123,14 +113,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool DeleveryDelayExists(int id)
         {
-            return db.DeleveryDelays.Count(e => e.ID == id) > 0;
+            return _db.DeleveryDelays.Count(e => e.ID == id) > 0;
         }
     }
 }

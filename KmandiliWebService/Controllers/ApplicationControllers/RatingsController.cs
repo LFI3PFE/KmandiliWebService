@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
@@ -15,20 +11,20 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
     [Authorize]
     public class RatingsController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/Ratings
         public IQueryable<Rating> GetRatings()
         {
-            return db.Ratings;
+            return _db.Ratings;
         }
 
         // GET: api/Ratings/5
         [Route("api/Ratings/{user_fk}/{pastryShop_fk}/")]
         [ResponseType(typeof(Rating))]
-        public IHttpActionResult GetRating(int user_fk, int pastryShop_fk)
+        public IHttpActionResult GetRating(int userFk, int pastryShopFk)
         {
-            Rating rating = db.Ratings.FirstOrDefault(r => r.User_FK == user_fk && r.PastryShop_FK == pastryShop_fk);
+            Rating rating = _db.Ratings.FirstOrDefault(r => r.User_FK == userFk && r.PastryShop_FK == pastryShopFk);
             if (rating == null)
             {
                 return NotFound();
@@ -40,34 +36,31 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         // PUT: api/Ratings/5
         [Route("api/Ratings/{user_fk}/{pastryShop_fk}/")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutRating(int user_fk, int pastryShop_fk, Rating rating)
+        public IHttpActionResult PutRating(int userFk, int pastryShopFk, Rating rating)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (user_fk != rating.User_FK || pastryShop_fk != rating.PastryShop_FK)
+            if (userFk != rating.User_FK || pastryShopFk != rating.PastryShop_FK)
             {
                 return BadRequest();
             }
 
-            db.Entry(rating).State = EntityState.Modified;
+            _db.Entry(rating).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RatingExists(user_fk, pastryShop_fk))
+                if (!RatingExists(userFk, pastryShopFk))
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -82,11 +75,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest(ModelState);
             }
 
-            db.Ratings.Add(rating);
+            _db.Ratings.Add(rating);
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateException)
             {
@@ -94,10 +87,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return Conflict();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return CreatedAtRoute("DefaultApi", new { id = rating.User_FK }, rating);
@@ -106,16 +96,16 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         // DELETE: api/Ratings/5
         [Route("api/Ratings/{user_fk}/{pastryShop_fk}/")]
         [ResponseType(typeof(Rating))]
-        public IHttpActionResult DeleteRating(int user_fk, int pastryShop_fk)
+        public IHttpActionResult DeleteRating(int userFk, int pastryShopFk)
         {
-            Rating rating = db.Ratings.FirstOrDefault(r => r.User_FK == user_fk && r.PastryShop_FK == pastryShop_fk);
+            Rating rating = _db.Ratings.FirstOrDefault(r => r.User_FK == userFk && r.PastryShop_FK == pastryShopFk);
             if (rating == null)
             {
                 return NotFound();
             }
 
-            db.Ratings.Remove(rating);
-            db.SaveChanges();
+            _db.Ratings.Remove(rating);
+            _db.SaveChanges();
 
             return Ok(rating);
         }
@@ -124,14 +114,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
-        private bool RatingExists(int user_fk, int pastryShop_fk)
+        private bool RatingExists(int userFk, int pastryShopFk)
         {
-            return db.Ratings.Count(e => e.User_FK == user_fk && e.PastryShop_FK == pastryShop_fk) > 0;
+            return _db.Ratings.Count(e => e.User_FK == userFk && e.PastryShop_FK == pastryShopFk) > 0;
         }
     }
 }

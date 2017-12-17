@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
@@ -15,20 +11,20 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
     [Authorize]
     public class PriceRangesController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/PriceRanges
         [AllowAnonymous]
         public IQueryable<PriceRange> GetPriceRanges()
         {
-            return db.PriceRanges;
+            return _db.PriceRanges;
         }
 
         // GET: api/PriceRanges/5
         [ResponseType(typeof(PriceRange))]
         public IHttpActionResult GetPriceRange(int id)
         {
-            PriceRange priceRange = db.PriceRanges.Find(id);
+            PriceRange priceRange = _db.PriceRanges.Find(id);
             if (priceRange == null)
             {
                 return NotFound();
@@ -51,11 +47,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(priceRange).State = EntityState.Modified;
+            _db.Entry(priceRange).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -63,10 +59,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -81,11 +74,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest(ModelState);
             }
 
-            db.PriceRanges.Add(priceRange);
+            _db.PriceRanges.Add(priceRange);
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateException)
             {
@@ -93,10 +86,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return Conflict();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return CreatedAtRoute("DefaultApi", new { id = priceRange.ID }, priceRange);
@@ -106,14 +96,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(PriceRange))]
         public IHttpActionResult DeletePriceRange(int id)
         {
-            PriceRange priceRange = db.PriceRanges.Find(id);
+            PriceRange priceRange = _db.PriceRanges.Find(id);
             if (priceRange == null)
             {
                 return NotFound();
             }
 
-            db.PriceRanges.Remove(priceRange);
-            db.SaveChanges();
+            _db.PriceRanges.Remove(priceRange);
+            _db.SaveChanges();
 
             return Ok(priceRange);
         }
@@ -122,14 +112,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool PriceRangeExists(int id)
         {
-            return db.PriceRanges.Count(e => e.ID == id) > 0;
+            return _db.PriceRanges.Count(e => e.ID == id) > 0;
         }
     }
 }

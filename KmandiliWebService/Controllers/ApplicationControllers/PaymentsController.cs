@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
@@ -15,19 +11,19 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
     [Authorize]
     public class PaymentsController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/Payments
         public IQueryable<Payment> GetPayments()
         {
-            return db.Payments;
+            return _db.Payments;
         }
 
         // GET: api/Payments/5
         [ResponseType(typeof(Payment))]
         public IHttpActionResult GetPayment(int id)
         {
-            Payment payment = db.Payments.Find(id);
+            Payment payment = _db.Payments.Find(id);
             if (payment == null)
             {
                 return NotFound();
@@ -50,11 +46,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(payment).State = EntityState.Modified;
+            _db.Entry(payment).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -62,10 +58,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -80,11 +73,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest(ModelState);
             }
 
-            db.Payments.Add(payment);
+            _db.Payments.Add(payment);
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateException)
             {
@@ -92,10 +85,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return Conflict();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return CreatedAtRoute("DefaultApi", new { id = payment.ID }, payment);
@@ -105,14 +95,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(Payment))]
         public IHttpActionResult DeletePayment(int id)
         {
-            Payment payment = db.Payments.Find(id);
+            Payment payment = _db.Payments.Find(id);
             if (payment == null)
             {
                 return NotFound();
             }
 
-            db.Payments.Remove(payment);
-            db.SaveChanges();
+            _db.Payments.Remove(payment);
+            _db.SaveChanges();
 
             return Ok(payment);
         }
@@ -121,14 +111,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool PaymentExists(int id)
         {
-            return db.Payments.Count(e => e.ID == id) > 0;
+            return _db.Payments.Count(e => e.ID == id) > 0;
         }
     }
 }

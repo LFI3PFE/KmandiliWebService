@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
@@ -14,7 +10,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
 {
     public class PasswordController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         [Route("api/passwords/{email}/{newPassword}")]
         [HttpPut]
@@ -34,30 +30,23 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             }
             else
             {
-                var user = db.Users.FirstOrDefault(u => u.Email == email);
+                var user = _db.Users.FirstOrDefault(u => u.Email == email);
                 if (user == null)
                 {
-                    var pastryShop = db.PastryShops.FirstOrDefault(u => u.Email == email);
+                    var pastryShop = _db.PastryShops.FirstOrDefault(u => u.Email == email);
                     if (pastryShop != null)
                     {
                         pastryShop.Password = newPassword;
-                        db.Entry(pastryShop).State = EntityState.Modified;
+                        _db.Entry(pastryShop).State = EntityState.Modified;
                     }
                 }
                 else
                 {
                     user.Password = newPassword;
-                    db.Entry(user).State = EntityState.Modified;
+                    _db.Entry(user).State = EntityState.Modified;
                 }
 
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    throw;
-                }
+                _db.SaveChanges();
             }
             return StatusCode(HttpStatusCode.NoContent);
         }

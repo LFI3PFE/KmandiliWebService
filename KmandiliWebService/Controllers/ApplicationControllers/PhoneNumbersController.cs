@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
@@ -15,19 +11,19 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
     [Authorize]
     public class PhoneNumbersController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/PhoneNumbers
         public IQueryable<PhoneNumber> GetPhoneNumbers()
         {
-            return db.PhoneNumbers;
+            return _db.PhoneNumbers;
         }
 
         // GET: api/PhoneNumbers/5
         [ResponseType(typeof(PhoneNumber))]
         public IHttpActionResult GetPhoneNumber(int id)
         {
-            PhoneNumber phoneNumber = db.PhoneNumbers.Find(id);
+            PhoneNumber phoneNumber = _db.PhoneNumbers.Find(id);
             if (phoneNumber == null)
             {
                 return NotFound();
@@ -50,11 +46,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(phoneNumber).State = EntityState.Modified;
+            _db.Entry(phoneNumber).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -62,10 +58,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -82,25 +75,25 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             }
             if (phoneNumber.User != null)
             {
-                if (db.Entry(phoneNumber.User).State == EntityState.Detached)
+                if (_db.Entry(phoneNumber.User).State == EntityState.Detached)
                 {
-                    db.Users.Attach(phoneNumber.User);
+                    _db.Users.Attach(phoneNumber.User);
                 }
             }else if (phoneNumber.PastryShop != null)
             {
-                if (db.Entry(phoneNumber.PastryShop).State == EntityState.Detached)
+                if (_db.Entry(phoneNumber.PastryShop).State == EntityState.Detached)
                 {
-                    db.PastryShops.Attach(phoneNumber.PastryShop);
+                    _db.PastryShops.Attach(phoneNumber.PastryShop);
                 }
             }else if (phoneNumber.PointOfSale != null)
             {
-                if (db.Entry(phoneNumber.PointOfSale).State == EntityState.Detached)
+                if (_db.Entry(phoneNumber.PointOfSale).State == EntityState.Detached)
                 {
-                    db.PointOfSales.Attach(phoneNumber.PointOfSale);
+                    _db.PointOfSales.Attach(phoneNumber.PointOfSale);
                 }
             }
-            db.PhoneNumbers.Add(phoneNumber);
-            db.SaveChanges();
+            _db.PhoneNumbers.Add(phoneNumber);
+            _db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = phoneNumber.ID }, phoneNumber);
         }
@@ -109,14 +102,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(PhoneNumber))]
         public IHttpActionResult DeletePhoneNumber(int id)
         {
-            PhoneNumber phoneNumber = db.PhoneNumbers.Find(id);
+            PhoneNumber phoneNumber = _db.PhoneNumbers.Find(id);
             if (phoneNumber == null)
             {
                 return NotFound();
             }
 
-            db.PhoneNumbers.Remove(phoneNumber);
-            db.SaveChanges();
+            _db.PhoneNumbers.Remove(phoneNumber);
+            _db.SaveChanges();
 
             return Ok(phoneNumber);
         }
@@ -125,14 +118,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool PhoneNumberExists(int id)
         {
-            return db.PhoneNumbers.Count(e => e.ID == id) > 0;
+            return _db.PhoneNumbers.Count(e => e.ID == id) > 0;
         }
     }
 }

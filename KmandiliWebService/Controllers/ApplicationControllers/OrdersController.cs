@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
@@ -15,19 +11,19 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
     [Authorize]
     public class OrdersController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/Orders
         public IQueryable<Order> GetOrders()
         {
-            return db.Orders;
+            return _db.Orders;
         }
 
         // GET: api/Orders/5
         [ResponseType(typeof(Order))]
         public IHttpActionResult GetOrder(int id)
         {
-            Order order = db.Orders.Find(id);
+            Order order = _db.Orders.Find(id);
             if (order == null)
             {
                 return NotFound();
@@ -37,27 +33,28 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         }
 
         [Route("api/ordersByUserID/{id}")]
-        public IQueryable<Order> GetOrdersByUserID(int id)
+        public IQueryable<Order> GetOrdersByUserId(int id)
         {
-            return db.Orders.Where(o => o.User_FK == id);
+            return _db.Orders.Where(o => o.User_FK == id);
         }
 
         [Route("api/ordersByPastryShopID/{id}")]
-        public IQueryable<Order> GetOrdersByPastryShopID(int id)
+        public IQueryable<Order> GetOrdersByPastryShopId(int id)
         {
-            return db.Orders.Where(o => o.PastryShop_FK == id);
+            return _db.Orders.Where(o => o.PastryShop_FK == id);
         }
 
         [Route("api/markAsSeenPastryShop/{id}")]
         [HttpPut]
         public IHttpActionResult MarkAsSeenPastryShop(int id)
         {
-            Order order = db.Orders.Find(id);
+            Order order = _db.Orders.Find(id);
+            if (order == null) return NotFound();
             order.SeenPastryShop = true;
-            db.Entry(order).State = EntityState.Modified;
+            _db.Entry(order).State = EntityState.Modified;
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -65,10 +62,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -77,12 +71,13 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [HttpPut]
         public IHttpActionResult MarkAsSeenUser(int id)
         {
-            Order order = db.Orders.Find(id);
+            Order order = _db.Orders.Find(id);
+            if (order == null) return NotFound();
             order.SeenUser = true;
-            db.Entry(order).State = EntityState.Modified;
+            _db.Entry(order).State = EntityState.Modified;
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -90,10 +85,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -112,11 +104,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(order).State = EntityState.Modified;
+            _db.Entry(order).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -124,10 +116,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -142,8 +131,8 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest(ModelState);
             }
 
-            db.Orders.Add(order);
-            db.SaveChanges();
+            _db.Orders.Add(order);
+            _db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = order.ID }, order);
         }
@@ -152,14 +141,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(Order))]
         public IHttpActionResult DeleteOrder(int id)
         {
-            Order order = db.Orders.Find(id);
+            Order order = _db.Orders.Find(id);
             if (order == null)
             {
                 return NotFound();
             }
 
-            db.Orders.Remove(order);
-            db.SaveChanges();
+            _db.Orders.Remove(order);
+            _db.SaveChanges();
 
             return Ok(order);
         }
@@ -168,14 +157,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool OrderExists(int id)
         {
-            return db.Orders.Count(e => e.ID == id) > 0;
+            return _db.Orders.Count(e => e.ID == id) > 0;
         }
     }
 }

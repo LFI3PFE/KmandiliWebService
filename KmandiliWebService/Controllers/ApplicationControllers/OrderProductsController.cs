@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
@@ -15,19 +11,19 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
     [Authorize]
     public class OrderProductsController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/OrderProducts
         public IQueryable<OrderProduct> GetOrderProducts()
         {
-            return db.OrderProducts;
+            return _db.OrderProducts;
         }
 
         // GET: api/OrderProducts/5
         [ResponseType(typeof(OrderProduct))]
         public IHttpActionResult GetOrderProduct(int id)
         {
-            OrderProduct orderProduct = db.OrderProducts.Find(id);
+            OrderProduct orderProduct = _db.OrderProducts.Find(id);
             if (orderProduct == null)
             {
                 return NotFound();
@@ -50,11 +46,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(orderProduct).State = EntityState.Modified;
+            _db.Entry(orderProduct).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -62,10 +58,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -80,11 +73,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest(ModelState);
             }
 
-            db.OrderProducts.Add(orderProduct);
+            _db.OrderProducts.Add(orderProduct);
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateException)
             {
@@ -92,10 +85,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return Conflict();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return CreatedAtRoute("DefaultApi", new { id = orderProduct.Order_FK }, orderProduct);
@@ -105,14 +95,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(OrderProduct))]
         public IHttpActionResult DeleteOrderProduct(int id)
         {
-            OrderProduct orderProduct = db.OrderProducts.Find(id);
+            OrderProduct orderProduct = _db.OrderProducts.Find(id);
             if (orderProduct == null)
             {
                 return NotFound();
             }
 
-            db.OrderProducts.Remove(orderProduct);
-            db.SaveChanges();
+            _db.OrderProducts.Remove(orderProduct);
+            _db.SaveChanges();
 
             return Ok(orderProduct);
         }
@@ -121,14 +111,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool OrderProductExists(int id)
         {
-            return db.OrderProducts.Count(e => e.Order_FK == id) > 0;
+            return _db.OrderProducts.Count(e => e.Order_FK == id) > 0;
         }
     }
 }

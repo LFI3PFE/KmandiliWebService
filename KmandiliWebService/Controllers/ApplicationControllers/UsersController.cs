@@ -1,34 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
-using WebGrease.Css.Extensions;
 
 namespace KmandiliWebService.Controllers.ApplicationControllers
 {
     [Authorize]
     public class UsersController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/Users
         public IQueryable<User> GetUsers()
         {
-            return db.Users;
+            return _db.Users;
         }
 
         // GET: api/Users/5
         [ResponseType(typeof(User))]
         public IHttpActionResult GetUser(int id)
         {
-            User user = db.Users.Find(id);
+            User user = _db.Users.Find(id);
             if (user == null)
             {
                 return NotFound();
@@ -40,7 +36,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [Route("api/Users/{email}/{password}")]
         public IHttpActionResult GetUser(string email, string password)
         {
-            User user = db.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
+            User user = _db.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
             if (user == null)
             {
                 return NotFound();
@@ -53,7 +49,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [Route("api/Users/ByEmail/{email}/")]
         public IHttpActionResult GetUser(string email)
         {
-            User user = db.Users.FirstOrDefault(u => u.Email == email);
+            User user = _db.Users.FirstOrDefault(u => u.Email == email);
             if (user == null)
             {
                 return NotFound();
@@ -75,10 +71,10 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(user).State = EntityState.Modified;
+            _db.Entry(user).State = EntityState.Modified;
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -104,8 +100,8 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
             {
                 return BadRequest(ModelState);
             }
-            db.Users.Add(user);
-            db.SaveChanges();
+            _db.Users.Add(user);
+            _db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = user.ID }, user);
         }
@@ -114,17 +110,19 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(User))]
         public IHttpActionResult DeleteUser(int id)
         {
-            User user = db.Users.Find(id);
+            User user = _db.Users.Find(id);
             if (user == null)
             {
                 return NotFound();
             }
 
             var phoneNumbers = new List<PhoneNumber>(user.PhoneNumbers);
-            db.Users.Remove(user);
-            phoneNumbers.ForEach(p => db.PhoneNumbers.Remove(p));
-            db.Addresses.Remove(db.Addresses.Find(user.Address_FK));
-            db.SaveChanges();
+            _db.Users.Remove(user);
+            phoneNumbers.ForEach(p => _db.PhoneNumbers.Remove(p));
+            var a = _db.Addresses.Find(user.Address_FK);
+            if (a == null) return NotFound();
+            _db.Addresses.Remove(a);
+            _db.SaveChanges();
 
             return Ok(user);
         }
@@ -133,14 +131,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool UserExists(int id)
         {
-            return db.Users.Count(e => e.ID == id) > 0;
+            return _db.Users.Count(e => e.ID == id) > 0;
         }
     }
 }

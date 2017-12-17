@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KmandiliWebService.DatabaseAccessLayer;
@@ -15,19 +11,19 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
     [Authorize]
     public class ParkingsController : ApiController
     {
-        private KmandiliDBEntities db = new KmandiliDBEntities();
+        private readonly KmandiliDBEntities _db = new KmandiliDBEntities();
 
         // GET: api/Parkings
         public IQueryable<Parking> GetParkings()
         {
-            return db.Parkings;
+            return _db.Parkings;
         }
 
         // GET: api/Parkings/5
         [ResponseType(typeof(Parking))]
         public IHttpActionResult GetParking(int id)
         {
-            Parking parking = db.Parkings.Find(id);
+            Parking parking = _db.Parkings.Find(id);
             if (parking == null)
             {
                 return NotFound();
@@ -50,11 +46,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest();
             }
 
-            db.Entry(parking).State = EntityState.Modified;
+            _db.Entry(parking).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -62,10 +58,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -80,11 +73,11 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 return BadRequest(ModelState);
             }
 
-            db.Parkings.Add(parking);
+            _db.Parkings.Add(parking);
 
             try
             {
-                db.SaveChanges();
+                _db.SaveChanges();
             }
             catch (DbUpdateException)
             {
@@ -92,10 +85,7 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
                 {
                     return Conflict();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return CreatedAtRoute("DefaultApi", new { id = parking.ID }, parking);
@@ -105,14 +95,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         [ResponseType(typeof(Parking))]
         public IHttpActionResult DeleteParking(int id)
         {
-            Parking parking = db.Parkings.Find(id);
+            Parking parking = _db.Parkings.Find(id);
             if (parking == null)
             {
                 return NotFound();
             }
 
-            db.Parkings.Remove(parking);
-            db.SaveChanges();
+            _db.Parkings.Remove(parking);
+            _db.SaveChanges();
 
             return Ok(parking);
         }
@@ -121,14 +111,14 @@ namespace KmandiliWebService.Controllers.ApplicationControllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool ParkingExists(int id)
         {
-            return db.Parkings.Count(e => e.ID == id) > 0;
+            return _db.Parkings.Count(e => e.ID == id) > 0;
         }
     }
 }
